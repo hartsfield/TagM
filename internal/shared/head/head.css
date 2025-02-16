@@ -119,7 +119,7 @@ video {
 @media screen and (orientation:landscape) {
         body {
                 max-width: 80ch;
-                overflow-y: visible;
+                overflow-x: visible;
         }
         .spacer {
         background: #fffeef;
