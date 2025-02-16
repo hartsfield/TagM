@@ -19,6 +19,7 @@
         margin-top: 1em;
         position: relative;
         border: 1px dashed #f2ac2f;
+        box-shadow: -1px 1px 8px 0px #aaaaaadb;
 }
 .item-meta-1 {
         align-items: center;
@@ -61,8 +62,8 @@
 .item-text {
         max-height: 6em;
         font-weight: 400;
-        /*font-family: sans-serif;*/
         font-size: 0.8em;
+        color: #84795e;
 }
 .item-user-part {
         display: flex;
@@ -88,17 +89,23 @@
         border-bottom-left-radius: 0.5em;
 }
 .item-meta-3 {
-        display: flex;
+        display: flex
+        ;
         cursor: pointer;
         position: absolute;
         padding: 1em;
-        filter: invert(1);
+        /* filter: invert(1); */
         right: 0;
         flex-direction: column;
         height: -webkit-fill-available;
         justify-content: space-around;
-        flex-wrap: nowrap;    
+        flex-wrap: nowrap;
+        filter: invert(1);
+        border-radius: 1em;
+        width: 13em;
         z-index: 500;
+        background: linear-gradient(271deg, #00ffe0cf -11%, transparent 69%);
+        align-items: flex-end;
 }
 .item-like {
         background: url("/public/media/heart_black.svg");
@@ -137,7 +144,7 @@
         position: relative;
         z-index: 2;
         border-radius: 1em;
-        box-shadow: -1px 2px 16px 0px #483f14;
+        box-shadow: -1px -20px 51px 4px #ffffff;
 }
 @media screen and (orientation:landscape) {
         .stream {
