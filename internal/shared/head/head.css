@@ -59,7 +59,7 @@ video {
         padding: 0.02em 0.1em;
         max-width: fit-content;
         font-weight: 100;
-        line-height: 24px;
+        line-height: 19px;
 }
 .inline-tag {                           
         border-color: var(--color-br-tag);

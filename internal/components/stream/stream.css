@@ -52,6 +52,11 @@
         padding: 0.5em;
         border-top: 1px dashed #f2ac2f;
         overflow: hidden;
+        /* border-radius: 1em; */
+        /* height: 3em; */
+        position: relative;
+        background: #ffffff;
+        z-index: 4;
 }
 .item-text {
         position: relative;
@@ -131,8 +136,11 @@
 }
 .post-media {
         max-width: 100%;
+        position: relative;
         border-radius: 0em;
+        z-index: 2;
         border-radius: 0.4em;
+        /* transform: translateY(0px); */
         box-shadow: 0px -16px 67px 10px #fff6c9;
 }
 @media screen and (orientation:landscape) {
