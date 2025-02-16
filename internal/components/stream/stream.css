@@ -59,12 +59,9 @@
         z-index: 4;
 }
 .item-text {
-        position: relative;
-        text-overflow: ellipsis;
-        text-align: justify;
         max-height: 6em;
-        font-weight: 200;
-        font-family: system-ui;
+        font-weight: 400;
+        /*font-family: sans-serif;*/
         font-size: 0.8em;
 }
 .item-user-part {
@@ -101,6 +98,7 @@
         height: -webkit-fill-available;
         justify-content: space-around;
         flex-wrap: nowrap;    
+        z-index: 500;
 }
 .item-like {
         background: url("/public/media/heart_black.svg");
