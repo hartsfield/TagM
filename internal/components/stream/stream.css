@@ -60,6 +60,7 @@
         max-height: 6em;
         font-weight: 200;
         font-family: system-ui;
+        font-size: 0.8em;
 }
 .item-user-part {
         display: flex;
