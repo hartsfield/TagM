@@ -99,7 +99,6 @@
         /* filter: invert(1); */
         right: 0;
         flex-direction: column;
-        height: -webkit-fill-available;
         justify-content: space-around;
         flex-wrap: nowrap;
         border-radius: 1em;
@@ -108,6 +107,7 @@
         mix-blend-mode: color-dodge;
         filter: contrast(0) sepia(1) brightness(1.35) drop-shadow(2px 4px 6px black);
         z-index: 10;
+    height: calc(100% - 20em);
 }
 .item-like {
         background: url("/public/media/heart_black.svg");
