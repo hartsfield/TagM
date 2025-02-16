@@ -18,18 +18,20 @@
         overflow: hidden;
         margin-top: 1em;
         position: relative;
-        border: 1px dashed #f2ac2f;
         border: 1px dashed #dfdfdf;
         box-shadow: -1px 1px 8px 0px #aaaaaadb;
+        display: flex;
+        flex-direction: column;
 }
 .item-meta-1 {
         align-items: center;
-        display: flex;
+        display: flex
+        ;
         justify-content: space-between;
-        padding: 0.1em 0.5em 0.1em 0.5em;
+        padding: 5px 11px;
 }
 .item-posted-time {
-        font-size: 0.6em;
+        font-size: 0.7em;
         color: #149090;
         cursor: pointer;
 }
@@ -51,14 +53,13 @@
 }
 .item-meta-2 {
         cursor: pointer;
-        padding: 0.5em;
+        padding: 4px 11px;
         border-top: 1px dashed #d4dd4f;
         overflow: hidden;
-        /* border-radius: 1em; */
-        /* height: 3em; */
         position: relative;
         background: #ffffff;
         z-index: 2;
+        padding-bottom: 0;
 }
 .item-text {
         max-height: 6em;
@@ -66,6 +67,8 @@
         font-size: 0.8em;
         color: #84795e;
         text-align: justify;
+        overflow: hidden;
+        text-overflow: ellipsis;
 }
 .item-user-part {
         display: flex;
@@ -107,7 +110,8 @@
         mix-blend-mode: color-dodge;
         filter: contrast(0) sepia(1) brightness(1.35) drop-shadow(2px 4px 6px black);
         z-index: 10;
-    height: calc(100% - 20em);
+        height: calc(100% - 20em);
+        margin-top: 9em;
 }
 .item-like {
         background: url("/public/media/heart_black.svg");
@@ -142,11 +146,11 @@
         width: 2em;
 }
 .post-media {
-        max-width: 100%;
+        max-width: 99%;
         position: relative;
+        border-radius: 1.2em;
         z-index: 2;
-        /*border-radius: 1em;*/
-        /*box-shadow: -1px -20px 15px 4px #ffffff;*/
+    border: 10px solid #ffffff;
 }
 @media screen and (orientation:landscape) {
         .stream {
@@ -162,9 +166,9 @@
 
 .item-comments {
         background-color: white;
-padding: 0.5em;
-display: flex;
-    border-top: 1px dashed #d0d0d0;
+        padding: 0.5em;
+        display: flex;
+        border-top: 1px dashed #d0d0d0;
 }
 .item-comments-textarea {
         height: 2em;
