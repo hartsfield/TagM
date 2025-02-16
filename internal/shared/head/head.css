@@ -114,10 +114,12 @@ video {
         background:   var(--color-bg-good) ;
 }
 
-@media screen and (orientation:portrait) {}
+@media screen and (orientation:portrait) {
+}
 @media screen and (orientation:landscape) {
         body {
                 max-width: 80ch;
+                overflow-y: visible;
         }
         .spacer {
         background: #fffeef;
