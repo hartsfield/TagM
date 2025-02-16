@@ -62,7 +62,7 @@ video {
         left: 0;
         width: 100%;
 
-        z-index: 500;
+        z-index: 99;
 }
 .isym {
         border-radius: 0.4em;
