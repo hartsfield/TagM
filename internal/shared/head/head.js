@@ -53,3 +53,5 @@ window.onscroll = function(e) {
 //                location.reload();
 //        } 
 //}
+//
+//document.getElementsByTagName("img").onerror='this.style.display = "none"' 

@@ -1,30 +1,23 @@
 <div class="template-wrapper stream-outer" id="stream-outer">
-        <div class='stream' id="stream">
-                {{ range $k, $v :=  .Stream }}
-                <div>
-                        <div class='item-outer'>
-                                <div class="item-meta-1">
-                                        <div class="item-posted-time" onclick="window.location = '/view/{{$v.ID}}'">{{ $v.TimeString }}</div>
-                                        <div class="item-user-wrap">
-                                                <div class='item-part item-username' onclick="window.location=window.location.origin + '/user/'+{{$v.Author}}">{{ $v.Author }}</div>
-                                                <div class="item-user-pic"></div>
-                                        </div>
-                                </div>
-                                <div class='item-meta-2'>
-                                        <div class='item-part MyText'>{{ $v.Text }}</div>
-                                </div>
-                                <div class='item-part item-media Media'>
-                                        <div class="item-interact">
-                                                <div class="item-like" id="like_{{$v.ID}}" onclick="like({{$v.ID}})">{{$v.Score}}</div>
-                                                <div class="item-share"onclick="share({{$v.ID}})"></div>
-                                                <div class="item-comment"></div>
-                                        </div>
-                                </div>
-                        </div>
-{{$v.MediaType}}
-                </div>
-                        {{ end }}
+    <div class='stream' id="stream">
+        {{ range $k, $v :=  .Stream }}
+        <div class='item-outer'>
+            <div class="item-meta-1">
+                <div class="item-posted-time" onclick="window.location = '/view/{{$v.ID}}'">{{ $v.TimeString }}</div>
+                <div class='item-username' onclick="window.location=window.location.origin + '/user/'+{{$v.Author}}"><b class="at">@</b>{{ $v.Author }}</div>
+            </div>
+            <div class='item-meta-2'>
+                <div class='item-text'>{{ $v.Text }}</div>
+            </div>
+            <div class='item-meta-3'>
+                    <div class="item-like" id="like_{{$v.ID}}" onclick="like({{$v.ID}})">{{$v.Score}}</div>
+                    <div class="item-share"onclick="share({{$v.ID}})"></div>
+                    <div class="item-comment"></div>
+            </div>
+            {{$v.MediaType}}
         </div>
-        <style>{{ template "stream.css" . }}</style>
-        <script>{{ template "stream.js" . }}</script>
+        {{ end }}
+    </div>
+    <style>{{ template "stream.css" . }}</style>
+    <script>{{ template "stream.js" . }}</script>
 </div>

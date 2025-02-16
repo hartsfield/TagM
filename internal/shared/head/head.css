@@ -56,10 +56,10 @@ video {
 .isym {
         border-radius: 0.4em;
         border: 1px dashed;
-        padding: 0.05em 0.2em;
+        padding: 0.02em 0.1em;
         max-width: fit-content;
         font-weight: 100;
-        font-weight: 400;
+        line-height: 24px;
 }
 .inline-tag {                           
         border-color: var(--color-br-tag);

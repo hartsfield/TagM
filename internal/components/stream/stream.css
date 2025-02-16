@@ -1,25 +1,9 @@
-.item-meta-1 {
+.stream-outer {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
         align-items: center;
-        display: flex
-        ;
-        /* flex-direction: row; */
-        /* justify-content: flex-end; */
-        /* border-top-left-radius: 0.9em; */
-        /* border-top-right-radius: 0.9em; */
-        /* border-bottom-right-radius: 0em; */
-        /* border-bottom-left-radius: 0em; */
-        /* border-bottom: none !important; */
-        padding: 0.1em 0 0.1em 0.5em;
-        justify-content: space-between;
-}
-.item-posted-time {
-        font-size: 0.6em;
-        color: #149090;
-        cursor: pointer;
-}
-.upload-outer-toggle-stream {
-        margin-top: 7.2em !important;
-        transition: 1s all;
+        max-width: 77ch;
 }
 .stream {
         display: flex;
@@ -28,7 +12,27 @@
         justify-content: flex-start;
         margin-top: 2.8em;
 }
-.item-part {
+.item-outer {
+        background-color: white;
+        border-radius: 1em;
+        overflow: hidden;
+        margin-top: 1em;
+        position: relative;
+        border: 1px dashed #f2ac2f;
+}
+.item-meta-1 {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.1em 0.5em 0.1em 0.5em;
+}
+.item-posted-time {
+        font-size: 0.6em;
+        color: #149090;
+        cursor: pointer;
+}
+.item-username {
+        color: #ff8760;
         position: relative;
         font-size: 0.9em;
         font-weight: 100;
@@ -37,13 +41,25 @@
         max-height: 6em;
         text-overflow: ellipsis;
 }
-.item-part > span {
-        text-overflow: ellipsis;
+.at {
+        color: #849e51;
+        font-weight: 400;
+        font-size: 1.3em;
+        line-height: 0;
+}
+.item-meta-2 {
+        cursor: pointer;
+        padding: 0.5em;
+        border-top: 1px dashed #f2ac2f;
+        overflow: hidden;
+}
+.item-text {
         position: relative;
         text-overflow: ellipsis;
         text-align: justify;
         max-height: 6em;
-
+        font-weight: 200;
+        font-family: system-ui;
 }
 .item-user-part {
         display: flex;
@@ -52,32 +68,6 @@
         justify-content: space-between;
         position: relative;
         cursor: pointer;
-}
-.item-user-pic {
-        cursor: pointer;
-        background: url(/public/media/me.svg), #ffffff;
-        width: 1.8em;
-        height: 1.8em;
-        border-radius: 100%;
-        background-size: cover;
-        align-self: flex-end;
-        border: 1px dashed #a8932b;
-        border-bottom: none;
-        border-left: none;
-        border-right: none;
-        z-index: 0;
-}
-.stream-outer {
-        display: flex
-        ;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        align-items: center;
-        max-width: 77ch;
-        /*max-width: 90%;*/
-}
-.item-username {
-        color: #ff8760;
 }
 .item-middle {
         display: flex;
@@ -94,31 +84,17 @@
         border-bottom-right-radius: 0.5em;
         border-bottom-left-radius: 0.5em;
 }
-.item-media > img {
-        width: 100%;
-        border-radius: 0.4em;
-        cursor: pointer;
-}
-.item-meta-2 {
-        cursor: pointer;
-        padding: 0.5em;
-        border-top: 1px dashed #e5e5e5;
-
-        overflow: hidden;
-}
-.item-interact {
-        height: 12em;
-        display: flex
-        ;
-        padding: 0em 1em 0em 1em;
+.item-meta-3 {
+        display: flex;
         cursor: pointer;
         position: absolute;
-        right: 0;
-        top: 0;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 1em;    
+        padding: 1em;
         filter: invert(1);
+        right: 0;
+        flex-direction: column;
+        height: -webkit-fill-available;
+        justify-content: space-around;
+        flex-wrap: nowrap;    
 }
 .item-like {
         background: url("/public/media/heart_black.svg");
@@ -145,11 +121,6 @@
         align-items: center;
         justify-content: center;
 }
-.item-user-wrap {
-        display: flex
-        ;
-        max-height: 1em;
-}
 .item-comment {
         background: url("/public/media/comment1.svg");
         background-size:cover ;
@@ -157,15 +128,14 @@
         height: 2em;
         width: 2em;
 }
-@media screen and (orientation:landscape) {
-        .stream {
-                max-width: 80ch;
-        }
-}
 .post-media {
         max-width: 100%;
         border-radius: 0em;
+        border-radius: 0.4em;
+        box-shadow: 0px -16px 67px 10px #fff6c9;
 }
-.item-outer {
-        background-color: white;
+@media screen and (orientation:landscape) {
+        .stream {
+                max-width: 77ch;
+        }
 }
