@@ -1,0 +1,23 @@
+{
+        "app": {
+                "name": "#Tag[M]",
+                "command": "",
+                "domain_name": "tagmachine.xyz",
+                "version": "0.01",
+                "env": {},
+                "port": "15111",
+                "alertsOn": true,
+                "tls_enabled": true,
+                "repo": ""
+        },
+        "gcloud": {
+                "command": "gcloud",
+                "zone": "us-central1-a",
+                "project": "mysterygift",
+                "user": "john",
+                "livedir": "/home/john/live/",
+                "instance": "main",
+                "proxy_home": "/home/john/bp/",
+                "proxyConf": ""
+        }
+}

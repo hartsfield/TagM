@@ -1,0 +1,20 @@
+{{ if .Credentials.IsLoggedIn}}
+<div class="form-wrapper" id="form-wrapper">
+        <div class="upload-cover" onclick="document.getElementById('Media').click()"></div>
+        <form class="uploadForm" id='uploadForm' enctype='multipart/form-data'>
+                <div contenteditable class="upload-text upload-input" id='uptext' oninput="
+                        document.getElementById('uptext_').value = document.getElementById('uptext').innerHTML;"
+                >dream eternal</div>
+                <input hidden id='uptext_' type='text' name='uptext'/> 
+                <input hidden id='nonce_' type='password' name='nonce' value="{{.Nonce}}" /> 
+        <form  class="img-uploadForm" id='uploadForm' enctype='multipart/form-data'>
+                <input class="form-media upload-input" id='Media' type='file' name='Media'/>
+        </form>
+        <div class="form-submit upload-input" value="submit" onclick="submitPost()"></div>
+</div>
+<div class="upload-symbols-wrapper" id="up-sym-wrap">
+        <div class="upload-symbols" id="upload-symbols"></div>
+</div>
+<style>{{ template "upload.css" . }}</style>
+<script>{{ template "upload.js" . }}</script>
+{{ end }}

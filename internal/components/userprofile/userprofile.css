@@ -1,0 +1,68 @@
+.userProfile-outer {
+        margin: 6em 1em;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 97%;
+}
+.profile-input, .profile-about {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        color: white;
+        padding: 0.3em;
+        margin: 0.3em 0;
+        border-radius: 0.3em;
+        border: 1px dashed #535353;
+        background: #5353537d;
+        font-size: 0.7em;
+    }
+.profile-inputs-wrapper {
+        margin: 0 1.5em;
+}
+.profile-upload-bg {
+        height: 5vh;
+        width: 5vw;
+        background-color: white;
+        border-radius: 0.3em;
+        position: absolute;
+        right: 1em;
+        top: -3em;
+        background: url(/{{.Profile.ProfileBG}});
+        background-size: cover;
+        border: 6px solid #3eaa914a;
+}
+::placeholder {
+        color: #d5d4d4;
+        font-family: 'Outfit';
+        /*text-align: center;*/
+}
+.profile-bg-form {
+        position: fixed;
+        /*top: 0;*/
+        width: 100%;
+        max-width: inherit;
+        height: 100vw;
+        z-index: -1;
+        background: url(/{{.Profile.ProfileBG}});
+        background-size: cover;
+        max-width: 77ch;
+}
+.profile-img {
+        height: 25vw;
+        width: 25vw;
+        border-radius: 100%;
+        max-width: 20ch;
+        max-height: 20ch;
+        background-image: url(/{{.Profile.ProfilePic}});
+        background-size: cover;
+}
+.profile-pic {
+        display: none;
+}
+@media screen and (orientation:landscape) {
+        .profile-bg {
+                max-width: 113ch;
+        }
+}

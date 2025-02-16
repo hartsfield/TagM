@@ -1,0 +1,116 @@
+.form-wrapper {
+        display: flex
+        ;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        background: white;
+        border: 1px dashed #a6cfbb;
+        border-radius: 0.8em;
+        /*box-shadow: 4px 4px #a68e77;*/
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 0em;
+        border-top-right-radius: 0em;
+        z-index: -1;
+        border-top: none;
+        position: relative;
+        transform: translateY(-97px);
+        background: #fffce2;
+
+        transition: 1s all;
+}
+.uploadForm {
+        overflow: hidden;
+        margin-bottom: 0;
+        width: calc(100vw - 30%);
+        border-right: 1px dashed #a6cfbb;
+        border-left: 1px dashed #a6cfbb;
+
+        transition: 1s all;
+}
+.upload-input {
+        /*padding: 0.7em;*/
+        border-radius: 0.3em;
+}
+.form-media {
+        display: none;
+}
+.upload-text {
+        font-size: 1.1em;
+        font-family: 'Outfit';
+        border: none;
+        resize: none;
+        padding: 0.5em 1em;
+        height: calc(100% - 1.2em);
+        letter-spacing: 0.5px;
+        color: #f1c676;
+        outline: transparent;
+        text-align: center;
+        line-height: 28px;
+        font-weight: 100;
+        min-height:1.7em;
+}
+.upload-text:enabled {
+        border-color: #88d8ae !important;
+        /*border: none;*/
+}
+.form-submit {
+        background: #ffd8ac;
+        color: transparent;
+        width: 15%;
+        background: url("public/media/fd.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        /*filter: invert(1) sepia(1) saturate(16.5) hue-rotate(326deg);*/
+        background-position: center;
+        opacity: 0.5;
+        margin: 0.4em 0.2em;
+}
+
+/* move */
+.item-share {
+        background: url("public/media/share1.svg");
+        background-size:cover ;
+        background-repeat: no-repeat;
+        height: 3em;
+        width: 3em;
+}
+.upload-cover {
+        border-radius: 1.3em;
+        background: url("public/media/up.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        /*background-position: right;*/
+        filter: sepia(109) saturate(150000) contrast(0.7) hue-rotate(358deg);
+        width: 14%;
+        opacity: 0.5;
+        background-position: center;
+}
+.upload-symbols-wrapper {
+        display: flex
+        ;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        transform: translateY(-71px);
+        z-index: -1;
+        position: relative;
+        border-bottom-left-radius: 0.8em;
+        border-bottom-right-radius: 0.8em;
+
+        transition: 1s all;
+}
+.upload-symbols {
+        min-height: 1em;
+        /*box-shadow: 4px 4px #ffa6a6;        */
+        width: 100%;
+        background: white;
+        padding: 0.5em 0.5em;
+        border: 1px dashed #d7b6b6;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0.8em;
+        border-bottom-right-radius: 0.8em;
+        border-top: none;
+}

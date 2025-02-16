@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+        {{template "head.html" . }} 
+        <body>
+                <div class="spacer"></div>
+                <div class="nav-wrap">
+                        <div class="navbar-outer">
+                                <div class="nav-block-1">
+                                        <div class="logo-nav"       onclick="toggleNew()">{{ .AppName }}</div>
+                                        <div class="sorts-nav">
+                                                <div class="hot-nav"        onclick="window.location = window.location.origin"></div>
+                                                <div class="chron-nav"      onclick="window.location = window.location.origin"></div>
+                                        </div>
+                                </div>
+                                {{ if .Credentials }}
+                                {{ if not .Credentials.IsLoggedIn }}
+                                <div         class="nav-toggle-all" onclick="toggleAuth()"></div>
+                                {{ else }}
+                                <div         class="nav-profile"    onclick="window.location='/user/{{.Credentials.User.ID}}'">{{.Credentials.User.ID}}</div>
+                                {{ end }}
+                                {{ end }}
+                        </div>
+                        <style>{{ template "autonav.css" }}</style>
+                        <script>{{ template "autonav.js"}}</script>
+                </div>
+                {{template "userprofile.html" . }}
+                {{template "footer.html" . }}
+        </body>
+</html>

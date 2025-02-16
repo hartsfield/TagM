@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+:root {
+        --color-tag:      #39c296;
+        --color-bg-tag:   #e6fff5;
+        --color-br-tag:   #abd3ce;
+        --color-br-mention: #ffb3b3;
+        --color-mention:  #ff6c00;
+        --color-bg-mention: lightyellow;
+        --color-br-point: #000000;
+        --color-point:    #6f026f;
+        --color-bg-point: #feb6ff;
+        --color-br-star:  #baba00;
+        --color-star:     #158d0d;
+        --color-bg-star:  #ffff55;
+        --color-br-cash:  #00e400;
+        --color-cash:     #38a738;
+        --color-bg-cash:  #e9ff68;
+        --color-br-bang:  #ffffff;
+        --color-bang:     #ffffff;
+        --color-bg-bang:  #ffa200;
+        --color-br-evil:  #ffc2c2;
+        --color-evil:     #e92800;
+        --color-bg-evil:  #820000;
+        --color-br-good:  #8c6e00;
+        --color-good:     #000000;
+        --color-bg-good:  #ffffff;
+}
+body, html {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+        font-family: "Outfit", serif;
+        background: #fffeef;
+        overflow-x:hidden;
+        z-index: -1;
+        position: relative;
+        /*background: linear-gradient(147deg, #f4e6de, #ffdc9b, #ffffb1, #f4ffa0, #d0feff, #ffb1ff);*/
+}
+input, textarea {
+        border: none;
+}
+video {
+        max-width: 100%;
+}
+.spacer {
+        position: fixed;
+        height: 2em;
+        background-color: #fffeef;
+        z-index: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+}
+.isym {
+        border-radius: 0.4em;
+        border: 1px dashed;
+        padding: 0.05em 0.2em;
+        max-width: fit-content;
+        font-weight: 100;
+        font-weight: 400;
+}
+.inline-tag {                           
+        border-color: var(--color-br-tag);
+        color:        var(--color-tag);
+        background:   var(--color-bg-tag);
+}                                       
+.inline-mention {
+        border-color: var(--color-br-mention);
+        color:        var(--color-mention)  ;
+        background:   var(--color-bg-mention);
+}                                       
+.inline-pointer {                       
+        border-color: var(--color-br-point) ;
+        color:        var(--color-point )   ;
+        background:   var(--color-bg-point) ;
+}                                       
+.inline-star {                          
+        border-color: var(--color-br-star) ;
+        color:        var(--color-star  ) ;
+        background:   var(--color-bg-star) ;
+}                                    
+.inline-cash {                       
+        border-color: var(--color-br-cash) ;
+        color:        var(--color-cash  ) ;
+        background:   var(--color-bg-cash) ;
+}                                    
+.inline-bang {                       
+        border-color: var(--color-br-bang) ;
+        color:        var(--color-bang  ) ;
+        background:   var(--color-bg-bang) ;
+}                                    
+.inline-evil {                       
+        color:        var(--color-br-evil) ;
+        background:   var(--color-evil  ) ;
+        border-color: var(--color-bg-evil) ;
+}                                    
+.inline-good {                       
+        border-color: var(--color-br-good) ;
+        color:        var(--color-good  ) ;
+        background:   var(--color-bg-good) ;
+}
+
+@media screen and (orientation:portrait) {}
+@media screen and (orientation:landscape) {
+        body {
+                max-width: 80ch;
+        }
+}

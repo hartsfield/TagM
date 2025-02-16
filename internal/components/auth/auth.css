@@ -1,0 +1,90 @@
+.auth-outer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        justify-content: space-between;
+        /*z-index: -100;*/
+        position: fixed;
+        margin-top: 2em;
+        transform: translateY(-2em);
+        max-width: 76.9ch;
+        border-bottom-left-radius: 0.5em;
+        border-bottom-right-radius: 0.5em;
+        overflow: hidden;
+        border: 1px dashed #f29f9f;
+        transition: 100ms all;
+        display: none;
+}
+.auth-outer-toggle {
+        display: inherit;
+        transform: translateY(0em);
+        transition: 700ms all;
+}
+.error {
+        margin: 0 0 1em;
+        color: maroon;
+        text-align: center;
+}
+.auth {
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        width: 100%;
+}
+.auth > input {
+        border-right: 1px dashed #ffb4b4;
+        padding: 0.2em;
+        font-size: 1em;
+        width: 100%;
+}
+.false {
+        background-color: #ffdece;
+        color: black;
+}
+.invalid-butt {
+        background-color: var(--red);
+}
+::placeholder {
+        opacity: 0.5;
+        text-align: center;
+        color: #ffd074;
+}
+.auth-butt-wrapper {
+        display: flex;
+        flex-direction: row;
+        width: 40%;
+}
+.auth-butt-wrapper > div {
+        padding: 0.3em;
+        /*border-radius: 0.3em;*/
+        width: 100%;
+        text-align: center;
+        text-wrap: nowrap;
+}
+.auth-signin {
+        background-color: #ffe8d0;
+        color: #d572ae;
+}
+.auth-signup {
+        background-color: #ebffc8;
+        color: #00cf0f;
+        border-left: 1px dashed #17c100;
+}
+.errorDiv {
+        text-align: center;
+        margin: 0em 0 0 0;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-size: 0.2em;
+        font-weight: 300;
+        background-color: #fc591f;
+        display: flex;
+        align-items: center;
+        padding: 0.2em 1.6em;
+
+}
+@media screen and (orientation:landscape) {
+}

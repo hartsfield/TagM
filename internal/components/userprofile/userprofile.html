@@ -1,0 +1,23 @@
+<form id="profile-upload-bg" class="profile-bg-form">
+        <input id='profile-bg-upload' class="form-media profile-bg" onchange="submitEdits('profile-upload-bg', 'profile-upload-bg')" type='file' name='ProfileBG'/>
+</form>
+
+<div class="template-wrapper userprofile-outer" id="userprofile-outer">
+        <div class="profile-img"  id="profile-img" onclick="document.getElementById('profile-pic-upload').click()"></div>
+        <div class="profile-info">
+                <div class="profile-inputs-wrapper">
+                        <form onchange="submitEditsInputs()" id="inputs-form" class="in-form">
+                                <input  value="{{ .Profile.Location }}" id="profile-loc" class="profile-input profile-loc" name="location" placeholder="location"/>
+                                <textarea  oninput="document.getElementById('txa-trick').value = document.getElementById('profile-about').value;" value="" id="profile-about" class="profile-input profile-about" name="about_" placeholder="about">{{ .Profile.About }}</textarea>
+                                <input hidden id='txa-trick' type='text' name='about'/> 
+                                <input  value="{{ .Profile.Work }}" id="profile-job" class="profile-input profile-job" name="work" placeholder="work"/>
+                        </form>
+                </div>
+        </div>
+        <div class="profile-upload-bg"  onclick="document.getElementById('profile-bg-upload').click()"></div>
+        <form id="profile-upload" class="profile-pic-form">
+                <input id='profile-pic-upload' onchange="submitEdits('profile-upload', 'profile-img')" class="form-media profile-pic" type='file' name='ProfilePic'/>
+        </form>
+</div>
+<script>{{ template "userprofile.js" . }}</script>
+<style>{{ template "userprofile.css" . }}</style>
