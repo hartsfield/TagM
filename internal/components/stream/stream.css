@@ -19,6 +19,7 @@
         margin-top: 1em;
         position: relative;
         border: 1px dashed #f2ac2f;
+        border: 1px dashed #dfdfdf;
         box-shadow: -1px 1px 8px 0px #aaaaaadb;
 }
 .item-meta-1 {
@@ -51,7 +52,7 @@
 .item-meta-2 {
         cursor: pointer;
         padding: 0.5em;
-        border-top: 1px dashed #f2ac2f;
+        border-top: 1px dashed #d4dd4f;
         overflow: hidden;
         /* border-radius: 1em; */
         /* height: 3em; */
@@ -64,6 +65,7 @@
         font-weight: 400;
         font-size: 0.8em;
         color: #84795e;
+        text-align: justify;
 }
 .item-user-part {
         display: flex;
@@ -100,12 +102,12 @@
         height: -webkit-fill-available;
         justify-content: space-around;
         flex-wrap: nowrap;
-        filter: invert(1);
         border-radius: 1em;
         width: 13em;
-        z-index: 500;
-        background: linear-gradient(271deg, #00ffe0cf -11%, transparent 69%);
         align-items: flex-end;
+        mix-blend-mode: color-dodge;
+        filter: contrast(0) sepia(1) brightness(1.35) drop-shadow(2px 4px 6px black);
+        z-index: 10;
 }
 .item-like {
         background: url("/public/media/heart_black.svg");
@@ -143,11 +145,37 @@
         max-width: 100%;
         position: relative;
         z-index: 2;
-        border-radius: 1em;
-        box-shadow: -1px -20px 51px 4px #ffffff;
+        /*border-radius: 1em;*/
+        /*box-shadow: -1px -20px 15px 4px #ffffff;*/
 }
 @media screen and (orientation:landscape) {
         .stream {
                 max-width: 77ch;
         }
+}
+@media screen and (orientation:portrait) {
+        .item-outer {
+                border-left: none;
+                border-right: none;
+        }
+}
+
+.item-comments {
+        background-color: white;
+padding: 0.5em;
+display: flex;
+    border-top: 1px dashed #d0d0d0;
+}
+.item-comments-textarea {
+        height: 2em;
+        width: 100%;
+        resize: none;
+}
+.item-comment-submit {
+        padding: 0.1em 0.3em;
+        background-color: #ff5500;
+        width: fit-content;
+        border-radius: 0.3em;
+        color: #9d0d0d;
+        border: 1px dashed #54451f;
 }
