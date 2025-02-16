@@ -38,6 +38,7 @@ body, html {
         background: #fffeef;
         /*overflow-x:hidden;*/
         z-index: -10;
+    image-rendering: -webkit-optimize-contrast;
         position: relative;
     /*background: linear-gradient(245deg, #ff6c00, #f6c367, #ffff72, #acc652, #30928b, #be60be);*/
         /*background: linear-gradient(147deg, #f4e6de, #ffdc9b, #ffffb1, #f4ffa0, #d0feff, #ffb1ff);*/
