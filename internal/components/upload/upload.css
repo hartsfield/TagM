@@ -114,3 +114,8 @@
         border-bottom-right-radius: 0.8em;
         border-top: none;
 }
+
+.upload-outer-toggle-stream {
+        margin-top: 7.2em !important;
+        transition: 1s all;
+}
