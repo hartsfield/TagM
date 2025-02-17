@@ -90,7 +90,8 @@
         border-bottom-left-radius: 0.5em;
 }
 .item-meta-3 {
-        display: flex;
+        display: flex
+        ;
         cursor: pointer;
         position: absolute;
         padding: 1em 3.4em 0 0;
@@ -103,9 +104,9 @@
         align-items: flex-end;
         filter: contrast(0) brightness(2.55) drop-shadow(2px 4px 6px black);
         z-index: 10;
-        height: calc(100% - 20em);
-        margin-top: 9em;
-    }
+        height: calc(100% - 25em);
+        margin-top: 6em;    
+}
 .item-like {
         background: url("/public/media/heart_black.svg");
         background-size:cover ;
