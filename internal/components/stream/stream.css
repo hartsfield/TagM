@@ -103,7 +103,7 @@
         align-items: flex-end;
         filter: contrast(0) brightness(2.55) drop-shadow(2px 4px 6px black);
         z-index: 10;
-        height: calc(100% - 25em);
+        height: calc(100% - 16em);
         bottom: 6em;
 }
 .item-like {
