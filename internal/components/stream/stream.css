@@ -102,7 +102,7 @@
         align-items: flex-end;
         filter: contrast(0.1) sepia(31) brightness(13.55) drop-shadow(2px 4px 0px black);
         z-index: 10;
-        height: calc(100% - 25em);
+        /*height: calc(100% - 25em);*/
         bottom: 6em;
         opacity: 0.5;
         justify-content: flex-end;    
