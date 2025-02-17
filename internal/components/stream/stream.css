@@ -94,20 +94,17 @@
         ;
         cursor: pointer;
         position: absolute;
-        padding: 1em 3.4em 0 0;
+        padding: 0em 1.9em 0 0;
         right: 0;
         flex-direction: column;
         flex-wrap: nowrap;
         border-radius: 1em;
         align-items: flex-end;
-        /*filter: contrast(0.1) sepia(31) brightness(13.55) drop-shadow(2px 4px 0px black);*/
         z-index: 10;
-        /*height: calc(100% - 25em);*/
-        bottom: 6em;
-        /*opacity: 0.5;*/
-        justify-content: flex-end;    
-    filter: contrast(0.1) sepia(1) brightness(1.9) drop-shadow(0px 0px 3px white) blur(0.2px);
-}
+        bottom: 5em;
+        justify-content: flex-end;
+        filter: contrast(0.1) sepia(1) brightness(1.9) drop-shadow(0px 0px 3px white) blur(0.2px);
+    }
 .item-like {
          background: url("/public/media/heart_black.svg");
         background-size:cover ;
