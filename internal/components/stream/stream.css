@@ -49,7 +49,7 @@
 }
 .item-meta-2 {
         cursor: pointer;
-        padding: 4px 11px;
+        padding: 9px 11px;
         border-top: 1px dashed #d4dd4f;
         overflow: hidden;
         position: relative;
@@ -90,25 +90,22 @@
         border-bottom-left-radius: 0.5em;
 }
 .item-meta-3 {
-        display: flex
-        ;
+        display: flex;
         cursor: pointer;
         position: absolute;
-        padding: 1em;
-        /* filter: invert(1); */
+        padding: 1em 3.4em 0 0;
         right: 0;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: space-between;
         flex-wrap: nowrap;
         border-radius: 1em;
         width: 13em;
         align-items: flex-end;
-        /*mix-blend-mode: color-dodge;*/
-        filter: contrast(0) sepia(1) brightness(1.35) drop-shadow(2px 4px 6px black);
+        filter: contrast(0) brightness(2.55) drop-shadow(2px 4px 6px black);
         z-index: 10;
         height: calc(100% - 20em);
         margin-top: 9em;
-}
+    }
 .item-like {
         background: url("/public/media/heart_black.svg");
         background-size:cover ;
