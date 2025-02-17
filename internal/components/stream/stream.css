@@ -90,7 +90,8 @@
         border-bottom-left-radius: 0.5em;
 }
 .item-meta-3 {
-        display: flex;
+        display: flex
+        ;
         cursor: pointer;
         position: absolute;
         padding: 1em 3.4em 0 0;
@@ -99,32 +100,44 @@
         justify-content: space-between;
         flex-wrap: nowrap;
         border-radius: 1em;
-        width: 13em;
+        /* width: 13em; */
         align-items: flex-end;
-        filter: contrast(0) brightness(2.55) drop-shadow(2px 4px 6px black);
+        filter: contrast(0.1) sepia(31) brightness(13.55) drop-shadow(2px 4px 0px black);
         z-index: 10;
-        height: calc(100% - 16em);
+        height: calc(100% - 25em);
         bottom: 6em;
-}
+        opacity: 0.5;
+    }
 .item-like {
-        background: url("/public/media/heart_black.svg");
+         background: url("/public/media/heart_black.svg");
         background-size:cover ;
         background-repeat: no-repeat;
-        height: 2em;
-        width: 2em;
+        height: 1.6em;
+        width: 1.6em;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
+       background: url("/public/media/heart_black.svg");
+        background-size:cover ;
+        background-repeat: no-repeat;
+        height: 1.6em;
+        width: 1.6em;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 3em;
 }
 .item-share {
         filter: contrast(4.5);
         background: url("/public/media/plane.svg");
         background-size:cover ;
         background-repeat: no-repeat;
-        height: 2em;
-        width: 2em;
+        height: 1.6em;
+        width: 1.6em;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
