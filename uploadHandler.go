@@ -15,12 +15,12 @@ import (
 )
 
 var fexts map[string]error = map[string]error{
-	"image/png":     errors.New("png"),
-	"image/svg+xml": errors.New("svg"),
-	"image/jpeg":    errors.New("jpg"),
-	"image/gif":     errors.New("gif"),
-	"video/mp4":     errors.New("mp4"),
-	"video/webm":    errors.New("webm"),
+	"image/png": errors.New("png"),
+	// "image/svg+xml": errors.New("svg"),
+	"image/jpeg": errors.New("jpg"),
+	"image/gif":  errors.New("gif"),
+	"video/mp4":  errors.New("mp4"),
+	"video/webm": errors.New("webm"),
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +55,8 @@ func parseForm(r *http.Request) (*post, error) {
 		TimeString: time.Now().Format(time.RFC822),
 		Author:     c_.User.ID,
 	}
-	c_.User.Posts = append(c_.User.Posts, post.ID)
+	zaddUsersPosts(c_, post.ID)
+	// c_.User.Posts = append(c_.User.Posts, post.ID)
 	for {
 		part, err_part := mr.NextPart()
 		if err_part == io.EOF {

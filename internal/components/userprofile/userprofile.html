@@ -18,6 +18,15 @@
         <form id="profile-upload" class="profile-pic-form">
                 <input id='profile-pic-upload' onchange="submitEdits('profile-upload', 'profile-img')" class="form-media profile-pic" type='file' name='ProfilePic'/>
         </form>
+        <div class="profile-views">
+                <div class="profile-show-friends" onclick="getLikes()">liked</div>
+                <div class="profile-show-friends" onclick="getFollowing()">following</div>
+                <div class="profile-show-friends" onclick="getPosts()">posts</div>
+        </div>
+        <script>{{ template "userprofile.js" . }}</script>
+        <style>{{ template "userprofile.css" . }}</style>
+
 </div>
-<script>{{ template "userprofile.js" . }}</script>
-<style>{{ template "userprofile.css" . }}</style>
+<div class="multi-stream">
+        {{template "stream.html" . }}
+</div>

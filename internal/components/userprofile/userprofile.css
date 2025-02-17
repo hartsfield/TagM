@@ -61,6 +61,9 @@
 .profile-pic {
         display: none;
 }
+.multi-stream {
+        max-width: 60%;
+}
 @media screen and (orientation:landscape) {
         .profile-bg {
                 max-width: 113ch;

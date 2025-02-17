@@ -19,7 +19,6 @@ func exeTmpl(w http.ResponseWriter, r *http.Request, view *viewData, tmpl string
 	if view.Profile == nil {
 		view.Credentials = r.Context().Value(ctxkey).(*credentials)
 	}
-	log.Println(view)
 	view.AppName = AppName
 	view.Stream = stream
 	err := templates.ExecuteTemplate(w, tmpl, view)

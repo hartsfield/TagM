@@ -56,6 +56,7 @@ func setProfile(c *credentials) error {
 	if err != nil {
 		log.Println(err)
 	}
+	log.Println(string(b))
 	err = json.Unmarshal(b, &pmap)
 	if err != nil {
 		log.Println(err)
@@ -156,9 +157,40 @@ func setLike(c *credentials, id string) (int64, error) {
 	return num, nil
 }
 
-// func getLike(c *credentials, id string) (string, error) {
-// 	return rdb.get(rdx, c.User.ID+":LIKED", id, 0).Result()
-// }
-// func setFriend(c *credentials, hash string) (string, error) {
-// 	return rdb.Set(rdx, c.Name+":HASH", hash, 0).Result()
-// }
+func getLikes(c *credentials) ([]*post, error) {
+	ids, err := rdb.ZRevRange(rdx, c.User.ID+":LIKESINORDER", 0, 10).Result()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	return getPostsByID(ids), nil
+}
+
+//	func setFriend(c *credentials, hash string) (string, error) {
+//		return rdb.Set(rdx, c.Name+":HASH", hash, 0).Result()
+//	}
+func zaddUsersPosts(c *credentials, id string) (int64, error) {
+	return rdb.ZAdd(rdx, c.User.ID+"POSTSINORDER", makeZmem(id)).Result()
+}
+
+func setFriend(c *credentials, id string) (int64, error) {
+	num, err := rdb.ZRem(rdx, c.User.ID+":FRIENDSINORDER", -1, id).Result()
+	log.Println("----------", num)
+	if err != nil {
+		log.Println(err)
+		return -1, err
+	}
+
+	if num == 0 {
+		_, err := rdb.ZAdd(rdx, c.User.ID+":FRIENDSINORDER", makeZmem(id)).Result()
+		if err != nil {
+			log.Println(err)
+			return -1, err
+		}
+	} else {
+		return -1, err
+	}
+
+	return num, nil
+}

@@ -26,30 +26,51 @@ func likeHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	log.Println(c)
 	c.User.Likes = append(c.User.Likes, id)
 	err = setProfile(c)
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(id, 0, n)
 	ajaxResponse(w, map[string]string{"success": "true", "score": fmt.Sprint(1 - n)})
 }
 func likesHandler(w http.ResponseWriter, r *http.Request) {
-	exeTmpl(w, r, nil, "main.html")
+	id := strings.Split(r.RequestURI, "/")[2]
+	c := r.Context().Value(ctxkey).(*credentials)
+	n, err := setLike(c, id)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	c.User.Likes = append(c.User.Likes, id)
+	err = setProfile(c)
+	if err != nil {
+		log.Println(err)
+	}
+	ajaxResponse(w, map[string]string{"success": "true", "score": fmt.Sprint(1 - n)})
 }
 func shareHandler(w http.ResponseWriter, r *http.Request) {
 	exeTmpl(w, r, nil, "main.html")
 }
 func addFriendHandler(w http.ResponseWriter, r *http.Request) {
-	exeTmpl(w, r, nil, "main.html")
+	id := strings.Split(r.RequestURI, "/")[2]
+	c := r.Context().Value(ctxkey).(*credentials)
+	n, err := setFriend(c, id)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	c.User.Friends = append(c.User.Friends, id)
+	err = setProfile(c)
+	if err != nil {
+		log.Println(err)
+	}
+	ajaxResponse(w, map[string]string{"success": "true", "score": fmt.Sprint(1 - n)})
 }
 func unFriendHandler(w http.ResponseWriter, r *http.Request) {
 	exeTmpl(w, r, nil, "main.html")
 }
 func profileHandler(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.RequestURI, "/")[2]
-	log.Println(id, "------")
 	var _c *credentials = &credentials{
 		User: &user{ID: id},
 	}
@@ -58,15 +79,21 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Println(_c.User)
 	if _c.User.ProfilePic == "" {
 		_c.User.ProfilePic = "public/media/ndt.jpg"
 	}
 	if _c.User.ProfileBG == "" {
 		_c.User.ProfileBG = "public/media/hubble.jpg"
 	}
-
-	exeTmpl(w, r, &viewData{Profile: _c.User, Credentials: r.Context().Value(ctxkey).(*credentials)}, "profile.html")
+	likes, err := getLikes(_c)
+	if err != nil {
+		log.Println(err)
+	}
+	exeTmpl(w, r, &viewData{
+		Profile:     _c.User,
+		Credentials: r.Context().Value(ctxkey).(*credentials),
+		Stream:      likes,
+	}, "profile.html")
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
@@ -76,12 +103,15 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var c *credentials = r.Context().Value(ctxkey).(*credentials)
+	log.Println(post, c, post.TempFileName)
 	switch post.Type {
 	case "ProfilePic":
 		c.User.ProfilePic = post.TempFileName
 	case "ProfileBG":
 		c.User.ProfileBG = post.TempFileName
 	}
+	log.Println(c.User, c)
+	// c.User.Posts = nil
 	err = setProfile(c)
 	if err != nil {
 		log.Println(status(w, "Database Error", err))

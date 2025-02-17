@@ -27,6 +27,7 @@ function toggleNew() {
                 newToggled= false;
         }
 }
+{{ if not .User.IsLoggedIn }}
 // auth is used for signing up and signing in/out. path could be:
 //
 //     /signup       /signin        /signout
@@ -64,6 +65,7 @@ async function auth(path) {
                 document.getElementById("errorDiv").innerHTML = res.status;
         }
 }
+{{ end }}
 function tf() {
         np.style.right = "-" + np.offsetWidth + "px";
         document.removeEventListener('click', tf);

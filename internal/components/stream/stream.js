@@ -30,3 +30,13 @@ function handleResponse(res) {
                 //document.getElementById("errorField").innerHTML = res.error;
         }
 }
+async function share(postID) {
+        let response = await fetch("/addFriend", {
+                method: "POST",
+                body: {"id": postID},
+        });
+
+        let res = await response.json();
+        handleResponse(res);
+}
+

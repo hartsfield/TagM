@@ -103,7 +103,7 @@
         border-radius: 1em;
         width: 13em;
         align-items: flex-end;
-        mix-blend-mode: color-dodge;
+        /*mix-blend-mode: color-dodge;*/
         filter: contrast(0) sepia(1) brightness(1.35) drop-shadow(2px 4px 6px black);
         z-index: 10;
         height: calc(100% - 20em);
