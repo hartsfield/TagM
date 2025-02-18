@@ -4,11 +4,13 @@
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: flex-start;
-        margin-top: 2.8em;
+        margin-top: 3.49em;
         position: fixed;
         overflow: scroll;
         height: 93%;
-    }
+        border-radius: 1em;
+        border-top: 1px dashed black;    
+}
 .item-outer {
         display: flex;
         flex-direction: column;
