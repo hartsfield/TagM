@@ -137,7 +137,7 @@ textarea:enabled {
         width: 2em;
 }
 .item-media {
-        max-width: 99%;
+        max-width: 100%;
         position: relative;
         border-radius: 1.2em;
         z-index: 2;
