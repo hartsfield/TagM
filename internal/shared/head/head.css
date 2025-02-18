@@ -65,6 +65,7 @@ video {
         width: 100%;
 
         z-index: 99;
+        display: none;
 }
 .isym {
         border-radius: 0.4em;

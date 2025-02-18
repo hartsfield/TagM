@@ -13,43 +13,81 @@
         flex-wrap: nowrap;
         align-items: center;
         justify-content: flex-start;               
+        /*width: 100%;*/
+}
+.nav-block-2 {
+        display: flex
+        ;
+        justify-content: space-between;
         width: 100%;
+        align-items: center;
+        border: 1px dashed #31aa9a;
+        height: 2em;
+        background: #dcfcf5;
+        border-right: none;
+        border-top-left-radius: 1.4em;
+        border-bottom-left-radius: 1.4em;
 }
 .navbar-outer {
-        position: relative;
-        z-index: 20000;
         animation: 0.2s linear navbar-load;
-        background: #d4ffe9;
-        border: 1px dashed #27e0a6;
         box-shadow: -1px -20px 2020px 84px #f9f09554;
-        color: #72c4b3;
-        border-radius: 0.6em;
-        display: flex;
+        display: flex
+        ;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
-        justify-content: space-between;
-        border-bottom-right-radius: 0em;
-        border-bottom-left-radius: 0em;
-        height: 2em;
+        justify-content: flex-start;
         overflow: hidden;
         transition: 100ms all;
+        background: #fffad9;
+        width: 100%;
+        position: fixed;
+        z-index: 100000;
 }
+.nav-bottom {
+        width: 100%;
+        border-top: 1px dashed #ff8355;
+        position: fixed;
+        left: 0;
+        top: 3.4em;
+        height: 6em;
+        /* width: 10em; */
+        background: #fffad900;
+        border-radius: 1.1em;
+        z-index: 343443434;
+}
+/*.navbar-outer {*/
+/*        position: relative;*/
+/*        z-index: 20000;*/
+/*        animation: 0.2s linear navbar-load;*/
+/*        background: #d4ffe9;*/
+/*        border: 1px dashed #27e0a6;*/
+/*        box-shadow: -1px -20px 2020px 84px #f9f09554;*/
+/*        color: #72c4b3;*/
+/*        border-radius: 0.6em;*/
+/*        display: flex;*/
+/*        flex-direction: row;*/
+/*        flex-wrap: nowrap;*/
+/*        align-items: center;*/
+/*        justify-content: space-between;*/
+/*        border-bottom-right-radius: 0em;*/
+/*        border-bottom-left-radius: 0em;*/
+/*        height: 2em;*/
+/*        overflow: hidden;*/
+/*        transition: 100ms all;*/
+/*}*/
 .logo-nav {
         transition: 1s all;
-        padding: 0.8em 0.8em;
         cursor: pointer;
         font-weight: 200;
-        background: #d8f055;
-        color: #59a497;
-        border-right: 1px dashed #4edbc0;
-        border-top-left-radius: 0.6em;
-        border-bottom-left-radius: 0.0em;
-        border-bottom-right-radius: 0.0em;
-        width: 7em;
-        overflow: hidden;
+        color: #4c6c0b;
         text-align: center;
-        /*box-shadow: -6px -6px 9px -11px #147000 inset;*/
+        overflow: hidden;
+        background: #d2ec65;
+        border-radius: 100%;
+        height: 1.4em;
+        width: 1.4em;
+        margin: 1em 1em;
 }
 .upload-outer-toggle {
         transform: translateY(0px);
@@ -63,14 +101,13 @@
         /*background-position: center;*/
         /*filter:drop-shadow(0px 0px 2px black) contrast(0.000001) sepia(33) saturate(3.8) hue-rotate(339deg);*/
         /*padding: 0 0.5em 0 0;*/
-        width: 30%;
         height: 100%;
         background-color: #f4a15a;
         margin-right: 0.3em;
         border-radius: 0.25em;
         border: 1px solid #ef7200;
         transition: 1s all;
-
+        width: 1.5em;
 }
 .chron-nav {
         /*background-image: url(/public/media/hotchoc.svg);*/
@@ -78,12 +115,13 @@
         /*background-repeat: no-repeat;*/
         /*background-size: 2.1em 2.5em;*/
         /*background-position: center;*/
-        width: 30%;
         height: 100%;
         background-color: #f4ff5d;
         border-radius: 0.25em;
         border: 1px solid #bbbb1a;
         color: transparent;
+
+        width: 1.5em;
         transition: 1s all;
 }
 .chron-nav-auth {
@@ -102,9 +140,7 @@
         width: 0;
         height: 100%;
         background-color: #ffbdf6;
-        border-radius: 0.25em;
-        /*border: 1px solid #d890ca;*/
-        /*margin: 0.3em;*/
+        border-radius: 100%;
         height: 1.3em;
         color: transparent;
         text-align: center;
@@ -113,11 +149,13 @@
 }
 .nav-toggled {
         width: 5em;
-        padding: 0em 0 0.18em;
+        padding: 0em 0.18em;
         color: #6da31f;
         background: #c4ef2b;
         transition: 1s all;
         border: 1px dashed #135813;
+        border-radius: 0.25em;
+        line-height: 1;
 }
 .nta2 {
         width: 0;
@@ -127,29 +165,29 @@
 }
 .nta2-toggled {
         width: 5em;
-        padding: 0em 0 0.18em;
+        padding: 0em 0.18em;
         color: #a92cef;
         background: #eeb7ff;
         border-radius: 0.25em;
         border: 1px dashed #27033f;
         margin: 0 0 0 0.3em;
         transition: 1s all;
+        line-height: 1;
 }
-
 .nta3-toggled {
         width: 5em;
         padding: 0em 0 0.18em;
         color: #ffe2a5;
-        background: #ef772b;
+        background: #ffb281;   
         border-radius: 0.25em;
         border: 1px dashed #b25921;
         margin: 0 0 0 0.3em;
         transition: 1s all;
 }
 .nta3 {
-        max-width: 1.5em;
-        min-width: 1.5em;
-        border: 1px dashed #d890ca;
+        max-width: 1.2em;
+        min-width: 1.2em;
+        border: 1px dashed #de4f4f;
         transition: 1s all;
         margin: 0.4em;
         display: flex;
@@ -157,16 +195,19 @@
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        width: 1.5em;
-        height: 1.5em;
+
+        width: 1.2em;
+        height: 1.2em;
 }
 .sorts-nav {
-        display: flex;
         width: 100%;
-        height: 1.3em;
-        margin: 0.3em;
-        /*max-width: 11em;*/
+        margin: 0 1em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
 }
+
 .nav-toggle-new {
         height: 1.4em;
         width: 1.4em;
@@ -234,9 +275,9 @@ input:enabled {
 }
 @media screen and (orientation:portrait) {
         .navbar-outer {
-         border-left: none;
-         border-right: none;
-         border-top: none;
+                border-left: none;
+                border-right: none;
+                border-top: none;
         }
         .nav-wrap {
                 /*padding-left: 1em;*/

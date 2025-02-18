@@ -1,6 +1,6 @@
 {
         "app": {
-                "name": "#Tag[M]",
+                "name": "#",
                 "command": "",
                 "domain_name": "tagmachine.xyz",
                 "version": "0.01",
