@@ -155,14 +155,13 @@ textarea:enabled {
         border-radius: 1.3em;
         background: #ffd1c6;
         color: #d93e3e;
-        display: flex
-        ;
+        display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        width: 1.2em;
-        height: 1.2em;
+        width: 1em;
+        height: 1em;
         border: 1px dashed #ff5600;
         margin: 0.5em;
 }
@@ -219,10 +218,11 @@ textarea:enabled {
         border: none;
         border-radius: 0;
         margin-top: 0;
-        margin-left: 1em;
+        margin-left: 1.05em;
         min-height: 3.8em;
         border-left: 1px dashed #de8eff;
         width: auto;
+
 }
 .item-comments-recurse-wrapper > .item-outer  > .item-meta-1 {
         font-size: 0.8em;
