@@ -116,7 +116,6 @@
 textarea:enabled {
         outline: none;
 }
-
 .item-share {
         filter: contrast(4.5);
         background: url("/public/media/plane.svg");
@@ -145,10 +144,10 @@ textarea:enabled {
         border: 10px solid #ffffff;
 }
 .item-show-hide-reply {
-        margin: 0 1em 1em 90%;
+        margin: 0 10px 1em 90%;
         border-radius: 0.3em;
         /* text-align: center; */
-        background: #bc3c10;
+        background: #ff9367;
         color: #ffffff;
         display: flex
         ;
@@ -173,27 +172,37 @@ textarea:enabled {
 .item-comments-textarea {
         width: -webkit-fill-available;
         resize: none;
-        background: #a7dfda;
+        background: #e1fffc;
         border-radius: 2.3em;
         border-top-right-radius: 0em;
         border-bottom-right-radius: 0em;
         border: 1px dashed #1d867c;
+        height: 1.6em;
 }
 .item-comment-submit {
-        padding: 0.4em 1em 0.5em;
+        padding: 2px 10px;
         background-color: #ff5500;
         width: fit-content;
         border-radius: 2.3em;
         color: #ffffff;
         border: 1px dashed #54451f;
-        /* font-size: 0.7em; */
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        font-size: 0.8em;
 }
 .item-comments-recurse-wrapper {
         display: flex;
         flex-direction: column;
 }
+/*.item-comments-recurse-wrapper > .item-outer > .item-comments:last-child {*/
+/*        border: none;*/
+/*}*/
+/*.item-comments-recurse-wrapper:last-child > .item-outer:last-child > .item-comments:last-child {*/
+/*        border: none;*/
+/*}*/
+/*.item-comments-recurse-wrapper > .item-outer:last-child {*/
+/*        border-bottom: none;*/
+/*}*/
 .item-comments-recurse-wrapper > .item-outer {
         border: none;
         border-radius: 0;
