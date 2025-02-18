@@ -141,9 +141,7 @@ textarea:enabled {
         position: relative;
         border-radius: 1.2em;
         z-index: 2;
-        border: 10px solid #ffffff;
         margin: 10px 10px 0;
-        border-bottom: none;
 }
 .item-reply-part {
         display: flex
