@@ -131,10 +131,10 @@ function toggleAuth() {
         hotn.onclick = "";
         authToggled = true;
     } else {
-        hotn.placeholder = ""
-        chrn.placeholder = ""
-        togl.innerHTML = ""
-        togh.innerHTML = ""
+        hotn.placeholder = "";
+        chrn.placeholder = "";
+        togl.innerHTML = "";
+        togh.innerHTML = "";
         username.disabled = true;
         password.disabled = true;
 
