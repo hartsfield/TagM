@@ -1,27 +1,34 @@
-<div class="template-wrapper stream-outer" id="stream-outer">
-        <div class='stream' id="stream">
-                {{ range $k, $v :=  .Stream }}
-                <div class='item-outer'>
-                        <div class="item-meta-1">
-                                <div class="item-posted-time" onclick="window.location = '/view/{{$v.ID}}'">{{ $v.TimeString }}</div>
-                                <div class='item-username'><b class="add" onclick="addFriend({{$v.ID}})">+</b><b class="at" onclick="window.location=window.location.origin + '/user/'+{{$v.Author}}">@</b>{{ $v.Author }}</div>
-                        </div>
-                        <div class='item-meta-2'>
-                                <div class='item-text'>{{ $v.Text }}</div>
-                        </div>
-                        {{$v.MediaType}}
-                        <div class='item-meta-3'>
-                                <div class="item-like" id="like_{{$v.ID}}" onclick="like({{$v.ID}})">{{$v.Score}}</div>
-                                <div class="item-share"onclick="share({{$v.ID}})"></div>
-                                <!--<div class="item-comment"></div>-->
-                        </div>
-                        <div class="item-comments">
-                                <textarea class="item-comments-textarea"></textarea>
-                                <div class="item-comment-submit">post</div>
-                        </div>
-                </div>
-                {{ end }}
+{{ range $k, $v :=  . }}
+<div class='item-outer'>
+
+    <div class="item-meta-1">
+        <div class="item-posted-time" onclick="window.location = '/view/{{$v.ID}}'">{{ $v.TimeString }}</div>
+        <div class='item-username'><b class="add" onclick="addFriend({{$v.ID}})">+</b><b class="at" onclick="window.location=window.location.origin + '/user/'+{{$v.Author}}">@</b>{{ $v.Author }}</div>
+    </div>
+
+    <div class='item-meta-2'>
+        <div class='item-text'>{{ $v.Text }}</div>
+    </div>
+
+    <div class='item-meta-3'>
+        {{$v.MediaType}}
+    </div>
+
+    <div class='item-meta-4'>
+        <div class="item-like" onclick="like({{$v.ID}})" id="like_{{$v.ID}}">{{$v.Score}}</div>
+        <div class="item-share"onclick="share({{$v.ID}})"></div>
+    </div>
+
+    <div class="item-show-hide-reply" onclick="toggleDisplay('item-controls_{{$v.ID}}')"> + </div>
+    <div class="item-comments-reply-controls" id="item-controls_{{$v.ID}}">
+        <textarea class="item-comments-textarea" id="uptext_{{$v.ID}}"></textarea>
+        <div class="item-comment-submit" onclick="submitReply({{$v.ID}})">post</div>
+    </div>
+
+    <div class="item-comments">
+        <div class="item-comments-recurse-wrapper">
+            {{ template "stream.html" $v.Comments }}
         </div>
-        <style>{{ template "stream.css" . }}</style>
-        <script>{{ template "stream.js" . }}</script>
+    </div>
 </div>
+{{ end }}

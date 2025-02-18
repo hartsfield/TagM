@@ -55,7 +55,10 @@ func parseForm(r *http.Request) (*post, error) {
 		TimeString: time.Now().Format(time.RFC822),
 		Author:     c_.User.ID,
 	}
-	zaddUsersPosts(c_, post.ID)
+	_, err = zaddUsersPosts(c_, post)
+	if err != nil {
+		log.Println(err)
+	}
 	// c_.User.Posts = append(c_.User.Posts, post.ID)
 	for {
 		part, err_part := mr.NextPart()
@@ -126,9 +129,9 @@ func handleFile(part *multipart.Part, data *post) error {
 			data.TempFileName = tempFile.Name()
 			switch ex {
 			case "png", "jpg", "gif", "svg":
-				data.MediaType = template.HTML("<img class='post-img post-media' src='/" + data.TempFileName + "' />")
+				data.MediaType = template.HTML("<img class='item-img item-media' src='/" + data.TempFileName + "' />")
 			case "mp4", "webm":
-				data.MediaType = template.HTML("<video class='post-video post-media' src='/" + data.TempFileName + "' />")
+				data.MediaType = template.HTML("<video class='item-video item-media' src='/" + data.TempFileName + "' />")
 			}
 			return nil
 		}

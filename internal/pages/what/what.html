@@ -1,0 +1,61 @@
+<html>
+        {{template "head.html" . }} 
+        <body>
+                <div class="template-wrapper what-outer" id="what-outer">
+                        <div class="what-inner"> 
+                                <div class="what-other">
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('!')" class="isym inline-bang"> !Politics</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('$')" class="isym inline-cash"> $Finance</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('%')" class="isym inline-evil"> %Science</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('^')" class="isym inline-good"> ^Arts/Culture</span>   
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('*')" class="isym inline-star"> *Life</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <div class="what-other">
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('?')" class="isym inline-wwwwwh"> ?Sarcasm</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('&amp;')" class="isym inline-pointer"> &amp;Pointer</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('@')" class="isym inline-mention"> @Noun</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                        <div class="what-ever">
+                                                <span spellcheck="false" onclick="getTag('#')" class="isym inline-tag"> #Anything</span>
+                                                <div class="what-about-isy">
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        <style>{{ template "what.css" . }}</style>
+                        <script>{{ template "what.js" . }}</script>
+                </div>
+        </body>
+</html>

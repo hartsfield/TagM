@@ -7,15 +7,9 @@ function jumpTo(eid) {
         });
 }
 function toggleDisplay(elem) {
-        let divs = document.getElementById("hiddenTop").children;
         let formDisplay = document.getElementById(elem);
-        for (let i=0;i<divs.length;i++) {
-                if (divs[i].id != formDisplay.id) {
-                        divs[i].style.display = "none";
-                }
-        }
         if (formDisplay.style.display == "none" || formDisplay.style.display == "") {
-                formDisplay.style.display = "unset";
+                formDisplay.style.display = "flex";
         } else {
                 formDisplay.style.display = "none";
         }
@@ -34,6 +28,7 @@ async function getExample(view) {
         }
 }
 let toggled = false;
+{{ if .Credentials.IsLoggedIn }}
 window.onscroll = function(e) {
         // print "false" if direction is down and "true" if up
         if (this.oldScroll > this.scrollY) { if (!toggled) {toggleNew()} toggled = true }
@@ -41,6 +36,7 @@ window.onscroll = function(e) {
         console.log(this.oldScroll > this.scrollY);
         this.oldScroll = this.scrollY;
 }
+{{ end }}
 //setInterval(autoReload, 500); // 5000 milliseconds = 5 seconds
 //async function autoReload() {
 //        const response = await fetch("/wasmodified", {
@@ -55,3 +51,48 @@ window.onscroll = function(e) {
 //}
 //
 //document.getElementsByTagName("img").onerror='this.style.display = "none"' 
+let did_submit_reply = false
+async function submitReply(parent) {
+        if (!did_submit_reply) {
+                let txt = document.getElementById("uptext_"+parent).value
+                let response = await fetch("/reply", {
+                        method: "POST",
+                        body: JSON.stringify({"parent": parent, "uptext": txt}),
+                });
+                let res = await response.json();
+                handleResponse(res);
+        }
+}
+async function like(postID) {
+        let response = await fetch("/like/"+postID, {
+                method: "POST",
+                body: {"id": postID},
+        });
+
+        let res = await response.json();
+        console.log(res);
+        if (res.success == "true") {
+                document.getElementById("like_"+postID).innerHTML = res.score
+        } else {
+                //document.getElementById("errorField").innerHTML = res.error;
+        }
+
+
+}
+async function share(postID) {
+        let response = await fetch("/share", {
+                method: "POST",
+                body: {"id": postID},
+        });
+
+        let res = await response.json();
+        handleResponse(res);
+}
+function handleResponse(res) {
+        if (res.success == "true") {
+                //window.location = window.location.origin;
+        } else {
+                //document.getElementById("errorField").innerHTML = res.error;
+        }
+}
+

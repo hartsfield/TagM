@@ -30,6 +30,7 @@ async function submitImg() {
         let res = await response.json();
         console.log(res);
 }
+
 // !bang @mention #hash_tag $cash %evil ^good &pointer *star 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------

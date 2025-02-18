@@ -65,6 +65,9 @@ type viewData struct {
 	Profile     *user        `json:"user" redis:"user"`
 }
 type post struct {
+	Parent     string   `json:"parent" redis:"parent"`
+	Categories []string `json:"categories" redis:"categories"`
+
 	Media        string        `json:"Media" redis:"Media"`
 	Type         string        `json:"Type" redis:"Type"`
 	Author       string        `json:"author" redis:"author"`
@@ -76,6 +79,8 @@ type post struct {
 	TempFileName string        `json:"temp_file_name" redis:"temp_file_name"`
 	Tags         []*tag        `json:"tags" redis:"tags"`
 	Score        int           `json:"score" redis:"score"`
+	CommentIDs   []string      `json:"commentIDs" redis:"commentIDs"`
+	Comments     []*post       `json:"comments" redis:"comments"`
 }
 type tag struct {
 	Tag   string    `json:"tag" redis:"tag"`

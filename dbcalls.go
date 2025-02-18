@@ -38,6 +38,13 @@ func getPostsByID(ids []string) []*post {
 		}
 		items = append(items, i)
 	}
+	for _, p := range items {
+		replies, err := rdb.ZRange(rdx, p.ID+":REPLIESINORDER", 0, -1).Result()
+		if err != nil {
+			log.Println(err)
+		}
+		p.Comments = append(p.Comments, getPostsByID(replies)...)
+	}
 	stream = items
 	return items
 }
@@ -56,7 +63,6 @@ func setProfile(c *credentials) error {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(string(b))
 	err = json.Unmarshal(b, &pmap)
 	if err != nil {
 		log.Println(err)
@@ -170,8 +176,38 @@ func getLikes(c *credentials) ([]*post, error) {
 //	func setFriend(c *credentials, hash string) (string, error) {
 //		return rdb.Set(rdx, c.Name+":HASH", hash, 0).Result()
 //	}
-func zaddUsersPosts(c *credentials, id string) (int64, error) {
-	return rdb.ZAdd(rdx, c.User.ID+"POSTSINORDER", makeZmem(id)).Result()
+func zaddUsersPosts(c *credentials, p *post) (int64, error) {
+	if p.Parent == "" {
+		return rdb.ZAdd(rdx, c.User.ID+"POSTSINORDER", makeZmem(p.ID)).Result()
+	}
+	pp, err := getPost(p.Parent)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	// pp.CommentIDs = append(pp.CommentIDs, p.ID)
+	i, err := rdb.ZAdd(rdx, c.User.ID+":POSTSINORDER", makeZmem(p.ID)).Result()
+	if err != nil {
+		log.Println(err)
+		return i, err
+	}
+	i, err = rdb.ZAdd(rdx, p.Parent+":REPLIESINORDER", makeZmem(p.ID)).Result()
+	if err != nil {
+		log.Println(err)
+		return i, err
+	}
+	err = setPost(p)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	err = setPost(pp)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	return 1, nil
 }
 
 func setFriend(c *credentials, id string) (int64, error) {

@@ -5,10 +5,30 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func root(w http.ResponseWriter, r *http.Request) {
 	exeTmpl(w, r, nil, "main.html")
+}
+func what(w http.ResponseWriter, r *http.Request) {
+	exeTmpl(w, r, nil, "what.html")
+}
+func reply(w http.ResponseWriter, r *http.Request) {
+	p, err := marshalPostData(r)
+	if err != nil {
+		log.Println(err)
+	}
+	var c_ *credentials = r.Context().Value(ctxkey).(*credentials)
+	p.ID = genID(15)
+	p.TS = time.Now()
+	p.TimeString = time.Now().Format(time.RFC822)
+	p.Author = c_.User.ID
+	_, err = zaddUsersPosts(c_, p)
+	if err != nil {
+		log.Println(err)
+	}
+	ajaxResponse(w, map[string]string{})
 }
 func viewItem(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.RequestURI, "/")[2]
@@ -17,7 +37,6 @@ func viewItem(w http.ResponseWriter, r *http.Request) {
 		Stream:  getPostsByID([]string{id}),
 	}, "main.html")
 }
-
 func likeHandler(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.RequestURI, "/")[2]
 	c := r.Context().Value(ctxkey).(*credentials)

@@ -16,9 +16,13 @@ func exeTmpl(w http.ResponseWriter, r *http.Request, view *viewData, tmpl string
 		view = &viewData{Credentials: &credentials{User: &user{}}}
 
 	}
-	if view.Profile == nil {
+	if r.Context().Value(ctxkey) != nil {
 		view.Credentials = r.Context().Value(ctxkey).(*credentials)
 	}
+	// if view.Profile == nil {
+	// 	view.Credentials = r.Context().Value(ctxkey).(*credentials)
+	// }
+
 	view.AppName = AppName
 	view.Stream = stream
 	err := templates.ExecuteTemplate(w, tmpl, view)
@@ -84,13 +88,13 @@ func readConf() *config {
 }
 
 // marshalPostData is used to marshal a JSON string into a *post struct
-// func marshalPostData(r *http.Request) (*post, error) {
-// 	t := &post{}
-// 	decoder := json.NewDecoder(r.Body)
-// 	defer r.Body.Close()
-// 	err := decoder.Decode(t)
-// 	if err != nil {
-// 		return t, err
-// 	}
-// 	return t, nil
-// }
+func marshalPostData(r *http.Request) (*post, error) {
+	t := &post{}
+	decoder := json.NewDecoder(r.Body)
+	defer r.Body.Close()
+	err := decoder.Decode(t)
+	if err != nil {
+		return t, err
+	}
+	return t, nil
+}

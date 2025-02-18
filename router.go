@@ -52,6 +52,8 @@ func wasmodified(w http.ResponseWriter, r *http.Request) {
 // registerRoutes registers the routes with the provided *http.ServeMux
 func registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/", checkAuth(root))
+	mux.HandleFunc("/reply", checkAuth(reply))
+	mux.HandleFunc("/what", what)
 	mux.HandleFunc("/signin", signin)
 	mux.HandleFunc("/signup", signup)
 	mux.HandleFunc("/signout", signout)

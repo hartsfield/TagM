@@ -1,10 +1,3 @@
-.stream-outer {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        align-items: center;
-        max-width: 77ch;
-}
 .stream {
         display: flex;
         flex-direction: column;
@@ -13,15 +6,14 @@
         margin-top: 2.8em;
 }
 .item-outer {
+        display: flex;
+        flex-direction: column;
         background-color: white;
         border-radius: 1em;
         overflow: hidden;
         margin-top: 1em;
         position: relative;
-        /*box-shadow: -1px 1px 8px 0px #aaaaaadb;*/
-        display: flex;
-        flex-direction: column;
-    border: 1px dashed #9e9e9e;
+        border: 1px dashed #9e9e9e;
 }
 .item-meta-1 {
         align-items: center;
@@ -89,9 +81,8 @@
         border-bottom-right-radius: 0.5em;
         border-bottom-left-radius: 0.5em;
 }
-.item-meta-3 {
-        display: flex
-        ;
+.item-meta-4 {
+        display: flex;
         cursor: pointer;
         position: absolute;
         padding: 0em 1.9em 0 0;
@@ -101,12 +92,12 @@
         border-radius: 1em;
         align-items: flex-end;
         z-index: 10;
-        bottom: 5em;
+        top: 5em;
         justify-content: flex-end;
         filter: contrast(0.1) sepia(1) brightness(1.9) drop-shadow(0px 0px 3px white) blur(0.2px);
-    }
+}
 .item-like {
-         background: url("/public/media/heart_black.svg");
+        background: url("/public/media/heart_black.svg");
         background-size:cover ;
         background-repeat: no-repeat;
         height: 1.6em;
@@ -138,12 +129,78 @@
         height: 2em;
         width: 2em;
 }
-.post-media {
+.item-media {
         max-width: 99%;
         position: relative;
         border-radius: 1.2em;
         z-index: 2;
-    border: 10px solid #ffffff;
+        border: 10px solid #ffffff;
+}
+.item-show-hide-reply {
+        font-size: 0.7em;
+        position: relative;
+        margin: 0 16px 1em 94%;
+        bottom: 0;
+        border: 1px solid #bb4f1a;
+        border-radius: 0.3em;
+        padding: 0 0.2em 0.2em;
+        text-align: center;
+        background: #ffe2d8;
+        color: #0b0606;
+}
+.item-comments {
+        background-color: white;
+        display: flex;
+        border-top: 1px dashed #d0d0d0;
+        flex-direction: column;
+        width: -webkit-fill-available;
+}
+.item-comments-reply-controls {
+        display: none;
+        /* height: 2em; */
+        align-items: center;
+        margin: 0 1em;
+}
+.item-comments-textarea {
+        height: 2em;
+        width: -webkit-fill-available;
+        resize: none;
+        background: #a7dfda;
+        border-radius: 0.3em;
+        margin: 0.5em 0.2em 0.5em 0.5em;
+        border: 1px dashed #1d867c;
+}
+.item-comment-submit {
+        padding: 0.4em 0.5em 0.5em;
+        background-color: #ff5500;
+        width: fit-content;
+        border-radius: 0.3em;
+        color: #ffffff;
+        border: 1px dashed #54451f;
+        font-size: 0.7em;
+}
+.item-comments-recurse-wrapper {
+        display: flex;
+        flex-direction: column;
+}
+.item-comments-recurse-wrapper > .item-outer {
+        border: none;
+        border-radius: 0;
+        margin-top: 0;
+        margin-left: 1em;
+        min-height: 3.8em;
+        border-left: 1px dashed #de8eff;
+        width: auto;
+}
+.item-comments-recurse-wrapper > .item-outer  > .item-meta-1 {
+        font-size: 0.8em;
+}
+.item-comments-recurse-wrapper > .item-outer  > .item-meta-2 {
+        padding: 0 0.5em;
+        border: none;
+}
+.item-comments-recurse-wrapper > .item-outer > .item-meta-4 {
+        display: none;
 }
 @media screen and (orientation:landscape) {
         .stream {
@@ -155,24 +212,4 @@
                 border-left: none;
                 border-right: none;
         }
-}
-
-.item-comments {
-        background-color: white;
-        padding: 0.5em;
-        display: flex;
-        border-top: 1px dashed #d0d0d0;
-}
-.item-comments-textarea {
-        height: 2em;
-        width: 100%;
-        resize: none;
-}
-.item-comment-submit {
-        padding: 0.1em 0.3em;
-        background-color: #ff5500;
-        width: fit-content;
-        border-radius: 0.3em;
-        color: #9d0d0d;
-        border: 1px dashed #54451f;
 }
