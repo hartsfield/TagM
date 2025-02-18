@@ -19,14 +19,17 @@
         display: flex
         ;
         justify-content: space-between;
-        width: 100%;
+        /* width: calc(100% - 4.5em); */
         align-items: center;
-        border: 1px dashed #31aa9a;
-        height: 2em;
+        border: 1px dashed #000000;
+        /* height: 2em; */
         background: #dcfcf5;
-        border-right: none;
-        border-top-left-radius: 1.4em;
-        border-bottom-left-radius: 1.4em;
+        border-radius: 1.4em;
+        margin: 0 1em;    
+        /*animation: 10s linear infinite rotate;*/
+}
+@keyframes rotate {
+        100% { transform: rotate(360deg); }
 }
 .navbar-outer {
         animation: 0.2s linear navbar-load;
@@ -43,7 +46,7 @@
         width: 100%;
         position: fixed;
         z-index: 100000;
-    border-bottom: 1px dashed #a9dd00;
+        /*border-bottom: 1px dashed #a9dd00;*/
 }
 .nav-bottom {
         width: 100%;
@@ -89,7 +92,8 @@
         height: 1.4em;
         width: 1.4em;
         margin: 1em 1em;
-        border: 1px dashed #b1da6c;
+        border: 1px dashed #000000;
+        animation: 10s linear infinite rotate;
 }
 .upload-outer-toggle {
         transform: translateY(0px);
@@ -175,6 +179,7 @@
         margin: 0 0 0 0.3em;
         transition: 1s all;
         line-height: 1;
+        animation: none;
 }
 .nta3-toggled {
         width: 5em;
@@ -185,21 +190,25 @@
         border: 1px dashed #b25921;
         margin: 0 0 0 0.3em;
         transition: 1s all;
+        animation: none;
 }
 .nta3 {
-        max-width: 1.2em;
-        min-width: 1.2em;
-        border: 1px dashed #de4f4f;
+        background-color: #ff5fe9;
+        max-width: 20px;
+        min-width: 20px;
+        border: 1px dashed #000000;
         transition: 1s all;
-        margin: 0.4em;
-        display: flex;
+        margin: 0.5em;
+        display: flex
+        ;
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-
-        width: 1.2em;
-        height: 1.2em;
+        width: 20px;
+        height: 20px;
+        animation: 5s linear infinite rotate;
+        animation-direction: reverse;
 }
 .sorts-nav {
         width: 100%;

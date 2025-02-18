@@ -2,23 +2,22 @@
         <div class="nav-block-1">
                 <div class="logo-nav" id="logo-nav" onclick="window.location = window.location.origin">{{ .AppName }}</div>
         </div>
+        <div class="sorts-nav">
+                <input class="hot-nav"   id="hot-nav"   type="email"    disabled onclick="window.location = window.location.origin" />
+                <input class="chron-nav" id="chron-nav" type="password" disabled onclick="window.location = window.location.origin" />
+        </div>
+
         <div class="nav-block-2">
-                <div class="sorts-nav">
-                        <input class="hot-nav"   id="hot-nav"   type="email"    disabled onclick="window.location = window.location.origin" />
-                        <input class="chron-nav" id="chron-nav" type="password" disabled onclick="window.location = window.location.origin" />
-                </div>
-                {{ if .Credentials }}
-                {{ if not .Credentials.IsLoggedIn }}
-                <div class="nav-toggle-all" id="nav-toggle-all"></div>
-                <div class="nav-toggle-all nta2" id="nav-toggle-all-hid"></div>
-                <div class="nav-toggle-all nta2 nta3" id="nav-toggle-all-hid2" onclick="toggleAuth()"></div>
+        <div class="nav-toggle-all" id="nav-toggle-all-hid"></div>
+        <div class="nav-toggle-all" id="nav-toggle-all"></div>
+        {{ if not .Credentials.IsLoggedIn }}
+                <div class="nav-toggle-all nta3" id="nav-toggle-all-hid2" onclick="toggleAuth()"></div>
                 {{ else }}
                 <div class="nav-profile" onclick="window.location='/user/{{.Credentials.User.ID}}'">{{.Credentials.User.ID}}</div>
-                {{ end }}
                 {{ end }}
         </div>
         <style>{{ template "autonav.css" }}</style>
         <script>{{ template "autonav.js"}}</script>
 </div>
-        {{template "upload.html" . }}
-        <!--<div class="nav-bottom"></div>-->
+{{template "upload.html" . }}
+<!--<div class="nav-bottom"></div>-->
