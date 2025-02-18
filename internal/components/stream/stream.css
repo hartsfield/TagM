@@ -81,6 +81,10 @@
         border-bottom-right-radius: 0.5em;
         border-bottom-left-radius: 0.5em;
 }
+.item-meta-3 {
+        position: relative;
+        max-width: calc(100% - 1em);
+}
 .item-meta-4 {
         display: flex;
         cursor: pointer;
@@ -141,7 +145,7 @@ textarea:enabled {
         border: 10px solid #ffffff;
 }
 .item-show-hide-reply {
-        margin: 0 1em 1em 95%;
+        margin: 0 1em 1em 90%;
         border-radius: 0.3em;
         /* text-align: center; */
         background: #bc3c10;
