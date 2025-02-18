@@ -84,12 +84,13 @@ function toggleAuth() {
         togh.innerHTML = "signin";
         tog2.innerHTML = "X";
         username.disabled = false;
+        password.disabled = false;
         auth.classList.add("logo-shrink-toggle");
         chrn.classList.add("chron-nav-auth");
         hotn.classList.add("chron-nav-auth");
         togl.classList.add("nav-toggled");
         togh.classList.add("nta2-toggled");
-        tog2.classList.add("nta2-toggled");
+        tog2.classList.add("nta3-toggled");
         togl.onclick = async function auth(path) {
             if (validateFormData()) {
                 let response = await fetch("/signup", {
@@ -135,13 +136,16 @@ function toggleAuth() {
         chrn.placeholder = ""
         togl.innerHTML = ""
         togh.innerHTML = ""
+        username.disabled = true;
+        password.disabled = true;
 
         auth.classList.remove("logo-shrink-toggle");
         chrn.classList.remove("chron-nav-auth");
         hotn.classList.remove("chron-nav-auth");
         togl.classList.remove("nav-toggled");
         togh.classList.remove("nta2-toggled");
-        tog2.classList.remove("nta2-toggled");
+        tog2.classList.remove("nta3-toggled");
+
         authToggled = false;
     }
 }
