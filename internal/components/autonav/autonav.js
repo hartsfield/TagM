@@ -82,7 +82,6 @@ function toggleAuth() {
         chrn.placeholder = "password";
         togl.innerHTML = "signup";
         togh.innerHTML = "signin";
-        tog2.innerHTML = "X";
         username.disabled = false;
         password.disabled = false;
         auth.classList.add("logo-shrink-toggle");
