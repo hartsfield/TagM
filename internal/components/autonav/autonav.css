@@ -149,19 +149,16 @@
 .nta3 {
         max-width: 1.5em;
         min-width: 1.5em;
-        /* width: 1.5em; */
-        border: 1px solid #d890ca;
-        /* height: 1.3em; */
-        /* text-align: center; */
-        /* font-size: 0.8em; */
+        border: 1px dashed #d890ca;
         transition: 1s all;
         margin: 0.4em;
-        display: flex
-        ;
+        display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
+        width: 1.5em;
+        height: 1.5em;
 }
 .sorts-nav {
         display: flex;
