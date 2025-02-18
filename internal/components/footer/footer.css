@@ -5,33 +5,24 @@
         display: flex
         ;
         max-width: 77ch;
-        flex-direction: row-reverse;
+        flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-evenly;
         color: white;
         flex-wrap: nowrap;
-        background-color: #e5e5e5;
+        background-color: #d9f056;
         box-shadow: 0px 0px 14px 0px #c6c6c6;
-        color: #9daead;
+        color: #a4cf2f;
         border-top-left-radius: 20px;
         position: relative;
         border-top-right-radius: 20px;
         border: 1px dashed #9f9f9f;
 }
 .footer-logo {
-        transform: rotate(0deg) translateX(-224px);
         font-size: 5.2em;
-        position: absolute;
         font-family: 'Outfit';
         border-radius: 0.2em;
         background: #fbfbfb;
         border: 1px dashed #afafaf;
         color: #d3d3d3;
-}
-.footer-globe {
-        background: url(public/media/pat.svg);
-        height: 10em;
-        width: 10em;
-        background-size: cover;
-        filter: drop-shadow(-212px -137px 0px red) hue-rotate(345deg) blur(0.6px);
 }

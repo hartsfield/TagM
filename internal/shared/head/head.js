@@ -7,11 +7,14 @@ function jumpTo(eid) {
         });
 }
 function toggleDisplay(elem) {
-        let formDisplay = document.getElementById(elem);
+        let formDisplay = document.getElementById("item-controls_"+elem);
+        let butt = document.getElementById("item-shr-"+elem);
         if (formDisplay.style.display == "none" || formDisplay.style.display == "") {
                 formDisplay.style.display = "flex";
+                butt.innerHTML = "<"
         } else {
                 formDisplay.style.display = "none";
+                butt.innerHTML = "+"
         }
 }
 async function getExample(view) {
@@ -60,7 +63,9 @@ async function submitReply(parent) {
                         body: JSON.stringify({"parent": parent, "uptext": txt}),
                 });
                 let res = await response.json();
-                handleResponse(res);
+                if (res.status == "success") {
+                        window.location = window.location.origin + "/view/"+res.ID;
+                }
         }
 }
 async function like(postID) {
@@ -95,4 +100,16 @@ function handleResponse(res) {
                 //document.getElementById("errorField").innerHTML = res.error;
         }
 }
+
+//function toggleReply(id) {
+//        var elm = document.getElementById(id);
+//        var butt = document.getElementById("item-comment-submit-"+id);
+//        if (elm.classList.contains("item-comment-submit")) 
+//                elm.classList.remove("item-comment-submit");
+//        butt.innerHTML = "x"
+//        return
+//}
+//elm.classList.add("item-comment-submit");
+//butt.innerHTML = "+"
+//}
 

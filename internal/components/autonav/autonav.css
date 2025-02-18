@@ -181,15 +181,14 @@
 }
 .nav-profile {
         margin: 1em;
-        background: #7fc4c0;
-        color: #ffffff;
+        background: #0cd7cb;
+        color: #a9ffee;
         font-size: 0.8em;
         padding: 0.2em;
         border-radius: 0.2em;
-        /* border: 1px dashed #ffc8f0; */
         font-weight: 200;
         overflow: hidden;
-        border-right: 3.8px solid #7fc4c0;
+        border-right: 3.8px solid #0cd7cb;
 }
 input:enabled {
         outline: none;

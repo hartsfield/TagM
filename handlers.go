@@ -18,6 +18,8 @@ func reply(w http.ResponseWriter, r *http.Request) {
 	p, err := marshalPostData(r)
 	if err != nil {
 		log.Println(err)
+		ajaxResponse(w, map[string]string{"status": err.Error()})
+		return
 	}
 	var c_ *credentials = r.Context().Value(ctxkey).(*credentials)
 	p.ID = genID(15)
@@ -27,8 +29,10 @@ func reply(w http.ResponseWriter, r *http.Request) {
 	_, err = zaddUsersPosts(c_, p)
 	if err != nil {
 		log.Println(err)
+		ajaxResponse(w, map[string]string{"status": err.Error()})
+		return
 	}
-	ajaxResponse(w, map[string]string{})
+	ajaxResponse(w, map[string]string{"status": "success", "ID": p.ID})
 }
 func viewItem(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.RequestURI, "/")[2]
