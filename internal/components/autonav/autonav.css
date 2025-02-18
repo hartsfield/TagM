@@ -39,10 +39,11 @@
         justify-content: flex-start;
         overflow: hidden;
         transition: 100ms all;
-        background: #fffad9;
+        background: #e9ff77;
         width: 100%;
         position: fixed;
         z-index: 100000;
+    border-bottom: 1px dashed #a9dd00;
 }
 .nav-bottom {
         width: 100%;
@@ -80,14 +81,15 @@
         transition: 1s all;
         cursor: pointer;
         font-weight: 200;
-        color: #4c6c0b;
+        color: #ffffff;
         text-align: center;
         overflow: hidden;
-        background: #d2ec65;
+        background: #ffffff;
         border-radius: 100%;
         height: 1.4em;
         width: 1.4em;
         margin: 1em 1em;
+        border: 1px dashed #b1da6c;
 }
 .upload-outer-toggle {
         transform: translateY(0px);
@@ -219,14 +221,17 @@
 }
 .nav-profile {
         margin: 1em;
-        background: #0cd7cb;
-        color: #a9ffee;
+        background: #fff200;
+        color: transparent;
         font-size: 0.8em;
-        padding: 0.2em;
-        border-radius: 0.2em;
+        /* padding: 0.2em; */
+        border-radius: 100%;
         font-weight: 200;
         overflow: hidden;
-        border-right: 3.8px solid #0cd7cb;
+        /* border-right: 3.8px solid #0cd7cb; */
+        max-width: 1.7em;
+        min-height: 1.7em;
+        border: 1px solid #ffa500;
 }
 input:enabled {
         outline: none;
