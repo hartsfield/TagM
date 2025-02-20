@@ -8,7 +8,7 @@ function jumpTo(eid) {
 }
 setTimeout(function() {
   window.scroll({
-    top: 100,
+    top: -10,
     left: 0,
     behavior: 'smooth'
   });
