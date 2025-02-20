@@ -6,7 +6,15 @@ function jumpTo(eid) {
                 inline: 'center'
         });
 }
-setTimeout(window.scroll(0, 10), 5000);
+setTimeout(function() {
+  window.scroll({
+    top: 100,
+    left: 0,
+    behavior: 'smooth'
+  });
+        document.getElementById("stream").style.position = "fixed";
+        document.getElementById("stream").style.overflow = "scroll";
+}, 1000);
 function toggleDisplay(elem) {
         let formDisplay = document.getElementById("item-controls_"+elem);
         let butt = document.getElementById("item-shr-"+elem);
