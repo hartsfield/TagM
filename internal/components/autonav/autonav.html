@@ -7,13 +7,14 @@
                 <input class="chron-nav" id="chron-nav" type="password" disabled onclick="window.location = window.location.origin" />
         </div>
 
-        <div class="nav-block-2">
         <div class="nav-toggle-all" id="nav-toggle-all-hid"></div>
         <div class="nav-toggle-all" id="nav-toggle-all"></div>
+        <div class="nav-block-2">
         {{ if not .Credentials.IsLoggedIn }}
                 <div class="nav-toggle-all nta3" id="nav-toggle-all-hid2" onclick="toggleAuth()"></div>
                 {{ else }}
-                <div class="nav-profile" onclick="window.location='/user/{{.Credentials.User.ID}}'">{{.Credentials.User.ID}}</div>
+                <!--<div class="nav-profile" onclick="window.location='/user/{{.Credentials.User.ID}}'">{{.Credentials.User.ID}}</div>-->
+                <div class="nav-show-submit" onclick="toggleNew()"></div>
                 {{ end }}
         </div>
         <style>{{ template "autonav.css" }}</style>

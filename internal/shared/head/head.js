@@ -6,6 +6,7 @@ function jumpTo(eid) {
                 inline: 'center'
         });
 }
+setTimeout(window.scroll(0, 10), 5000);
 function toggleDisplay(elem) {
         let formDisplay = document.getElementById("item-controls_"+elem);
         let butt = document.getElementById("item-shr-"+elem);

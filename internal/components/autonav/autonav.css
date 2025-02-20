@@ -26,7 +26,8 @@
         background: #dcfcf5;
         border-radius: 1.4em;
         margin: 0 1em;    
-        /*animation: 10s linear infinite rotate;*/
+    padding: 0.6em;
+        animation: 10s linear infinite rotate;
 }
 @keyframes rotate {
         100% { transform: rotate(360deg); }
@@ -96,9 +97,17 @@
         animation: 10s linear infinite rotate;
 }
 .upload-outer-toggle {
-        transform: translateY(0px);
-        z-index: 1;
-        transition: 1000ms all;
+        transform: translateY(65px) !important;
+        width: 100%;
+}
+.nav-show-submit{
+        height: 1em;
+        width: 1em;
+        border: 1px dashed black;
+        background: red;
+        border-radius: 100%;
+        animation: 5s linear infinite rotate;
+        animation-direction: reverse;
 }
 .hot-nav {
         /*background-image: url(/public/media/fire3.svg);*/
