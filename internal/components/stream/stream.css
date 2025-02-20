@@ -24,7 +24,17 @@ transition: 1s all;
         background-color: white;
         border-radius: 1em;
         /*overflow: scroll;*/
-        /*margin-top: 1em;*/
+        margin-top: 1em;
+        position: relative;
+        border: 1px dashed #9e9e9e;
+}
+.item-outer:first-child {
+        margin-top: 0;
+       display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 1em;
+        /*overflow: scroll;*/
         position: relative;
         border: 1px dashed #9e9e9e;
 }
