@@ -5,19 +5,19 @@
         flex-wrap: nowrap;
         justify-content: flex-start;
         margin-top: 3.49em;
-        /*position: fixed;*/
-        /*overflow: scroll;*/
+        position: fixed;
+        overflow: scroll;
         height: 93%;
         border-radius: 1em;
         border-top: 1px dashed black;    
 width: -webkit-fill-available;
 transition: 1s all;
 }
-.stream-loaded {
-        position: fixed;
-        overflow: scroll;
-        transition: 2s all;
-}
+/*.stream-loaded {*/
+/*        position: fixed;*/
+/*        overflow: scroll;*/
+/*        transition: 2s all;*/
+/*}*/
 .item-outer {
         display: flex;
         flex-direction: column;
