@@ -8,13 +8,12 @@ function jumpTo(eid) {
 }
 setTimeout(function() {
   window.scroll({
-    top: -10,
+    top: 50,
     left: 0,
-    behavior: 'smooth'
+    behavior: 'auto'
   });
-        document.getElementById("stream").style.position = "fixed";
-        document.getElementById("stream").style.overflow = "scroll";
-}, 1000);
+        document.getElementById("stream").classList.add("stream-loaded");
+}, 5000);
 function toggleDisplay(elem) {
         let formDisplay = document.getElementById("item-controls_"+elem);
         let butt = document.getElementById("item-shr-"+elem);
