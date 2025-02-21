@@ -20,7 +20,7 @@ myElement.addEventListener('scroll', function() {
                 myElement.classList.add('scrolled');
                 (function() {
                         window.scroll({
-                                top: 50,
+                                top: 500,
                                 left: 0,
                                 behavior: 'auto'
                         });
