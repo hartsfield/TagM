@@ -13,6 +13,11 @@
 width: -webkit-fill-available;
 transition: 1s all;
 }
+.scrolled {
+        position: relative !important;
+        height: 99%;
+}
+
 .stream-loaded {
         position: fixed;
         overflow: scroll;

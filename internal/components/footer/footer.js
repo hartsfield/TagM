@@ -5,17 +5,19 @@ myElement.addEventListener('scroll', function() {
         const scrollTop = myElement.scrollTop;
 
         // Log the scroll position (for example)
-        console.log('Scrolled to:', scrollTop);
 
         // Example: Change element style based on scroll position
-        if (scrollTop > 10) {
+        console.log('Scrolled to:', scrollTop);
+        if (scrollTop > 50) {
                 myElement.classList.add('scrolled');
                 (function() {
                         window.scroll({
-                                top: 500,
+                                top: 100,
                                 left: 0,
                                 behavior: 'auto'
                         });
+
+        console.log('wffewfew');
                         document.getElementById("stream").classList.add("stream-loaded");
                 })();
 
