@@ -13,11 +13,11 @@
 width: -webkit-fill-available;
 transition: 1s all;
 }
-/*.stream-loaded {*/
-/*        position: fixed;*/
-/*        overflow: scroll;*/
-/*        transition: 2s all;*/
-/*}*/
+.stream-loaded {
+        position: fixed;
+        overflow: scroll;
+        transition: 2s all;
+}
 .item-outer {
         display: flex;
         flex-direction: column;
