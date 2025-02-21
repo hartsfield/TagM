@@ -1,12 +1,14 @@
-.nav-wrap {
-        /*top: 1em;*/
-        width: 90%;
-        z-index: 100;
-        position: fixed;
-        /*box-shadow: 4px 3px #f8a4ff;*/
-        max-width: 77ch;
-        border-radius: 0.9em;
-}
+/*.nav-wrap {*/
+/*        /*top: 1em;*/*/
+/*        width: 90%;*/
+/*        z-index: 100;*/
+/*        position: fixed;*/
+/*        /*box-shadow: 4px 3px #f8a4ff;*/*/
+/*        max-width: 77ch;*/
+/*        border-radius: 0.9em;*/
+/*        height: 100vh;*/
+/*        background-color: transparent;*/
+/*}*/
 .nav-block-1 {
         display: flex;
         flex-direction: row;
@@ -27,13 +29,24 @@
         border-radius: 1.4em;
         margin: 0 1em;    
     padding: 0.6em;
-        animation: 10s linear infinite rotate;
+        /*animation: 10s linear infinite rotate;*/
 }
 @keyframes rotate {
         100% { transform: rotate(360deg); }
 }
+.nav-inner {
+        height: 110vh;
+        width: 100vw;
+        position: absolute;
+        z-index: 9999999;
+        opacity: 1;
+        background-color: transparent;
+        text-align: center;
+        font-size: 3em;
+        color: red;
+}
 .navbar-outer {
-        animation: 0.2s linear navbar-load;
+        /*animation: 0.2s linear navbar-load;*/
         box-shadow: -1px -20px 2020px 84px #f9f09554;
         display: flex
         ;
@@ -94,7 +107,7 @@
         width: 1.4em;
         margin: 1em 1em;
         border: 1px dashed #000000;
-        animation: 10s linear infinite rotate;
+        /*animation: 10s linear infinite rotate;*/
 }
 .upload-outer-toggle {
         transform: translateY(65px) !important;
@@ -106,7 +119,7 @@
         border: 1px dashed black;
         background: red;
         border-radius: 100%;
-        animation: 5s linear infinite rotate;
+        /*animation: 5s linear infinite rotate;*/
         animation-direction: reverse;
 }
 .hot-nav {
@@ -148,6 +161,9 @@
 }
 .logo-shrink-toggle {
         width: 0;
+        height: 0;
+        border: 0;
+        animation: none;
         padding: 0;
         transition: 1s all;
 }
@@ -164,6 +180,7 @@
 }
 .nav-toggled {
         width: 5em;
+        margin-left: 1em;
         padding: 0em 0.18em;
         color: #6da31f;
         background: #c4ef2b;
@@ -215,7 +232,7 @@
         justify-content: center;
         width: 20px;
         height: 20px;
-        animation: 5s linear infinite rotate;
+        /*animation: 5s linear infinite rotate;*/
         animation-direction: reverse;
 }
 .sorts-nav {

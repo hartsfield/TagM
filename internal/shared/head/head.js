@@ -31,15 +31,15 @@ async function getExample(view) {
         }
 }
 let toggled = false;
-{{ if .Credentials.IsLoggedIn }}
-window.onscroll = function(e) {
-        // print "false" if direction is down and "true" if up
-        if (this.oldScroll > this.scrollY) { if (!toggled) {toggleNew()} toggled = true }
-        if (this.oldScroll < this.scrollY) {if (toggled) {toggleNew()} toggled = false}
-        console.log(this.oldScroll > this.scrollY);
-        this.oldScroll = this.scrollY;
-}
-{{ end }}
+//{{ if .Credentials.IsLoggedIn }}
+//window.onscroll = function(e) {
+//        // print "false" if direction is down and "true" if up
+//        if (this.oldScroll > this.scrollY) { if (!toggled) {toggleNew()} toggled = true }
+//        if (this.oldScroll < this.scrollY) {if (toggled) {toggleNew()} toggled = false}
+//        console.log(this.oldScroll > this.scrollY);
+//        this.oldScroll = this.scrollY;
+//}
+//{{ end }}
 //setInterval(autoReload, 500); // 5000 milliseconds = 5 seconds
 //async function autoReload() {
 //        const response = await fetch("/wasmodified", {

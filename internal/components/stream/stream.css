@@ -7,22 +7,24 @@
         margin-top: 3.49em;
         position: fixed;
         overflow: scroll;
-        height: 93%;
-        border-radius: 1em;
+        height: 95%;
+        border-radius: 1.5em;
         border-top: 1px dashed black;    
 width: -webkit-fill-available;
 transition: 1s all;
 }
 .scrolled {
-        position: relative !important;
-        height: 99%;
+        /*position: relative !important;*/
+        /*height: 100em !important;*/
+        height: 100% !important;
+        overflow: scroll;
 }
 
-.stream-loaded {
-        position: fixed;
-        overflow: scroll;
-        transition: 2s all;
-}
+/*.stream-loaded {*/
+/*        position: fixed;*/
+/*        overflow: scroll;*/
+/*        transition: 2s all;*/
+/*}*/
 .item-outer {
         display: flex;
         flex-direction: column;
