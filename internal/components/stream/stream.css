@@ -5,8 +5,8 @@
         flex-wrap: nowrap;
         justify-content: flex-start;
         margin-top: 1.99em;
-        position: fixed;
-        overflow: scroll;
+        position: absolute;
+        overflow: auto;
         height: 95%;
         border-radius: 1.5em;
         border-top: 1px dashed black;    

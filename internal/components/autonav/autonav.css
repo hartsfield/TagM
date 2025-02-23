@@ -4,50 +4,34 @@
         flex-wrap: nowrap;
         align-items: center;
         justify-content: flex-start;               
-        /*width: 100%;*/
 }
 .nav-block-2 {
-        display: flex
-        ;
+        display: flex;
         justify-content: space-between;
         align-items: center;
         border: 1px dashed #000000;
         background: #dcfcf5;
         border-radius: 1.4em;
-        /* margin: 0.2px 1em; */
         padding: 4px;
         margin: 0.6% 1em 0.6% 0.3em;
 }
 @keyframes rotate {
         100% { transform: rotate(360deg); }
 }
-/*.nav-inner {*/
-/*        height: 110vh;*/
-/*        width: 100vw;*/
-/*        position: absolute;*/
-/*        z-index: 9999999;*/
-/*        opacity: 1;*/
-/*        background-color: transparent;*/
-/*        text-align: center;*/
-/*        font-size: 3em;*/
-/*        color: red;*/
-/*}*/
 .navbar-outer {
-        /*animation: 0.2s linear navbar-load;*/
+        width: 100%;
+        background: #e9ff77;
         box-shadow: -1px -20px 2020px 84px #f9f09554;
-        display: flex
-        ;
+        display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: flex-start;
-        overflow: hidden;
-        transition: 100ms all;
-        background: #e9ff77;
-        width: 100%;
         position: fixed;
         z-index: 100000;
-        /*border-bottom: 1px dashed #a9dd00;*/
+        overflow: hidden;
+        animation: 0.2s linear navbar-load;
+        transition: 100ms all;
 }
 .nav-bottom {
         width: 100%;
@@ -62,7 +46,6 @@
         z-index: 343443434;
 }
 .logo-nav {
-        transition: 1s all;
         cursor: pointer;
         font-weight: 200;
         color: #ffffff;
@@ -74,6 +57,7 @@
         width: 20px;
         margin: 0 1em;
         border: 1px dashed #000000;
+        transition: 1s all;
 }
 .upload-outer-toggle {
         transform: translateY(65px) !important;
@@ -85,37 +69,25 @@
         border: 1px dashed black;
         background: red;
         border-radius: 100%;
-        /*animation: 5s linear infinite rotate;*/
+        animation: 5s linear infinite rotate;
         animation-direction: reverse;
 }
 .hot-nav {
-        /*background-image: url(/public/media/fire3.svg);*/
-        /*background-repeat: no-repeat;*/
-        /*background-size: 2em 2em;*/
-        /*background-position: center;*/
-        /*filter:drop-shadow(0px 0px 2px black) contrast(0.000001) sepia(33) saturate(3.8) hue-rotate(339deg);*/
-        /*padding: 0 0.5em 0 0;*/
         height: 100%;
-        background-color: #f4a15a;
+        width: 1.5em;
         margin-right: 0.3em;
         border-radius: 0.25em;
         border: 1px solid #ef7200;
+        background-color: #f4a15a;
         transition: 1s all;
-        width: 1.5em;
 }
 .chron-nav {
-        /*background-image: url(/public/media/hotchoc.svg);*/
-        /*filter:drop-shadow(0px 0px 2px black) contrast(0.000002) sepia(1) brightness(1.1) saturate(13.5) hue-rotate(100deg);*/
-        /*background-repeat: no-repeat;*/
-        /*background-size: 2.1em 2.5em;*/
-        /*background-position: center;*/
         height: 100%;
+        width: 1.5em;
         background-color: #f4ff5d;
         border-radius: 0.25em;
         border: 1px solid #bbbb1a;
         color: transparent;
-
-        width: 1.5em;
         transition: 1s all;
 }
 .chron-nav-auth {
@@ -210,11 +182,9 @@
         background: #fff200;
         color: transparent;
         font-size: 0.8em;
-        /* padding: 0.2em; */
         border-radius: 100%;
         font-weight: 200;
         overflow: hidden;
-        /* border-right: 3.8px solid #0cd7cb; */
         max-width: 1.7em;
         min-height: 1.7em;
         border: 1px solid #ffa500;
@@ -231,7 +201,6 @@ input:enabled {
 .hot-nav::placeholder {
         color: #ec91ff;
         text-align: center;
-
 }
 .chron-nav:enabled {
         background-color: #ccfdff;

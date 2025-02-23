@@ -1,24 +1,20 @@
 .footer-outer {
         height: 50vh;
         width: 100vw;
-        margin-top: 20em;
-        display: flex
-        ;
         max-width: 77ch;
+        margin-top: 10em;
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
-        color: white;
         flex-wrap: nowrap;
-        background: #e9ff77;
         box-shadow: 0px 0px 14px 0px #c6c6c6;
+        background: #e9ff77;
         color: #a4cf2f;
-        border-top-left-radius: 20px;
         position: relative;
-        border-top-right-radius: 20px;
         border: 1px dashed #9f9f9f;
-
-        display: none;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
 }
 .footer-logo {
         font-size: 5.2em;

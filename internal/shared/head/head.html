@@ -4,6 +4,9 @@
 
         <meta name="theme-color" content="#e9ff77">
         <style>{{ template "head.css" . }}</style>
+        {{/*   "stream.html" is a recursive template, so we put the  */}}
+        {{/*   style here, so we don't repeat it.                    */}}
+        <style>{{ template "stream.css" . }}</style>
         <script>{{ template "head.js" . }}</script>
 </head>
 

@@ -1,6 +1,6 @@
 var authToggled = false;
-
 var newToggled = false;
+
 function toggleNew() {
     let upForm = document.getElementById("form-wrapper");
     let tagdiv = document.getElementById("up-sym-wrap");

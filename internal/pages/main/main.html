@@ -1,15 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
         {{template "head.html" . }} 
-        <body id="bodyy">
+        <body>
                 <div class="spacer"></div>
                 {{template "autonav.html" . }}
-                {{/* "stream.html" is a recursive template, so we put the  */}}
-                {{/* style here, so we don't repeat it.                    */}}
-                <style>{{ template "stream.css" . }}</style>
                 <div class="stream" id="stream">
                         {{template "stream.html" .Stream }}
                 </div>
-                {{template "footer.html" . }}
+                <!--{{template "footer.html" . }}-->
         </body>
 </html>
