@@ -68,7 +68,6 @@ func setProfile(c *credentials) error {
 		log.Println(err)
 	}
 	return rdb.HMSet(rdx, c.User.ID, pmap).Err()
-	// return rdb.HSet(rdx, c.User.ID, "credentials", c).Err()
 }
 func scanProfile(c *credentials) error {
 	return rdb.HGetAll(rdx, c.User.ID).Scan(c.User)

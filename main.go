@@ -26,7 +26,6 @@ var (
 	AppName          string             = appConf.App.Name
 	logFilePath      string             = appConf.App.Env["logFilePath"]
 	servicePort      string             = ":" + appConf.App.Port
-	itemsMap         map[string]*post   = make(map[string]*post)
 	stream           []*post            = []*post{}
 
 	rdx context.Context = context.Background()
