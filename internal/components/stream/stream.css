@@ -6,7 +6,7 @@
         margin-top: 1.99em;
         position: absolute;
         overflow: auto;
-        height: 95%;
+        height: 100%;
         border-radius: 1.5em;
         border-top: 1px dashed black;    
         width: -webkit-fill-available;
