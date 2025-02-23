@@ -4,13 +4,15 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
+// bolt() starts the http(s) server
 func bolt() (ctx context.Context, srv *http.Server) {
 	var mux *http.ServeMux = http.NewServeMux()
 	registerRoutes(mux)
+
+	// Tell the server /public is accessible to the web
 	mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	srv = serverFromConf(mux)
 	ctx, cancelCtx := context.WithCancel(context.Background())
@@ -34,21 +36,6 @@ func serverFromConf(mux *http.ServeMux) *http.Server {
 	}
 }
 
-var lastSave string
-
-func wasmodified(w http.ResponseWriter, r *http.Request) {
-	b, err := os.ReadFile(".lastsavetime_bolt")
-	if err != nil {
-		log.Println(err)
-	}
-	if string(b) != lastSave {
-		lastSave = string(b)
-		ajaxResponse(w, map[string]string{"modified": "true"})
-		return
-	}
-	ajaxResponse(w, map[string]string{"modified": "false"})
-}
-
 // registerRoutes registers the routes with the provided *http.ServeMux
 func registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/", checkAuth(root))
@@ -56,7 +43,6 @@ func registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/what", what)
 	mux.HandleFunc("/signin", signin)
 	mux.HandleFunc("/signup", signup)
-	mux.HandleFunc("/signout", signout)
 	mux.HandleFunc("/uploadItem", checkAuth(uploadHandler))
 	mux.HandleFunc("/view/", checkAuth(viewItem))
 	mux.HandleFunc("/like/", checkAuth(likeHandler))
@@ -64,11 +50,12 @@ func registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/addFriend/", checkAuth(addFriendHandler))
 	mux.HandleFunc("/unfriend/", checkAuth(unFriendHandler))
 	mux.HandleFunc("/edit", checkAuth(editHandler))
-	// mux.HandleFunc("/save", checkAuth(editProfileHandler))
 	mux.HandleFunc("/tag/", checkAuth(tagHandler))
 	mux.HandleFunc("/friends/", friendHandler)
 	mux.HandleFunc("/search/", searchHandler)
 	mux.HandleFunc("/user/", checkAuth(profileHandler))
 	mux.HandleFunc("/likes/", likesHandler)
+
+	// for auto reload, only during development
 	mux.HandleFunc("/wasmodified", wasmodified)
 }

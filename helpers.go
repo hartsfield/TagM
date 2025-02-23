@@ -48,6 +48,12 @@ func ajaxResponse(w http.ResponseWriter, res map[string]string) {
 		log.Println(err)
 	}
 }
+func status(w http.ResponseWriter, s string, err error) error {
+	ajaxResponse(w, map[string]string{
+		"status": s,
+	})
+	return err
+}
 
 // genID generates a item ID
 func genID(length int) (ID string) {

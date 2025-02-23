@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -26,6 +27,133 @@ func hashPassword(password string) (string, error) {
 func checkPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////       Signup Section       ///////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+// signup signs a user up. It's a response to an XMLHttpRequest (AJAX request)
+// containing new user credentials. It responds with a map[string]string that
+// can be converted to JSON.
+func signup(w http.ResponseWriter, r *http.Request) {
+	// Marshal the Credentials into a credentials struct
+	c, err := marshalCredentials(r)
+	if err != nil {
+		log.Println(status(w, "Invalid Credentials", err))
+		return
+	}
+	log.Println(c)
+	// Make sure the username doesn't contain forbidden symbols
+	emailRegx := "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+	match, err := regexp.MatchString(emailRegx, c.Name)
+	if err != nil || !match {
+		log.Println(status(w, "Invalid Username (E1)", err))
+		return
+	}
+	if rdb.Exists(rdx, c.Name+":HASH").Val() > 0 {
+		log.Println(status(w, "User Exists", nil))
+		return
+	}
+
+	if len(c.Password) < 7 {
+		log.Println(status(w, "Invalid Password (E2)", nil))
+		return
+	}
+	// Save an ID to be used for posting so we don't expose
+	// the users email, save this in redis as an HSET, and
+	// store all the profile information here.
+	if c.User == nil {
+		c.User = new(user)
+	}
+	c.User.ID = genID(15)
+	c.User.ProfileBG = "public/media/hubble.jpg"
+	c.User.ProfilePic = "public/media/ndt.jpg"
+
+	// If username is unique and valid, we attempt to hash
+	// the password
+	hash, err := hashPassword(c.Password)
+	if err != nil {
+		log.Println(status(w, "Invalid Password", err))
+		return
+	}
+	c.Password = ""
+	_, err = setHashToID(c, hash)
+	if err != nil {
+		log.Println(err)
+	}
+
+	// If the password is hashable, and we were able to add
+	// the user to the redis ZSET, we store the hash in the
+	// database with the username as the key and the hash
+	// as the value thats returned by the key.
+	if _, err = setPasswordHash(c, hash); err != nil {
+		log.Println(status(w, "Database Error", err))
+		return
+	}
+
+	// Add the user the USERS set in redis. This
+	// associates a score with the user that can be
+	// incremented or decremented
+	if _, err = zaddUsers(c); err != nil {
+		log.Println(status(w, "Database Error", err))
+		return
+	}
+
+	if _, err = renewToken(w, r, c); err != nil {
+		log.Println(status(w, "Token Error", err))
+	}
+	log.Println(status(w, "success", nil))
+}
+
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////       Signin Section       ///////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+// signin signs a user in. It's a response to an XMLHttpRequest (AJAX request)
+// containing the user credentials. It responds with a map[string]string that
+// can be converted to JSON by the client. The client expects a boolean
+// indicating success or error, and a possible error string.
+func signin(w http.ResponseWriter, r *http.Request) {
+	// Marshal the Credentials into a credentials struct
+	c, err := marshalCredentials(r)
+	if err != nil {
+		log.Println(status(w, "Invalid Credentials", err))
+		return
+	}
+
+	// Get the passwords hash from the database by looking up the users
+	// name
+	hash, err := getPasswordHash(c)
+	if err != nil {
+		log.Println(status(w, "User doesn't exist", err))
+		return
+	}
+
+	// Check if password matches by hashing it and comparing the hashes
+	doesMatch := checkPasswordHash(c.Password, hash)
+	if doesMatch {
+		c.Password = ""
+		id, err := getID(hash)
+		if err != nil {
+			log.Println(err)
+		}
+		c.User = &user{ID: id}
+
+		err = scanProfile(c)
+		if err != nil {
+			log.Println(status(w, "Scan Profile Error", err))
+			return
+		}
+		_, err = renewToken(w, r, c)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		log.Println(status(w, "success", err))
+		return
+	}
+	ajaxResponse(w, map[string]string{"success": "false", "error": "Bad Password"})
 }
 
 ///////////////////////////////////////////////////////////////////////////////

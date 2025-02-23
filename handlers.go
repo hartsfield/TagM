@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -154,3 +155,24 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 func tagHandler(w http.ResponseWriter, r *http.Request) {
 	exeTmpl(w, r, nil, "main.html")
 }
+
+// /////////////////////////////////////////////////////////////////////////////
+// auto reload (development)
+// /////////////////////////////////////////////////////////////////////////////
+var lastSave string
+
+func wasmodified(w http.ResponseWriter, r *http.Request) {
+	b, err := os.ReadFile(".lastsavetime_bolt")
+	if err != nil {
+		log.Println(err)
+	}
+	if string(b) != lastSave {
+		lastSave = string(b)
+		ajaxResponse(w, map[string]string{"modified": "true"})
+		return
+	}
+	ajaxResponse(w, map[string]string{"modified": "false"})
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
