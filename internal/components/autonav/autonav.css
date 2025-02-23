@@ -10,15 +10,13 @@
         display: flex
         ;
         justify-content: space-between;
-        /* width: calc(100% - 4.5em); */
         align-items: center;
         border: 1px dashed #000000;
-        /* height: 2em; */
         background: #dcfcf5;
         border-radius: 1.4em;
-        margin: 0 1em;    
-    padding: 0.6em;
-        /*animation: 10s linear infinite rotate;*/
+        /* margin: 0.2px 1em; */
+        padding: 4px;
+        margin: 0.6% 1em 0.6% 0.3em;
 }
 @keyframes rotate {
         100% { transform: rotate(360deg); }
@@ -72,11 +70,10 @@
         overflow: hidden;
         background: #ffffff;
         border-radius: 100%;
-        height: 1.4em;
-        width: 1.4em;
-        margin: 1em 1em;
+        height: 20px;
+        width: 20px;
+        margin: 0 1em;
         border: 1px dashed #000000;
-        /*animation: 10s linear infinite rotate;*/
 }
 .upload-outer-toggle {
         transform: translateY(65px) !important;
@@ -124,17 +121,18 @@
 .chron-nav-auth {
         color: red;
         width: 60%;
-        font-size: 0.8em;
+        font-size: 0.9em;
         background-color: white;
         transition: 1s all;
 }
 .logo-shrink-toggle {
-        width: 0;
+        width: 1em;
         height: 0;
         border: 0;
         animation: none;
         padding: 0;
         transition: 1s all;
+        opacity: 0;
 }
 .nav-toggle-all {
         width: 0;
@@ -148,15 +146,14 @@
         transition: 1s all;
 }
 .nav-toggled {
-        width: 5em;
-        margin-left: 1em;
+        width: 25%;
+        margin-left: 0.3em;
         padding: 0em 0.18em;
-        color: #6da31f;
-        background: #c4ef2b;
+        color: #fff7c6;
+        background: #ef572b;
         transition: 1s all;
-        border: 1px dashed #135813;
+        border: 1px dashed #000000;
         border-radius: 0.25em;
-        line-height: 1;
 }
 .nta2 {
         width: 0;
@@ -165,48 +162,35 @@
         border: none;
 }
 .nta2-toggled {
-        width: 5em;
+        width: 25%;
         padding: 0em 0.18em;
-        color: #a92cef;
-        background: #eeb7ff;
+        color: #4f6305;
+        background: #edff8b;
         border-radius: 0.25em;
         border: 1px dashed #27033f;
         margin: 0 0 0 0.3em;
         transition: 1s all;
-        line-height: 1;
-        animation: none;
 }
 .nta3-toggled {
-        width: 5em;
-        padding: 0em 0 0.18em;
-        color: #ffe2a5;
-        background: #ffb281;   
-        border-radius: 0.25em;
-        border: 1px dashed #b25921;
-        margin: 0 0 0 0.3em;
-        transition: 1s all;
-        animation: none;
+        background: #e9620b !important;   
 }
 .nta3 {
         background-color: #ff5fe9;
-        max-width: 20px;
-        min-width: 20px;
+        max-width: 15px;
+        min-width: 15px;
         border: 1px dashed #000000;
         transition: 1s all;
-        display: flex
-        ;
+        display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        width: 20px;
-        height: 20px;
-        /*animation: 5s linear infinite rotate;*/
+        width: 15px;
+        height: 15px;
         animation-direction: reverse;
 }
 .sorts-nav {
         width: 100%;
-        margin: 0 1em;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -240,16 +224,17 @@ input:enabled {
         border: none;
 }
 .hot-nav:enabled {
-        background-color: #d9f126;
-        color: #657f00;
-        border: 1px dashed #768a00;
+        background-color: #ffd6f4;
+        color: #6c3976;
+        border: 1px dashed #000000;
 }
 .hot-nav::placeholder {
-        color: #a7be4e;
+        color: #ec91ff;
         text-align: center;
+
 }
 .chron-nav:enabled {
-        background-color: #46e7ed;
+        background-color: #ccfdff;
         color: white;
         border: 1px dashed #0b7d84;
 }
