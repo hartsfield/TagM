@@ -115,7 +115,7 @@
         flex-wrap: nowrap;
         align-items: flex-end;
         justify-content: flex-end;
-        filter: contrast(0.1) sepia(1) brightness(1.9) drop-shadow(0px 0px 3px white) blur(0.2px);
+        filter: contrast(0.1) brightness(1.9) drop-shadow(0px 0px 3px white) blur(0.2px);
         border-radius: 1em;
         position: absolute;
         z-index: 10;

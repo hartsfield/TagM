@@ -14,6 +14,8 @@
         border-radius: 1.4em;
         padding: 4px;
         margin: 0.6% 1em 0.6% 0.3em;
+        animation: 10s linear infinite rotate;
+        animation-direction: reverse;
 }
 @keyframes rotate {
         100% { transform: rotate(360deg); }
@@ -58,6 +60,7 @@
         width: 20px;
         margin: 0 1em;
         border: 1px dashed #000000;
+        animation: 10s linear infinite rotate;
         transition: 1s all;
 }
 .upload-outer-toggle {
@@ -160,7 +163,7 @@
         justify-content: center;
         width: 15px;
         height: 15px;
-        animation-direction: reverse;
+        animation: 5s linear infinite rotate;
 }
 .sorts-nav {
         width: 100%;
