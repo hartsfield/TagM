@@ -7,7 +7,7 @@ async function submitEdits(elid, cls) {
                 body: data
         });
         let res = await response.json();
-                console.log(res);
+        console.log(res);
         if (res.status == "success") {
                 document.getElementById(cls).style.backgroundImage = "url(/" + res.payload + ")";
         } else {

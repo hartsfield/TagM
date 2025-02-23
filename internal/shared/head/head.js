@@ -1,11 +1,3 @@
-function jumpTo(eid) {
-        var jump = document.getElementById(eid);
-        jump.scrollIntoView({
-                behavior: 'auto',
-                block: 'center',
-                inline: 'center'
-        });
-}
 function toggleDisplay(elem) {
         let formDisplay = document.getElementById("item-controls_"+elem);
         let butt = document.getElementById("item-shr-"+elem);
@@ -17,20 +9,48 @@ function toggleDisplay(elem) {
                 butt.innerHTML = "+"
         }
 }
-async function getExample(view) {
-        const response = await fetch("/api/getExample", {
+let did_submit_reply = false
+async function submitReply(parent) {
+        if (!did_submit_reply) {
+                let txt = document.getElementById("uptext_"+parent).value
+                let response = await fetch("/reply", {
+                        method: "POST",
+                        body: JSON.stringify({"parent": parent, "uptext": txt}),
+                });
+                let res = await response.json();
+                if (res.status == "success") {
+                        window.location = window.location.origin + "/view/"+res.ID;
+                }
+        }
+}
+async function like(postID) {
+        let response = await fetch("/like/"+postID, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({special:view}),
+                body: {"id": postID},
+        });
+
+        let res = await response.json();
+        if (res.success == "true") {
+                document.getElementById("like_"+postID).innerHTML = res.score
+        } else {
+                document.getElementById("errorField").innerHTML = res.error;
+        }
+
+
+}
+async function share(postID) {
+        let response = await fetch("/share", { 
+                method: "POST",
+                body: {"id": postID},
         });
         let res = await response.json();
         if (res.success == "true") {
-                // do stuff
+                window.location = window.location.origin;
         } else {
-                console.log("error");
+                document.getElementById("errorField").innerHTML = res.error;
         }
 }
-let toggled = false;
+//let toggled = false;
 //{{ if .Credentials.IsLoggedIn }}
 //window.onscroll = function(e) {
 //        // print "false" if direction is down and "true" if up
@@ -54,62 +74,4 @@ let toggled = false;
 //}
 //
 //document.getElementsByTagName("img").onerror='this.style.display = "none"' 
-let did_submit_reply = false
-async function submitReply(parent) {
-        if (!did_submit_reply) {
-                let txt = document.getElementById("uptext_"+parent).value
-                let response = await fetch("/reply", {
-                        method: "POST",
-                        body: JSON.stringify({"parent": parent, "uptext": txt}),
-                });
-                let res = await response.json();
-                if (res.status == "success") {
-                        window.location = window.location.origin + "/view/"+res.ID;
-                }
-        }
-}
-async function like(postID) {
-        let response = await fetch("/like/"+postID, {
-                method: "POST",
-                body: {"id": postID},
-        });
-
-        let res = await response.json();
-        console.log(res);
-        if (res.success == "true") {
-                document.getElementById("like_"+postID).innerHTML = res.score
-        } else {
-                //document.getElementById("errorField").innerHTML = res.error;
-        }
-
-
-}
-async function share(postID) {
-        let response = await fetch("/share", {
-                method: "POST",
-                body: {"id": postID},
-        });
-
-        let res = await response.json();
-        handleResponse(res);
-}
-function handleResponse(res) {
-        if (res.success == "true") {
-                //window.location = window.location.origin;
-        } else {
-                //document.getElementById("errorField").innerHTML = res.error;
-        }
-}
-
-//function toggleReply(id) {
-//        var elm = document.getElementById(id);
-//        var butt = document.getElementById("item-comment-submit-"+id);
-//        if (elm.classList.contains("item-comment-submit")) 
-//                elm.classList.remove("item-comment-submit");
-//        butt.innerHTML = "x"
-//        return
-//}
-//elm.classList.add("item-comment-submit");
-//butt.innerHTML = "+"
-//}
 

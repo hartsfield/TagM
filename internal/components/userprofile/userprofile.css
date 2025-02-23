@@ -17,7 +17,7 @@
         border: 1px dashed #535353;
         background: #5353537d;
         font-size: 0.7em;
-    }
+}
 .profile-inputs-wrapper {
         margin: 0 1.5em;
 }
@@ -36,11 +36,9 @@
 ::placeholder {
         color: #d5d4d4;
         font-family: 'Outfit';
-        /*text-align: center;*/
 }
 .profile-bg-form {
         position: fixed;
-        /*top: 0;*/
         width: 100%;
         max-width: inherit;
         height: 100vw;
