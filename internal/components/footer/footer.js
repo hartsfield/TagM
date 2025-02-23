@@ -115,12 +115,7 @@ let isdid = false;
 //document.body.scroll({top: -10, left: 0, behavior: 'auto'});
 //document.body.scroll({top: -10, left: 0, behavior: 'auto'});
 window.onload = function() {
-        window.scrollTo(0, 5); 
-        //setTimeout(function(){
-        //        //document.body.scrollTo(0, 1);
-        //        window.scrollTo(0, 5); 
-        //
-        //}, 200);
+        //window.scrollTo(0, 5); 
         //setTimeout(function(){
         //        document.getElementById("ni").innerHTML = window.innerHeight;
         //        //document.getElementById("ni").style.display = "none";
@@ -133,24 +128,49 @@ window.onload = function() {
         //        window.scrollTo(0, 200); 
         //}, 4000);
 
-};
-let initwh = window.innerHeight;
-window.addEventListener("scroll", function() {
-        console.log(window.innerHeight, initwh);
-        if (window.innerHeight > initwh) {
-                document.getElementById("ni").style.display = "none";
-                window.removeEventListener("scroll");
-                return;
-        } else {
-                if (document.body.scrollTop <= 1 && !isdid) {
-                        window.scrollTo(0, 2);
+        let isdid2 = false;
+        let initwh = window.innerHeight;
+        let started = false;
+        window.addEventListener("scroll", async function() {
+                if (window.innerHeight > initwh) {
+                        document.getElementById("ni").style.display = "none";
+                        window.removeEventListener("scroll");
+                        nextwh = window.innerHeight;
                         isdid = true;
-                } else {
-                        window.scrollTo(0, 0);
-                        isdid = true;
+                        return;
+                }       else{
+                        //if (window.innerHeight == initwh && !isdid) {
+                        if (!started) {
+                                setTimeout(function(){
+                                        started = true;
+                                        if (document.body.scrollTop >= 1) {
+                                                window.scrollTo(0, 0);
+                                                window.scrollTo(0, 30);
+                                        } else {
+                                                window.scrollTo(0, 30);
+                                                window.scrollTo(0, 0);
+                                        }
+                                        started = false;
+                                }, 200);
+                        }
                 }
-        }
-});
+                //isdid = true;
+                //if (document.body.scrollTop <= 1) {
+                //        window.scrollTo(0, 2);
+                //} else {
+                //        window.scrollTo(0, 0);
+                //}
+                //isdid = true;
+                //}
+        });
+        setTimeout(function(){
+                //document.body.scrollTo(0, 1);
+                //window.scrollTo(0, 5); 
+
+                window.scrollTo(0, 30);
+        }, 200);
+
+};
 //myElement.addEventListener('scroll', function() {
 //        document.body.scrollTo(0, 200);
 //        window.scrollTo(0, 200); 
