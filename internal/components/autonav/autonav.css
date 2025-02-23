@@ -230,7 +230,7 @@ input:enabled {
         }
         .navbar-outer {
                 justify-content: flex-start;
-                /*max-width: 77ch;*/
+                max-width: 77ch;
                 /*justify-self: anchor-center;*/
         }
 }
