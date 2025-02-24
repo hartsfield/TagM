@@ -1,6 +1,18 @@
 // main.go houses the main() and init() functions, and struct definitions,
 // along with any necessary implementations (encoding.BinaryMarshaler is
 // needed to marshal data for redis).
+//
+// /////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
+// /////////////////                                         ///////////////////
+// /////////////////                                         ///////////////////
+// /////////////////                                         ///////////////////
+// /////////////////       <- #[Tag]!Machine( $%^@~ )        ///////////////////
+// /////////////////                                         ///////////////////
+// /////////////////                                         ///////////////////
+// /////////////////                                         ///////////////////
+// /////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 package main
 
 import (
@@ -17,7 +29,7 @@ import (
 )
 
 // ckey/ctxkey is used as the key for the HTML context and is how we retrieve
-// token information and pass it around to handlers
+// token information and pass it around to handlers.
 type ckey int
 
 const ctxkey ckey = iota
@@ -28,10 +40,11 @@ var (
 	hmacSampleSecret []byte = []byte(os.Getenv("hmacss"))
 	// read the bolt.conf.json file and obtain some basic configuration
 	// variables such as appName, port, and logFilePath.
-	appConf     *config = readConf()
-	AppName     string  = appConf.App.Name
-	logFilePath string  = appConf.App.Env["logFilePath"]
-	servicePort string  = ":" + appConf.App.Port
+	appConf *config = readConf()
+	// AppName is used in some templates.
+	AppName     string = appConf.App.Name
+	logFilePath string = appConf.App.Env["logFilePath"]
+	servicePort string = ":" + appConf.App.Port
 
 	// initialize templates.
 	templates *template.Template = template.New("")
@@ -70,30 +83,70 @@ type config struct {
 	} `json:"gcloud" redis:"g_cloud"`
 }
 
-// viewData{} represents the root model used to dynamically update the page views.
+// viewData{} represents the root model used to dynamically update the page
+// views, and is passed to the client with each page request, but not typically
+// in ajax responses.
 type viewData struct {
-	AppName     string       `json:"app_name" redis:"app_name"`
-	Stream      []*post      `json:"stream" redis:"stream"`
-	Nonce       int          `json:"nonce" redis:"nonce"`
+	// AppName is the AppName as found in bolt.conf.json.
+	AppName string `json:"app_name" redis:"app_name"`
+	// Stream is a stream of posts, which could be one or many, in multiple
+	// sort orders.
+	Stream []*post `json:"stream" redis:"stream"`
+	// Nonce is a number used once, which helps prevent double posting and
+	// (in theory) mitigates certain attack vectors.
+	Nonce int `json:"nonce" redis:"nonce"`
+	// Credentials are used for logging a user in and contain a logged in
+	// users credentials.
 	Credentials *credentials `json:"credentials" redis:"credentials"`
-	Profile     *user        `json:"user" redis:"user"`
+	// Profile is used when viewing another users profile (or when a user
+	// views their own profile.)
+	Profile *user `json:"user" redis:"user"`
+}
+
+// credentials are user credentials and are used in the HTML templates and also
+// by handlers that do authorized requests.
+type credentials struct {
+	// Name is used for login, and will be set to the users login email.
+	Name string `json:"username" redis:"username"`
+	// Password is used for login, transferred over SSL, and never stored
+	// in plain text.
+	Password string `json:"password" redis:"password"`
+	// Used in templates to determine whether a user is logged on.
+	IsLoggedIn bool `json:"isLoggedIn" redis:"isLoggedIn"`
+	// The logged in user, if any. Sometimes a "dummy" user with a user ID
+	// is placed here to look up user data.
+	User *user `json:"user" redis:"user"`
+	// Implements
+	jwt.StandardClaims
+}
+
+// *credentials.UnmarshalBinary() is used to implement
+// encoding.BinaryMarshaler, as required for compatibility with redis.
+func (u *credentials) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, u)
+}
+
+// *credentials.MarshalBinary() is used to implement encoding.BinaryMarshaler,
+// as required for compatibility with redis.
+func (p *credentials) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
 }
 
 // post{} represents a user post or reply to another users post.
 type post struct {
-	Parent       string        `json:"parent" redis:"parent"`
-	Categories   []string      `json:"categories" redis:"categories"`
-	Media        string        `json:"Media" redis:"Media"`
 	Type         string        `json:"Type" redis:"Type"`
-	Author       string        `json:"author" redis:"author"`
-	Text         template.HTML `json:"uptext" redis:"uptext"`
 	ID           string        `json:"id" redis:"id"`
+	Parent       string        `json:"parent" redis:"parent"`
 	TS           time.Time     `json:"ts" redis:"ts"`
 	TimeString   string        `json:"time_string" redis:"time_string"`
+	Author       string        `json:"author" redis:"author"`
+	Text         template.HTML `json:"uptext" redis:"uptext"`
+	Media        string        `json:"Media" redis:"Media"`
 	MediaType    template.HTML `json:"media_type" redis:"media_type"`
 	TempFileName string        `json:"temp_file_name" redis:"temp_file_name"`
-	Tags         []*tag        `json:"tags" redis:"tags"`
 	Score        int           `json:"score" redis:"score"`
+	Categories   []string      `json:"categories" redis:"categories"`
+	Tags         []*tag        `json:"tags" redis:"tags"`
 	CommentIDs   []string      `json:"commentIDs" redis:"commentIDs"`
 	Comments     []*post       `json:"comments" redis:"comments"`
 }
@@ -110,70 +163,32 @@ func (p *post) MarshalBinary() ([]byte, error) {
 	return json.Marshal(p)
 }
 
-type tag struct {
-	Tag   string    `json:"tag" redis:"tag"`
-	Count int       `json:"count" redis:"count"`
-	Born  time.Time `json:"born" redis:"born"`
-}
-
-// *tag.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
-// required for compatibility with redis.
-func (u *tag) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, u)
-}
-
-// *tag.MarshalBinary() is used to implement encoding.BinaryMarshaler, as
-// required for compatibility with redis.
-func (p *tag) MarshalBinary() ([]byte, error) {
-	return json.Marshal(p)
-}
-
-// credentials are user credentials and are used in the HTML templates and also
-// by handlers that do authorized requests
-type credentials struct {
-	Name       string `json:"username" redis:"username"`
-	Password   string `json:"password" redis:"password"`
-	IsLoggedIn bool   `json:"isLoggedIn" redis:"isLoggedIn"`
-	User       *user  `json:"user" redis:"user"`
-	jwt.StandardClaims
-}
-
-// *credentials.UnmarshalBinary() is used to implement
-// encoding.BinaryMarshaler, as required for compatibility with redis.
-func (u *credentials) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, u)
-}
-
-// *credentials.MarshalBinary() is used to implement encoding.BinaryMarshaler,
-// as required for compatibility with redis.
-func (p *credentials) MarshalBinary() ([]byte, error) {
-	return json.Marshal(p)
-}
-
 // user{} represents a user.
 type user struct {
 	Token       string    `json:"token" redis:"token"`
 	ID          string    `json:"id" redis:"id"`
 	Email       string    `json:"email" redis:"email"`
-	ProfilePic  string    `json:"profile_pic" redis:"profile_pic"`
-	ProfilePics []string  `json:"profile_pics" redis:"profile_pics"`
-	ProfileBG   string    `json:"profile_bg" redis:"profile_bg"`
-	Location    string    `json:"location" redis:"location"`
+	Score       int       `json:"score" redis:"score"`
+	Joined      time.Time `json:"joined" redis:"joined"`
+	LastSeen    time.Time `json:"last_seen" redis:"last_seen"`
 	About       string    `json:"about" redis:"about"`
 	Work        string    `json:"work" redis:"work"`
-	Score       int       `json:"score" redis:"score"`
+	Location    string    `json:"location" redis:"location"`
+	ProfileBG   string    `json:"profile_bg" redis:"profile_bg"`
+	ProfilePic  string    `json:"profile_pic" redis:"profile_pic"`
+	ProfilePics []string  `json:"profile_pics" redis:"profile_pics"`
 	Posts       []string  `json:"posts" redis:"posts"`
 	Likes       []string  `json:"likes" redis:"likes"`
 	Shares      []string  `json:"shares" redis:"shares"`
 	Friends     []string  `json:"friends" redis:"friends"`
-	Events      []string  `json:"events" redis:"events"`
-	Joined      time.Time `json:"joined" redis:"joined"`
-	LastSeen    time.Time `json:"last_seen" redis:"last_seen"`
-	Insights    string    `json:"insights" redis:"insights"`
-	Level       int       `json:"level" redis:"level"`
-	Throttle    int       `json:"throttle" redis:"throttle"`
-	Random      string    `json:"random" redis:"random"`
-	Other       string    `json:"other" redis:"other"`
+
+	// TODO /* Not implemented */
+	Events   []string `json:"events" redis:"events"`
+	Level    int      `json:"level" redis:"level"`
+	Throttle int      `json:"throttle" redis:"throttle"`
+	Insights string   `json:"insights" redis:"insights"`
+	Random   string   `json:"random" redis:"random"`
+	Other    string   `json:"other" redis:"other"`
 }
 
 // *user.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
@@ -186,6 +201,30 @@ func (u *user) UnmarshalBinary(data []byte) error {
 // required for compatibility with redis.
 func (u *user) MarshalBinary() ([]byte, error) {
 	return json.Marshal(u)
+}
+
+// tag is a tag which is used to categorize and possibly analyze a post.
+type tag struct {
+	// ID is the tag name basically.
+	ID string `json:"id" redis:"id"`
+	// Count is the number of times the tags been used.
+	Count int `json:"count" redis:"count"`
+	// Score is the tags score, which is determined by a YTBD algorithm.
+	Score int `json:"score" redis:"score"`
+	// Born is the date of the first occurrence of this tag.
+	Born time.Time `json:"born" redis:"born"`
+}
+
+// *tag.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
+func (u *tag) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, u)
+}
+
+// *tag.MarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
+func (p *tag) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
 }
 
 // init() sets some logging flags to allow display of line numbers, parses the
@@ -217,7 +256,8 @@ func main() {
 
 	// print the server address to the terminal.
 	log.Println("@ http://localhost" + srv.Addr)
-	fmt.Println("\n\n@ http://localhost" + srv.Addr + "  -->  " + appConf.App.DomainName)
+	fmt.Println("\n\n@ http://localhost" + srv.Addr +
+		"  -->  " + appConf.App.DomainName)
 
 	// hold the program open until done.
 	<-ctx.Done()

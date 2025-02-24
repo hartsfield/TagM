@@ -1,5 +1,5 @@
 // upload_handler.go houses the functions used for user post submissions and
-// other multipart/formdata requests. This file may be split up in the future.
+// other multipart/form-data requests. This file may be split up in the future.
 package main
 
 import (
@@ -48,11 +48,10 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		cache()
 		return
 	}
-
 	log.Println(status(w, "Database Error", err))
 }
 
-// parseForm() parses multipart/formdata sent by the client. This is used for
+// parseForm() parses multipart/form-data sent by the client. This is used for
 // every form except auth, but I may break it down into smaller functions
 // eventually.
 func parseForm(r *http.Request) (*post, error) {
@@ -72,13 +71,14 @@ func parseForm(r *http.Request) (*post, error) {
 		Author:     c_.User.ID,
 	}
 
-	// Add the post ID to sroted set(s):
+	// Add the post ID to sorted set(s):
 	_, err = zaddUsersPosts(c_, post)
 	if err != nil {
 		log.Println(err)
+		return nil, err
 	}
 
-	// Read the multipart/formdata, cycling through each form part,
+	// Read the multipart/form-data, cycling through each form part,
 	// checking the part.FormName(), and responding based on the output.
 	// A switch didn't seem to work properly here.
 	for {

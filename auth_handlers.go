@@ -21,13 +21,13 @@ import (
 ////////////////////////      Password Section      ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-// hashPassword takes a password string and returns a hash
+// hashPassword() takes a password string and returns a hash
 func hashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
 
-// checkPasswordHash compares a password to a hash and returns true if they
+// checkPasswordHash() compares a password to a hash and returns true if they
 // match
 func checkPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
