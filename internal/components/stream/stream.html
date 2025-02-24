@@ -1,18 +1,12 @@
 {{ range $k, $v :=  . }}
 <div class='item-outer'>
-
         <div class="item-meta-1">
                 <div class="item-posted-time" onclick="window.location = '/view/{{$v.ID}}'">{{ $v.TimeString }}</div>
                 <div class='item-username'><b class="add" onclick="addFriend({{$v.ID}})">+</b><b class="at" onclick="window.location=window.location.origin + '/user/'+{{$v.Author}}">@</b>{{ $v.Author }}</div>
         </div>
 
-        <div class='item-meta-2'>
-                <div class='item-text'>{{ $v.Text }}</div>
-        </div>
-
-        <div class='item-meta-3'>
-                {{$v.MediaType}}
-        </div>
+        <div class='item-meta-2'><div class='item-text'>{{ $v.Text }}</div></div>
+        <div class='item-meta-3'>{{$v.MediaType}}</div>
 
         <div class='item-meta-4'>
                 <div class="item-like" onclick="like({{$v.ID}})" id="like_{{$v.ID}}">{{$v.Score}}</div>
@@ -28,9 +22,7 @@
         </div>
 
         <div class="item-comments">
-                <div class="item-comments-recurse-wrapper">
-                        {{ template "stream.html" $v.Comments }}
-                </div>
+                <div class="item-comments-recurse-wrapper">{{ template "stream.html" $v.Comments }}</div>
         </div>
 </div>
 {{ end }}
