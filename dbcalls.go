@@ -5,10 +5,12 @@
 // all the real database procedures in one place. The following is a breakdown
 // of how the database is configured:
 //
-//              TAGSBYSCORE - KEY to a ZSET containing reference keys to tags,
+///////////////////////////////////////////////////////////////////////////////
+//
+//              TAGSBYSCORE - KEY to ZSET containing reference keys to tags,
 //                            ranked by popularity, determined by algorithm.
 //
-//                    USERS - KEY to a ZSET containing reference keys to user
+//                    USERS - KEY to ZSET containing reference keys to user
 //                            profile data, ranked by user score (for now).
 //
 //        [loginEmail]:HASH - KEY to VALUE which is the password HASH
@@ -20,38 +22,42 @@
 //
 //                [user.ID] - KEY to HASH of the associated users data.
 //
-//   [user.ID]:POSTSINORDER - KEY to a ZSET containing reference keys to a
+//   [user.ID]:POSTSINORDER - KEY to ZSET containing reference keys to a
 //                            users posts (IDs) in chronological order.
 //
-//   [user.ID]:POSTSBYSCORE - KEY to a ZSET containing reference keys to a
+//   [user.ID]:POSTSBYSCORE - KEY to ZSET containing reference keys to a
 //                            users posts (IDs) in ranked order.
 //
-//   [user.ID]:LIKESINORDER - KEY to a ZSET containing reference keys to
+//   [user.ID]:LIKESINORDER - KEY to ZSET containing reference keys to
 //                            users liked posts IDs in chronological order.
 //
-//    [user.ID]:LIKESBYRANK - KEY to a ZSET containing reference keys to
+//    [user.ID]:LIKESBYRANK - KEY to ZSET containing reference keys to
 //                            users liked posts IDs in ranked order.
 //
-// [user.ID]:FRIENDSINORDER - KEY to a ZSET containing reference keys to
+// [user.ID]:FRIENDSINORDER - KEY to ZSET containing reference keys to
 //                            users friends IDs in chronological order.
 //
-//             POSTSINORDER - KEY to a ZSET containing reference keys to the
+//             POSTSINORDER - KEY to ZSET containing reference keys to the
 //                            post IDs of every post in the database in
 //                            chronological order.
 //
-//             POSTSBYSCORE - KEY to a ZSET containing reference keys to the
+//             POSTSBYSCORE - KEY to ZSET containing reference keys to the
 //                            post IDs of every post in the database in order
 //                            of rank/score.
 //
-// 	          [post.ID] - KEY to a HASHMAP of the associated posts data.
+// 	          [post.ID] - KEY to HASHMAP of the associated posts data.
 //
-// [post.ID]:REPLIESINORDER - KEY to a ZSET containing reference keys to posts
+// [post.ID]:REPLIESINORDER - KEY to ZSET containing reference keys to posts
 //                            which are replies to other posts, in
 //                            chronological order.
 //
-// [post.ID]:REPLIESBYSCORE - KEY to a ZSET containing reference keys to posts
+// [post.ID]:REPLIESBYSCORE - KEY to ZSET containing reference keys to posts
 //                            which are replies to other posts, in ranked order
 //                            (by score).
+//
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 package main
 

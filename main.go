@@ -32,6 +32,7 @@ import (
 // token information and pass it around to handlers.
 type ckey int
 
+// used as a type of "nonce" within our http context.
 const ctxkey ckey = iota
 
 var (

@@ -184,7 +184,8 @@ func addFriendHandler(w http.ResponseWriter, r *http.Request) {
 	// Save the changes to the users profile.
 	err = setProfile(c) // see: setProfile()
 	if err != nil {
-		log.Println(err)
+		log.Println(status(w, "Database Error", err))
+		return
 	}
 
 	// success. We send back the score.
@@ -194,6 +195,10 @@ func addFriendHandler(w http.ResponseWriter, r *http.Request) {
 		"score":   fmt.Sprint(1 - n),
 	})
 }
+
+// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 func friendHandler(w http.ResponseWriter, r *http.Request) {
 	exeTmpl(w, r, nil, "main.html")
 }

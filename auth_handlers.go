@@ -149,25 +149,37 @@ func signin(w http.ResponseWriter, r *http.Request) {
 	// Check if password matches by hashing it and comparing the hashes
 	doesMatch := checkPasswordHash(c.Password, hash)
 	if doesMatch {
-		c.Password = ""
+		c.Password = "" // remove the password from credentials{}
+		// before doing anything else.
+
+		// Get the users ID from the database using the hash obtained
+		// previously.
 		id, err := getID(hash)
 		if err != nil {
 			log.Println(status(w, "Database Error", err))
 			return
 		}
 
+		// Create a user{} with an ID set to the ID obtained
+		// previously.
 		c.User = &user{ID: id}
 
+		// Use the previously created user{} to get the rest of the
+		// users profile information.
 		err = scanProfile(c)
 		if err != nil {
 			log.Println(status(w, "Scan Profile Error", err))
 			return
 		}
+
+		// issue/renew the users authentication token.
 		_, err = renewToken(w, r, c)
 		if err != nil {
 			log.Println(status(w, "Token Error", err))
 			return
 		}
+
+		// success
 		log.Println(status(w, "success", err))
 		return
 	}
@@ -250,11 +262,14 @@ func serveUnauthed(next http.HandlerFunc, r *http.Request, w http.ResponseWriter
 // parseToken takes a token string, checks its validity, and parses it into a
 // set of credentials. If the token is invalid it returns an error
 func parseToken(tokenString string) (*credentials, error) {
+	// create a dummy credentials{}.
 	var claims *credentials = &credentials{
 		IsLoggedIn: false,
 		User:       &user{Token: ""},
 	}
 
+	// Use the json web token module function jwt.ParseWithClaims() to
+	// parse the token passed.
 	token, err := jwt.ParseWithClaims(
 		tokenString,
 		claims,
@@ -263,6 +278,7 @@ func parseToken(tokenString string) (*credentials, error) {
 		})
 	if err == nil {
 		if claims, ok := token.Claims.(*credentials); ok && token.Valid {
+			// success
 			return claims, nil
 		}
 	}
@@ -274,7 +290,10 @@ func parseToken(tokenString string) (*credentials, error) {
 // on the client, and adds it to the database.
 // TODO: FIX EXPIRY
 func renewToken(w http.ResponseWriter, r *http.Request, c *credentials) (context.Context, error) {
-	c.User.Token = ""
+	c.User.Token = "" // make sure the old token is removed.
+
+	// use the functionality provided by the json web token module to renew
+	// the token using the jwt.StandardClaims{}.
 	ss, err := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		&credentials{c.Name, "", true, c.User,
 			jwt.StandardClaims{
@@ -285,6 +304,7 @@ func renewToken(w http.ResponseWriter, r *http.Request, c *credentials) (context
 		return nil, err
 	}
 
+	// Set the token as a cookie in the response headers.
 	http.SetCookie(w, &http.Cookie{
 		Name:    "token",
 		Value:   ss,
@@ -292,10 +312,14 @@ func renewToken(w http.ResponseWriter, r *http.Request, c *credentials) (context
 		Expires: time.Now().Add(10 * time.Minute),
 		MaxAge:  0,
 	})
+
+	// Update the users token in the database.
 	c.User.Token = ss
 	if err = setProfile(c); err != nil {
 		return nil, err
 	}
+
+	// success
 	return context.WithValue(r.Context(), ctxkey, c), nil
 }
 
