@@ -1,9 +1,9 @@
 // dbcalls.go is where all direct calls to the database (redis) should be
 // housed. Functions wishing to apply database procedures outside of this file
 // shouldn't make direct calls to the database, but instead should call
-// functions located in this file, or if needed create a news one. This keeps
-// all the real database procedures in one place. The following is a breakdown
-// of how the database is configured:
+// functions located in this file, or if needed create new ones here. This
+// keeps all the real database procedures in one place. The following is a
+// breakdown of how the database is configured:
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -77,8 +77,8 @@ func cache() {
 	postIDs, err := zrangePostsByScore() // see: zrangePostsByScore()
 	if err != nil {
 		log.Println(err)
+		return
 	}
-
 	getPostsByID(postIDs) // see: getPostsByID()
 }
 
@@ -113,7 +113,7 @@ func zhPost(p *post) error {
 // by our program. It furthermore recursively checks each post for comments
 // stored in a zset of the following pattern: post.ID:REPLIESINORDER where
 // post.ID is the posts ID that which we query. Finally, we set the stream
-// variable to new []*post{}.
+// variable to the new []*post{}.
 // TODO: Add option to sort replies by likes/score using post.ID:REPLIESBYSCORE
 func getPostsByID(ids []string) []*post {
 	// get the "root" level post(s).
@@ -204,10 +204,10 @@ func setPost(i *post) error {
 		log.Println(err)
 	}
 
-	// initialize our map
+	// initialize our map.
 	var pmap map[string]any = make(map[string]any)
 
-	// Unmarshal the JSON representation into the map
+	// Unmarshal the JSON representation into the map.
 	err = json.Unmarshal(b, &pmap)
 	if err != nil {
 		log.Println(err)

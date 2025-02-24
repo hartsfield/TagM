@@ -36,8 +36,8 @@ func exeTmpl(w http.ResponseWriter, r *http.Request, view *viewData, tmpl string
 	}
 }
 
-// ajaxResponse()is used to respond to ajax requests with arbitrary data in the
-// format of map[string]string
+// ajaxResponse() is used to respond to ajax requests with arbitrary data in
+// the format of map[string]string
 func ajaxResponse(w http.ResponseWriter, res map[string]string) {
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(res)
