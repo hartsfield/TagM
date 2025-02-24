@@ -1,13 +1,11 @@
 function toggleDisplay(elem) {
         let formDisplay = document.getElementById("item-controls_"+elem);
         let butt = document.getElementById("item-shr-"+elem);
-        if (formDisplay.style.display == "none" || formDisplay.style.display == "") {
-                formDisplay.style.display = "flex";
-                butt.innerHTML = "<"
-        } else {
-                formDisplay.style.display = "none";
-                butt.innerHTML = "+"
-        }
+
+        if   (  formDisplay.style.display == "none" ||
+                formDisplay.style.display == "")        
+             {  formDisplay.style.display = "flex"; butt.innerHTML = "<";} 
+        else {  formDisplay.style.display = "none"; butt.innerHTML = "+";}
 }
 let did_submit_reply = false
 async function submitReply(parent) {
@@ -35,20 +33,13 @@ async function like(postID) {
         } else {
                 document.getElementById("errorField").innerHTML = res.error;
         }
-
-
 }
 async function share(postID) {
-        let response = await fetch("/share", { 
-                method: "POST",
-                body: {"id": postID},
-        });
-        let res = await response.json();
-        if (res.success == "true") {
-                window.location = window.location.origin;
-        } else {
-                document.getElementById("errorField").innerHTML = res.error;
-        }
+        let response = await fetch("/share", {method: "POST", body: {"id": postID}});
+        let res      = await response.json();
+
+        if (res.success == "true") {window.location = window.location.origin;} 
+        else {document.getElementById("errorField").innerHTML = res.error;}
 }
 //let toggled = false;
 //{{ if .Credentials.IsLoggedIn }}
@@ -60,18 +51,4 @@ async function share(postID) {
 //        this.oldScroll = this.scrollY;
 //}
 //{{ end }}
-//setInterval(autoReload, 500); // 5000 milliseconds = 5 seconds
-//async function autoReload() {
-//        const response = await fetch("/wasmodified", {
-//                method: "GET",
-//                //headers: { "Content-Type": "application/json" },
-//                //body: JSON.stringify({"na":"na"}),
-//        });
-//        let res = await response.json();
-//        if (res.modified == "true") {
-//                location.reload();
-//        } 
-//}
-//
-//document.getElementsByTagName("img").onerror='this.style.display = "none"' 
 

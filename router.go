@@ -1,3 +1,5 @@
+// router.go is where the tagmachines routes are defined, and also where the
+// server is configured and initialized.
 package main
 
 import (
@@ -7,14 +9,15 @@ import (
 	"time"
 )
 
-// bolt() starts the http(s) server
+// bolt() starts the http(s) server.
 func bolt() (ctx context.Context, srv *http.Server) {
 	var mux *http.ServeMux = http.NewServeMux()
 	registerRoutes(mux)
 
-	// Tell the server /public is accessible to the web
+	// Tell the server /public is accessible to the world wide web.
 	mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	srv = serverFromConf(mux)
+
 	ctx, cancelCtx := context.WithCancel(context.Background())
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
@@ -25,9 +28,11 @@ func bolt() (ctx context.Context, srv *http.Server) {
 	return
 }
 
-// serverFromConf returns a *http.Server with a pre-defined configuration
+// serverFromConf() returns a *http.Server with a pre-defined configuration
+// using the multiplexer at the bottom of this file.
 func serverFromConf(mux *http.ServeMux) *http.Server {
 	return &http.Server{
+		// servicePort is in main.go, and configured in bolt.json.conf.
 		Addr:              servicePort,
 		Handler:           mux,
 		ReadHeaderTimeout: 5 * time.Second,
@@ -36,7 +41,11 @@ func serverFromConf(mux *http.ServeMux) *http.Server {
 	}
 }
 
-// registerRoutes registers the routes with the provided *http.ServeMux
+// registerRoutes registers the routes with the provided *http.ServeMux. Add
+// new routes here as necessary, wrapping the route handler with the
+// checkAuth(handler) middle ware function as needed. Keep the multiplexer at
+// the bottom of this file to allow for the programmatic insertion of routes
+// via external tools.
 func registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/", checkAuth(root))
 	mux.HandleFunc("/reply", checkAuth(reply))
@@ -49,13 +58,10 @@ func registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/share/", checkAuth(shareHandler))
 	mux.HandleFunc("/addFriend/", checkAuth(addFriendHandler))
 	mux.HandleFunc("/unfriend/", checkAuth(unFriendHandler))
-	mux.HandleFunc("/edit", checkAuth(editHandler))
 	mux.HandleFunc("/tag/", checkAuth(tagHandler))
 	mux.HandleFunc("/friends/", friendHandler)
 	mux.HandleFunc("/search/", searchHandler)
 	mux.HandleFunc("/user/", checkAuth(profileHandler))
-	mux.HandleFunc("/likes/", likesHandler)
-
-	// for auto reload, only during development
-	mux.HandleFunc("/wasmodified", wasmodified)
+	// mux.HandleFunc("/edit", checkAuth(editHandler))
+	// mux.HandleFunc("/likes/", likesHandler)
 }

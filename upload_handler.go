@@ -1,3 +1,5 @@
+// upload_handler.go houses the functions used for user post submissions and
+// other multipart/formdata requests. This file may be split up in the future.
 package main
 
 import (
@@ -14,27 +16,39 @@ import (
 	"time"
 )
 
-// uploadHandler is the entry point for post uploads and step 1 of the upload
+// uploadHandler() is the entry point for post uploads and step 1 of the upload
 // process. We parse the form data sent by the client, marshal it so that we
 // may return it to the client, and respond with the appropriate ajaxResponse.
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
+	// Parse the form data sent by the client into a post{}
 	post, err := parseForm(r)
 	if err != nil {
 		log.Println(status(w, "Invalid Form", err))
 	}
+
+	// Marshal the freshly parsed post{} into its JSON representation in
+	// []byte form.
 	b, err := json.Marshal(post)
 	if err != nil {
 		log.Println(status(w, "Invalid Form", err))
 	}
+
+	// Add the post to the database sets/maps.
 	if err = zhPost(post); err == nil {
+		// custom Ajax response returning the new posts ID and JSON
+		// representation (if any).
 		ajaxResponse(w, map[string]string{
 			"status":     "success",
 			"replyID":    post.ID,
 			"itemString": string(b),
 		})
+		// We cache here in development, but for production we won't be
+		// cache()ing the database after every submission, there is a
+		// better way.
 		cache()
 		return
 	}
+
 	log.Println(status(w, "Database Error", err))
 }
 
@@ -141,7 +155,7 @@ func readPart(part *multipart.Part) (string, error) {
 	return buf.String(), nil
 }
 
-// handleFile is used to handle file uploads.
+// handleFile() is used to handle file uploads.
 func handleFile(part *multipart.Part, data *post) error {
 
 	// Limit the file size we accept.

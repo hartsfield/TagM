@@ -1,4 +1,7 @@
-package main // viewData represents the root model used to dynamically update the app
+// main.go houses the main() and init() functions, and struct definitions,
+// along with any necessary implementations (encoding.BinaryMarshaler is
+// needed to marshal data for redis).
+package main
 
 import (
 	"context"
@@ -20,14 +23,23 @@ type ckey int
 const ctxkey ckey = iota
 
 var (
-	hmacSampleSecret []byte             = []byte(os.Getenv("hmacss"))
-	appConf          *config            = readConf()
-	templates        *template.Template = template.New("")
-	AppName          string             = appConf.App.Name
-	logFilePath      string             = appConf.App.Env["logFilePath"]
-	servicePort      string             = ":" + appConf.App.Port
-	stream           []*post            = []*post{}
+	// Used for decoding the user token and should be provided as an
+	// environment variable at run time for security:
+	hmacSampleSecret []byte = []byte(os.Getenv("hmacss"))
+	// read the bolt.conf.json file and obtain some basic configuration
+	// variables such as appName, port, and logFilePath.
+	appConf     *config = readConf()
+	AppName     string  = appConf.App.Name
+	logFilePath string  = appConf.App.Env["logFilePath"]
+	servicePort string  = ":" + appConf.App.Port
 
+	// initialize templates.
+	templates *template.Template = template.New("")
+
+	// initialize post stream.
+	stream []*post = []*post{}
+
+	// Create the context for redis, and connect tot he redis database.
 	rdx context.Context = context.Background()
 	rdb *redis.Client   = redis.NewClient(&redis.Options{
 		Addr:     ":6379",
@@ -36,6 +48,7 @@ var (
 	})
 )
 
+// config{} is used by readConf() to read the bolt.conf.json file.
 type config struct {
 	App struct {
 		Name       string            `json:"name" redis:"name"`
@@ -56,6 +69,8 @@ type config struct {
 		ProxyConf string `json:"proxyConf" redis:"proxy_conf"`
 	} `json:"gcloud" redis:"g_cloud"`
 }
+
+// viewData{} represents the root model used to dynamically update the page views.
 type viewData struct {
 	AppName     string       `json:"app_name" redis:"app_name"`
 	Stream      []*post      `json:"stream" redis:"stream"`
@@ -63,10 +78,11 @@ type viewData struct {
 	Credentials *credentials `json:"credentials" redis:"credentials"`
 	Profile     *user        `json:"user" redis:"user"`
 }
-type post struct {
-	Parent     string   `json:"parent" redis:"parent"`
-	Categories []string `json:"categories" redis:"categories"`
 
+// post{} represents a user post or reply to another users post.
+type post struct {
+	Parent       string        `json:"parent" redis:"parent"`
+	Categories   []string      `json:"categories" redis:"categories"`
 	Media        string        `json:"Media" redis:"Media"`
 	Type         string        `json:"Type" redis:"Type"`
 	Author       string        `json:"author" redis:"author"`
@@ -81,10 +97,35 @@ type post struct {
 	CommentIDs   []string      `json:"commentIDs" redis:"commentIDs"`
 	Comments     []*post       `json:"comments" redis:"comments"`
 }
+
+// *post.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
+func (u *post) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, u)
+}
+
+// *post.MarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
+func (p *post) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
+}
+
 type tag struct {
 	Tag   string    `json:"tag" redis:"tag"`
 	Count int       `json:"count" redis:"count"`
 	Born  time.Time `json:"born" redis:"born"`
+}
+
+// *tag.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
+func (u *tag) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, u)
+}
+
+// *tag.MarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
+func (p *tag) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
 }
 
 // credentials are user credentials and are used in the HTML templates and also
@@ -97,6 +138,19 @@ type credentials struct {
 	jwt.StandardClaims
 }
 
+// *credentials.UnmarshalBinary() is used to implement
+// encoding.BinaryMarshaler, as required for compatibility with redis.
+func (u *credentials) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, u)
+}
+
+// *credentials.MarshalBinary() is used to implement encoding.BinaryMarshaler,
+// as required for compatibility with redis.
+func (p *credentials) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
+}
+
+// user{} represents a user.
 type user struct {
 	Token       string    `json:"token" redis:"token"`
 	ID          string    `json:"id" redis:"id"`
@@ -122,31 +176,21 @@ type user struct {
 	Other       string    `json:"other" redis:"other"`
 }
 
+// *user.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
 func (u *user) UnmarshalBinary(data []byte) error {
 	return json.Unmarshal(data, u)
 }
-func (u *credentials) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, u)
-}
-func (u *post) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, u)
-}
-func (u *tag) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, u)
-}
+
+// *user.MarshalBinary() is used to implement encoding.BinaryMarshaler, as
+// required for compatibility with redis.
 func (u *user) MarshalBinary() ([]byte, error) {
 	return json.Marshal(u)
 }
-func (p *post) MarshalBinary() ([]byte, error) {
-	return json.Marshal(p)
-}
-func (p *tag) MarshalBinary() ([]byte, error) {
-	return json.Marshal(p)
-}
-func (p *credentials) MarshalBinary() ([]byte, error) {
-	return json.Marshal(p)
-}
 
+// init() sets some logging flags to allow display of line numbers, parses the
+// templates contained in internal/, and makes the ./public/temp/ dir if it
+// hasn't already been created.
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	template.Must(templates.ParseGlob("internal/*/*/*"))
@@ -156,6 +200,9 @@ func init() {
 	}
 }
 
+// main() sets up logging by initializing it, begins an infinite loop in a go
+// function, used for caching the database every two seconds (will be
+// reconfigured for production).
 func main() {
 	setupLogging()
 	go func() {
@@ -164,10 +211,14 @@ func main() {
 			time.Sleep(2 * time.Second)
 		}
 	}()
+
+	// start the server.
 	ctx, srv := bolt()
 
+	// print the server address to the terminal.
 	log.Println("@ http://localhost" + srv.Addr)
 	fmt.Println("\n\n@ http://localhost" + srv.Addr + "  -->  " + appConf.App.DomainName)
 
+	// hold the program open until done.
 	<-ctx.Done()
 }

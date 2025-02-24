@@ -1,3 +1,8 @@
+// auth_handlers.go houses identification, authentication, and token
+// re-newel functionality. We use JSON Web Tokens (JWT) stored as a cookie in
+// the clients http request header, and in the database for re/authentication.
+// Passwords are never stored in plaintext, and are instead stored in hashed
+// form using bcrypt.
 package main
 
 import (
@@ -43,7 +48,7 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		log.Println(status(w, "Invalid Credentials", err))
 		return
 	}
-	log.Println(c)
+
 	// Make sure the username doesn't contain forbidden symbols
 	emailRegx := "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
 	match, err := regexp.MatchString(emailRegx, c.Name)
@@ -51,15 +56,20 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		log.Println(status(w, "Invalid Username (E1)", err))
 		return
 	}
+
+	// TODO: Move to dbcalls.go
 	if rdb.Exists(rdx, c.Name+":HASH").Val() > 0 {
 		log.Println(status(w, "User Exists", nil))
 		return
 	}
 
+	// Check to make sure the password is long enough. We don't store
+	// sensitive info or recommend users upload it, so seven works.
 	if len(c.Password) < 7 {
 		log.Println(status(w, "Invalid Password (E2)", nil))
 		return
 	}
+
 	// Save an ID to be used for posting so we don't expose
 	// the users email, save this in redis as an HSET, and
 	// store all the profile information here.
@@ -80,7 +90,8 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	c.Password = ""
 	_, err = setHashToID(c, hash)
 	if err != nil {
-		log.Println(err)
+		log.Println(status(w, "Database Error", err))
+		return
 	}
 
 	// If the password is hashable, and we were able to add
@@ -100,9 +111,14 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// renewToken() is used here to create a new token, which it's also
+	// capable of.
 	if _, err = renewToken(w, r, c); err != nil {
 		log.Println(status(w, "Token Error", err))
+		return
 	}
+
+	// success.
 	log.Println(status(w, "success", nil))
 }
 
@@ -136,8 +152,10 @@ func signin(w http.ResponseWriter, r *http.Request) {
 		c.Password = ""
 		id, err := getID(hash)
 		if err != nil {
-			log.Println(err)
+			log.Println(status(w, "Database Error", err))
+			return
 		}
+
 		c.User = &user{ID: id}
 
 		err = scanProfile(c)
@@ -147,13 +165,13 @@ func signin(w http.ResponseWriter, r *http.Request) {
 		}
 		_, err = renewToken(w, r, c)
 		if err != nil {
-			log.Println(err)
+			log.Println(status(w, "Token Error", err))
 			return
 		}
 		log.Println(status(w, "success", err))
 		return
 	}
-	ajaxResponse(w, map[string]string{"success": "false", "error": "Bad Password"})
+	log.Println(status(w, "Bad Password", err))
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,7 +217,7 @@ func checkAuth(next http.HandlerFunc) http.HandlerFunc {
 				serveUnauthed(next, r, w, err)
 				return
 			}
-			log.Println(c.User.ID)
+			// success
 			next.ServeHTTP(w, r.WithContext(verified))
 			return
 		}
@@ -207,6 +225,8 @@ func checkAuth(next http.HandlerFunc) http.HandlerFunc {
 	})
 }
 
+// serveUnauthed() is used when a user fails an authentication challenge and so
+// is served with a page a user without an account would see.
 func serveUnauthed(next http.HandlerFunc, r *http.Request, w http.ResponseWriter, err error) {
 	// create a generic user object thats not signed in to be used
 	// as a placeholder until credentials are verified. Here, we
@@ -230,19 +250,23 @@ func serveUnauthed(next http.HandlerFunc, r *http.Request, w http.ResponseWriter
 // parseToken takes a token string, checks its validity, and parses it into a
 // set of credentials. If the token is invalid it returns an error
 func parseToken(tokenString string) (*credentials, error) {
-	var claims *credentials = &credentials{IsLoggedIn: false, User: &user{Token: ""}}
+	var claims *credentials = &credentials{
+		IsLoggedIn: false,
+		User:       &user{Token: ""},
+	}
+
 	token, err := jwt.ParseWithClaims(
 		tokenString,
 		claims,
 		func(token *jwt.Token) (interface{}, error) {
 			return hmacSampleSecret, nil
-		},
-	)
+		})
 	if err == nil {
 		if claims, ok := token.Claims.(*credentials); ok && token.Valid {
 			return claims, nil
 		}
 	}
+
 	return nil, err
 }
 
