@@ -166,6 +166,9 @@ func (p *post) MarshalBinary() ([]byte, error) {
 
 // user{} represents a user.
 type user struct {
+	// Token is where we store the users token locally, and is generally
+	// retrieved from redis by looking up the users hash map via their ID
+	//
 	Token       string    `json:"token" redis:"token"`
 	ID          string    `json:"id" redis:"id"`
 	Email       string    `json:"email" redis:"email"`

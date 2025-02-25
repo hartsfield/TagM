@@ -8,6 +8,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"regexp"
@@ -262,28 +263,33 @@ func serveUnauthed(next http.HandlerFunc, r *http.Request, w http.ResponseWriter
 // parseToken takes a token string, checks its validity, and parses it into a
 // set of credentials. If the token is invalid it returns an error
 func parseToken(tokenString string) (*credentials, error) {
-	// create a dummy credentials{}.
+	// Create a dummy credentials{}. We implemented jwt.StandardClaims on
+	// the credentials{} struct defined in main.go so that we may pass it
+	// to jwt.ParseWithClaims(). This is for convenience sake.
 	var claims *credentials = &credentials{
 		IsLoggedIn: false,
 		User:       &user{Token: ""},
 	}
 
 	// Use the json web token module function jwt.ParseWithClaims() to
-	// parse the token passed.
-	token, err := jwt.ParseWithClaims(
-		tokenString,
-		claims,
-		func(token *jwt.Token) (interface{}, error) {
-			return hmacSampleSecret, nil
-		})
-	if err == nil {
-		if claims, ok := token.Claims.(*credentials); ok && token.Valid {
-			// success
-			return claims, nil
-		}
+	// parse the token passed herein.
+	token, err := jwt.ParseWithClaims(tokenString, claims, jwtkey_fn)
+	if err != nil {
+		return nil, err
+	}
+	var ok bool
+	if claims, ok = token.Claims.(*credentials); !ok || !token.Valid {
+		return nil, errors.New("Invalid Token or Type Assertion")
 	}
 
-	return nil, err
+	// success
+	return claims, nil
+}
+
+func jwtkey_fn(token *jwt.Token) (interface{}, error) {
+	// hmacSampleSecret should be defined at run time as an
+	// environment variable. see: main.go.
+	return hmacSampleSecret, nil
 }
 
 // renewToken renews a users token using existing claims, sets it as a cookie

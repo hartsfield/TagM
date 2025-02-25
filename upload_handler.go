@@ -192,7 +192,7 @@ func handleFile(part *multipart.Part, data *post) error {
 						data.TempFileName + "' />")
 			case "mp4", "webm":
 				data.MediaType = template.HTML(
-					"<video class='item-video item-media' src='/" +
+					"<video controls autoplay mute class='item-video item-media' src='/" +
 						data.TempFileName + "' />")
 			}
 			return nil
