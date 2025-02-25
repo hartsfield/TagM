@@ -23,9 +23,6 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//
-// ////////////////////////////////////////////////////////////////////////////
-//
 let did_submit = false
 async function submitPost() {
         if (!did_submit) {
@@ -37,27 +34,23 @@ async function submitPost() {
                         body: data,
                 });
                 let res = await response.json();
-                handleResponse(res);
+                if (res.status != "success") {
+                        document.getElementById("errorField").innerHTML = res.error;
+                        return;
+                }
+                location.reload();
         }
 }
-function handleResponse(res) {
-        console.log(res);
-        if (res.status == "success") {
-                location.reload()
-        } else {
-                document.getElementById("errorField").innerHTML = res.error;
-        }
-}
-async function submitImg() {
-        const form = document.getElementById("img-uploadForm");
-        const data = new FormData(form);
-        let response = await fetch("/uploadItem", {
-                method: "POST",
-                body: data,
-        });
-        let res = await response.json();
-        console.log(res);
-}
+//async function submitImg() {
+//        const form = document.getElementById("img-uploadForm");
+//        const data = new FormData(form);
+//        let response = await fetch("/uploadItem", {
+//                method: "POST",
+//                body: data,
+//        });
+//        let res = await response.json();
+//        console.log(res);
+//}
 
 // !bang @mention #hash_tag $cash %evil ^good &pointer *star 
 // ----------------------------------------------------------------------------
@@ -197,6 +190,12 @@ function tagify() {
         }
         if (kws.length > -1) {document.getElementById('upload-symbols')
                         .innerHTML = "<div>" + kws + "</div>"}
+        let p = document.getElementById("pol_");
+        //let f = document.getElementById("fin_");
+        //let a = document.getElementById("art_");
+        //let l = document.getElementById("lif_");
+        //let m = document.getElementById("men_");
+        p.value = pointers;
 }
 // Check for sanity:
 function sane(w) {

@@ -1,4 +1,4 @@
-/// Provided Under BSD (2 Clause)
+// Provided Under BSD (2 Clause)
 //
 // Copyright 2025 Johnathan A. Hartsfield
 //
@@ -23,9 +23,13 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//
 // ////////////////////////////////////////////////////////////////////////////
-///
-// stream.html is a recursive component, so only 
-// include JavaScript here thats intended to be repeated 
-// for each component.
+//                                                                           //
+//                                                                           //
+//       stream.html is a recursive component,                               //
+//       so only include JavaScript here thats                               //
+//       intended to be repeated for each                                    // 
+//       component.                                                          //
+//                                                                           //
+//                                                                           //
+// ////////////////////////////////////////////////////////////////////////////

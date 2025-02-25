@@ -1,5 +1,3 @@
-{{/*  ///////////////////////////////////////////////////////////////////  */}}
-{{/*                                                                       */}}
 {{/*  Provided Under BSD (2 Clause)                                        */}}
 {{/*                                                                       */}}
 {{/*  Copyright 2025 Johnathan A. Hartsfield                               */}}
@@ -18,7 +16,7 @@
 {{/*                                                                       */}}
 {{/*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS  */}}
 {{/*  “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT    */}}
-{{/*  LIMITED TO, THE */}} IMPLIED WARRANTIES OF MERCHANTABILITY AND       */}}
+{{/*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND            */}}
 {{/*  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL   */}}
 {{/*  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,       */}}
 {{/*  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES   */}}
@@ -28,17 +26,21 @@
 {{/*  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)        */}}
 {{/*  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED  */}} 
 {{/*  OF THE POSSIBILITY OF SUCH DAMAGE.                                   */}}
-{{/*                                                                       */}}
-{{/*  ///////////////////////////////////////////////////////////////////  */}}
 {{ if .Credentials.IsLoggedIn}}
 <div class="form-wrapper" id="form-wrapper">
-        <div class="upload-cover" onclick="document.getElementById('Media').click()"></div>
+        <div class="upload-cover" 
+             onclick="document.getElementById('Media').click()"></div>
         <form class="uploadForm" id='uploadForm' enctype='multipart/form-data'>
-                <div contenteditable class="upload-text upload-input" id='uptext' oninput="
-                                                                                  document.getElementById('uptext_').value = document.getElementById('uptext').innerHTML;"
-                                                                                  >dream eternal</div>
+                <div contenteditable class="upload-text upload-input" id='uptext' 
+                                     oninput="document.getElementById('uptext_')
+                                     .value = document.getElementById('uptext' )
+                                     .innerHTML;">dream eternal</div>
                 <input hidden id='uptext_' type='text' name='uptext'/> 
-                <input hidden id='nonce_' type='password' name='nonce' value="{{.Nonce}}" /> 
+                <input id='pol_' type='text' name='political'/> 
+                <input hidden id='fin_' type='text' name='finance'/> 
+                <input hidden id='art_' type='text' name='art'/> 
+                <input hidden id='lif_' type='text' name='life'/> 
+                <input hidden id='men_' type='text' name='mentions'/> 
                 <form  class="img-uploadForm" id='uploadForm' enctype='multipart/form-data'>
                         <input class="form-media upload-input" id='Media' type='file' name='Media'/>
                 </form>
