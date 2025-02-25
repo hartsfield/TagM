@@ -157,9 +157,16 @@ func readPart(part *multipart.Part) (string, error) {
 
 // handleFile() is used to handle file uploads.
 func handleFile(part *multipart.Part, data *post) error {
-
-	// Limit the file size we accept.
-	fileBytes, err := io.ReadAll(io.LimitReader(part, 10<<20))
+	// Limit the file size we accept. 10<<20 is a bitwise operation,
+	// meaning no one knows what the hell it means. We look it up to find
+	// that we are "shifting bits", in this case the bits of the left
+	// operand (10). We are shifting them (bitwise) to the left, by the
+	// number specified by the right operand (20). This is equivalent to
+	// multiplying the left operand by 2 raised to the power of the right
+	// operand. Therefore, 10 << 20 is equivalent to: 10 * (2 ** 20)
+	// which is approximately 1024 bytes, or 10 megabytes. (note: I'm not
+	// re-writing this comment when we change this).
+	fileBytes, err := io.ReadAll(io.LimitReader(part, 200<<20))
 	if err != nil {
 		return err
 	}
