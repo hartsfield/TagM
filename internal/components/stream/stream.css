@@ -37,7 +37,7 @@
         position: absolute;
         overflow: auto;
         height: 100%;
-        /*border-radius: 1.5em;*/
+        border-radius: 1.5em;
         /*border-top: 1px dashed black;    */
         width: -webkit-fill-available;
         transition: 1s all;
@@ -57,7 +57,7 @@
         display: flex;
         flex-direction: column;
         background-color: white;
-        border-radius: 1em;
+        /*border-radius: 1em;*/
         margin-top: 1em;
         position: relative;
         border: 1px dashed #9e9e9e;
