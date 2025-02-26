@@ -42,6 +42,9 @@
         width: -webkit-fill-available;
         transition: 1s all;
 }
+.stream > div {
+        border-radius: 1.5em;
+}
 .item-share {
         background: url("public/media/share1.svg");
         background-size:cover ;
@@ -225,8 +228,8 @@ textarea:enabled {
         border-top: 1px dashed #d0d0d0;
         display: flex;
         flex-direction: column;
-        /*border-bottom-left-radius: 1.5em;*/
-        /*border-bottom-right-radius: 1.5em;*/
+        border-bottom-left-radius: 1.5em;
+        border-bottom-right-radius: 1.5em;
 }
 .item-comments-reply-controls {
         display: none;
