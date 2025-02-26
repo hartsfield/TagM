@@ -6,11 +6,11 @@
 // modification, are permitted provided that the following conditions are met:
 //
 // 1. Redistributions of source code must retain the above copyright notice,
-// this list of conditions and the following disclaimer.
+//    this list of conditions and the following disclaimer.
 //
 // 2. Redistributions in binary form must reproduce the above copyright notice,
-// this list of conditions and the following disclaimer in the documentation
-// and/or other materials provided with the distribution.
+//    this list of conditions and the following disclaimer in the documentation
+//    and/or other materials provided with the distribution.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS”
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -132,7 +132,6 @@ func zhPost(p *post) error {
 		log.Println(err)
 		return err
 	}
-
 	return setPost(p) // see: setPost()
 }
 
@@ -151,7 +150,7 @@ func getPostsByID(ids []string) []*post {
 		if err != nil {
 			log.Println(err)
 		}
-		items = append(items, i)
+		items = append(items, &i)
 	}
 
 	// get the comments from each post. TODO: Update the amount returned
@@ -207,7 +206,7 @@ func setProfile(c *credentials) error {
 		return err
 	}
 
-	// initialize our map
+	// initialize our map.
 	var pmap map[string]any = make(map[string]any)
 
 	// Unmarshal the JSON representation into the map
@@ -220,29 +219,10 @@ func setProfile(c *credentials) error {
 	return rdb.HMSet(rdx, c.User.ID, pmap).Err()
 }
 
-// setPost() sets a post in the database by first marshalling the post into
-// a []byte{} containing its JSON representation, then unmarshalling the post
-// into a map[string]any type, which is then added to the database using the
-// redis HMSet() functionality.
-// TODO: There's a way to do this without a map.
+// setPost() sets a post in the database using the redis HMSet() functionality.
 func setPost(i *post) error {
-	// Marshal the post into its JSON representation in []byte form.
-	b, err := json.Marshal(i)
-	if err != nil {
-		log.Println(err)
-	}
-
-	// initialize our map.
-	var pmap map[string]any = make(map[string]any)
-
-	// Unmarshal the JSON representation into the map.
-	err = json.Unmarshal(b, &pmap)
-	if err != nil {
-		log.Println(err)
-	}
-
 	// Add the post data using HMSet(), returning any errors.
-	return rdb.HMSet(rdx, i.ID, pmap).Err()
+	return rdb.HMSet(rdx, i.ID, *i).Err()
 }
 
 // scanProfile() is used to scan a users profile into the &user{} struct to
@@ -274,13 +254,8 @@ func zaddPostsScore(c *post) (int64, error) {
 // off here as tagmachine remains in testing.
 // TODO: add reverse functionality.
 func zrangePostsByScore() ([]string, error) {
-	opts := &redis.ZRangeBy{
-		Min: "-inf",
-		Max: "+inf",
-		// TODO: Add pagification.
-		Offset: 0,
-		Count:  -1,
-	}
+	// TODO: Add pagification.
+	opts := &redis.ZRangeBy{Min: "-inf", Max: "+inf", Offset: 0, Count: -1}
 	return rdb.ZRevRangeByScore(rdx, "POSTSBYSCORE", opts).Result()
 }
 
@@ -288,13 +263,8 @@ func zrangePostsByScore() ([]string, error) {
 // Herein we create a &post{}, and use the redis HGetAll().Scan(&{})
 // functionality, which can sometimes fill the structs key values in
 // automatically, using the struct tags (and maybe best guesses).
-func getPost(i string) (*post, error) {
-	var p *post = &post{}
-	err := rdb.HGetAll(rdx, i).Scan(p)
-	if err != nil {
-		log.Println(err)
-	}
-	return p, err
+func getPost(i string) (p post, err error) {
+	return p, rdb.HGetAll(rdx, i).Scan(&p)
 }
 
 // setLike() is used to add or remove a liked post from a users liked posts
@@ -447,7 +417,7 @@ func zaddUsersPosts(c *credentials, p *post) (int64, error) {
 	}
 
 	// Save the updated parents data to the database.
-	err = setPost(pp) // see: setPost()
+	err = setPost(&pp) // see: setPost()
 	if err != nil {
 		log.Println(err)
 		return 0, err

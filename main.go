@@ -43,10 +43,59 @@
 // /////////////////                                         //////////////////
 // ////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////----------------------------////////////////////////
+// ////////////////////////                            ////////////////////////
+// ////////////////////////    Tag Prefix Decoder      ////////////////////////
+// ////////////////////////                            ////////////////////////
+// ////////////////////////----------------------------////////////////////////
+// ////////////////////////   PREFIX   ->   CATEGORY   ////////////////////////
+// ////////////////////////----------------------------////////////////////////
+// ////////////////////////     @      ->    mentions  ////////////////////////
+// ////////////////////////     #      ->    general   ////////////////////////
+// ////////////////////////     $      ->    finance   ////////////////////////
+// ////////////////////////     !      ->    politics  ////////////////////////
+// ////////////////////////     ~      ->    life      ////////////////////////
+// ////////////////////////     %      ->    science   ////////////////////////
+// ////////////////////////     *      ->    arts      ////////////////////////
+// ////////////////////////----------------------------////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// TagMachine embodies the next evolutionary cycle of "the social" as "a
+// media", and the spirit (poltergeist) of "free press", "world wide or die
+// motherfucker".
+//
+// DESIGN:
+//   - Backend is almost 100% Go, integrating with the front-end via an
+//     MVC-styled architecture, and templates constructed with HTML, CSS, JS,
+//     and no third party dependencies.
+//   - The model is designed to be a simple and "recursive" one.
+//   - Page views are built directly around the models.
+//   - Controllers update the model via <form> elements in the page view and
+//     endpoint interactions via some DOM event.
+//   - Currently three page views:
+//     main.html     - The main page view we try to jam everything into.
+//     profile.html  - User profiles.
+//     what.html     - About page.
+//   - Page views are built using type viewData{}
+//   - Users have:
+//     profiles,
+//     friends/followers,
+//     likes,
+//     shares
+//   - Users can make posts
+//
+// FEATURES:
+//   - User accounts/token authentication via JSON Web Token.
+//     -
+//
+// THE DREAM  (Chapter I, Part I)
+//
+//   - What is TagMachine? TagMachine is software designed as a
+//     web application, and is currently incomplete.
 package main
 
 import (
 	"context"
+	"encoding"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -78,7 +127,12 @@ var (
 	servicePort string = ":" + appConf.App.Port
 
 	// initialize templates.
-	templates *template.Template = template.New("")
+	templates *template.Template = template.New("").Funcs(funcMap)
+	funcMap                      = template.FuncMap{
+		"marshalHTML": func(s string) template.HTML {
+			return template.HTML(s)
+		},
+	}
 
 	// initialize post stream.
 	stream []*post = []*post{}
@@ -165,21 +219,45 @@ func (p *credentials) MarshalBinary() ([]byte, error) {
 
 // post{} represents a user post or reply to another users post.
 type post struct {
-	Type         string        `json:"Type" redis:"Type"`
-	ID           string        `json:"id" redis:"id"`
-	Parent       string        `json:"parent" redis:"parent"`
-	TS           time.Time     `json:"ts" redis:"ts"`
-	TimeString   string        `json:"time_string" redis:"time_string"`
-	Author       string        `json:"author" redis:"author"`
-	Text         template.HTML `json:"uptext" redis:"uptext"`
-	Media        string        `json:"Media" redis:"Media"`
-	MediaType    template.HTML `json:"media_type" redis:"media_type"`
-	TempFileName string        `json:"temp_file_name" redis:"temp_file_name"`
-	Score        int           `json:"score" redis:"score"`
-	Categories   []string      `json:"categories" redis:"categories"`
-	Tags         []*tag        `json:"tags" redis:"tags"`
-	CommentIDs   []string      `json:"commentIDs" redis:"commentIDs"`
-	Comments     []*post       `json:"comments" redis:"comments"`
+	Type         string    `json:"Type" redis:"Type"`
+	ID           string    `json:"id" redis:"id"`
+	Parent       string    `json:"parent" redis:"parent"`
+	TS           time.Time `json:"ts" redis:"ts"`
+	TimeString   string    `json:"time_string" redis:"time_string"`
+	Author       string    `json:"author" redis:"author"`
+	Text         string    `json:"uptext" redis:"uptext"`
+	MediaType    string    `json:"media_type" redis:"media_type"`
+	Media        string    `json:"Media" redis:"Media"`
+	TempFileName string    `json:"temp_file_name" redis:"temp_file_name"`
+	Score        int       `json:"score" redis:"score"`
+	Categories   rstring   `json:"categories" redis:"categories"`
+	CommentIDs   rstring   `json:"commentIDs" redis:"commentIDs"`
+	Comments     replies   `json:"comments" redis:"comments"`
+	Political    rstring   `json:"political" redis:"political"`
+	Finance      rstring   `json:"finance" redis:"finance"`
+	Art          rstring   `json:"art" redis:"art"`
+	Life         rstring   `json:"life" redis:"life"`
+	Mentions     rstring   `json:"mentions" redis:"mentions"`
+	// Tags         []*tag    `json:"tags" redis:"tags"`
+	encoding.BinaryMarshaler
+}
+
+type replies []*post
+
+func (u replies) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, &u)
+}
+func (p replies) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
+}
+
+type rstring []string
+
+func (u rstring) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, &u)
+}
+func (p rstring) MarshalBinary() ([]byte, error) {
+	return json.Marshal(p)
 }
 
 // *post.UnmarshalBinary() is used to implement encoding.BinaryMarshaler, as
@@ -198,7 +276,6 @@ func (p *post) MarshalBinary() ([]byte, error) {
 type user struct {
 	// Token is where we store the users token locally, and is generally
 	// retrieved from redis by looking up the users hash map via their ID
-	//
 	Token       string    `json:"token" redis:"token"`
 	ID          string    `json:"id" redis:"id"`
 	Email       string    `json:"email" redis:"email"`

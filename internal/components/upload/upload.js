@@ -190,12 +190,12 @@ function tagify() {
         }
         if (kws.length > -1) {document.getElementById('upload-symbols')
                         .innerHTML = "<div>" + kws + "</div>"}
-        let p = document.getElementById("pol_");
-        //let f = document.getElementById("fin_");
-        //let a = document.getElementById("art_");
-        //let l = document.getElementById("lif_");
-        //let m = document.getElementById("men_");
-        p.value = pointers;
+
+        document.getElementById("pol_").value = pointers;
+        document.getElementById("fin_").value =     cash;
+        document.getElementById("art_").value =    stars;
+        document.getElementById("lif_").value =     tags;
+        document.getElementById("men_").value = mentions;
 }
 // Check for sanity:
 function sane(w) {

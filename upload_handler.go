@@ -32,12 +32,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"html/template"
 	"io"
 	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -149,7 +149,7 @@ func parseForm(r *http.Request) (*post, error) {
 			if err != nil {
 				return nil, err
 			}
-			post.Text = template.HTML(txt)
+			post.Text = txt
 		}
 		// User profile "work" input
 		if part.FormName() == "work" { // see: profile.html
@@ -169,6 +169,39 @@ func parseForm(r *http.Request) (*post, error) {
 				return nil, err
 			}
 		}
+		///////////////////////////////////////////////////////////////
+		/////////////////////////    TAGS     /////////////////////////
+		///////////////////////////////////////////////////////////////
+		if part.FormName() == "political" {
+			post.Political, err = readTagPart(part)
+			if err != nil {
+				return nil, err
+			}
+		}
+		if part.FormName() == "finance" {
+			post.Finance, err = readTagPart(part)
+			if err != nil {
+				return nil, err
+			}
+		}
+		if part.FormName() == "art" {
+			post.Art, err = readTagPart(part)
+			if err != nil {
+				return nil, err
+			}
+		}
+		if part.FormName() == "life" {
+			post.Life, err = readTagPart(part)
+			if err != nil {
+				return nil, err
+			}
+		}
+		if part.FormName() == "mentions" {
+			post.Mentions, err = readTagPart(part)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 	return post, nil
 }
@@ -182,6 +215,17 @@ func readPart(part *multipart.Part) (string, error) {
 		return "", err
 	}
 	return buf.String(), nil
+}
+
+// readTagPart(*multipart.Part) is used in the parseForm() function to reduce
+// repeated code. It converts the form parts containing tags to a []string or
+// returns an error if it can't.
+func readTagPart(part *multipart.Part) (rstring, error) {
+	buf := new(bytes.Buffer)
+	if _, err := buf.ReadFrom(part); err != nil {
+		return rstring{}, err
+	}
+	return strings.Split(buf.String(), ","), nil
 }
 
 // handleFile() is used to handle file uploads.
@@ -200,6 +244,7 @@ func handleFile(part *multipart.Part, data *post) error {
 		return err
 	}
 
+	log.Println(http.DetectContentType(fileBytes))
 	// fexts conception was aimed at reducing the code base, acting as a
 	// type of "switch". If a mime type is supported it "errors" with its
 	// proper extension.
@@ -219,14 +264,14 @@ func handleFile(part *multipart.Part, data *post) error {
 		if _, err = tempFile.Write(fileBytes); err == nil {
 			data.TempFileName = tempFile.Name()
 			// create the HTML element based on the file type:
+			var t string
 			switch ex {
 			case "png", "jpg", "gif":
-				data.MediaType = markupMedia(
-					"img", data.TempFileName)
+				t = markupMedia("img", data.TempFileName)
 			case "mp4", "webm":
-				data.MediaType = markupMedia(
-					"vid", data.TempFileName)
+				t = markupMedia("vid", data.TempFileName)
 			}
+			data.MediaType = t
 			return nil
 		}
 		return err
@@ -235,18 +280,15 @@ func handleFile(part *multipart.Part, data *post) error {
 }
 
 // markupMedia() is used to wrap the media element displayed in a post with
-// the appropriate html markup/tag. Images get the "img" tag, while videos
-// get the "video" tag, along with attributes "controls", "autoplay", and
-// "mute". Since it only supports images and videos, only the parameter "img"
-// is recognized as the forst parameter, anything else defaults to the video
-// tag. We also pass the path to the media as the second parameter.
-func markupMedia(typ, path string) template.HTML {
+// the appropriate html markup/tag. Images get the "img" tag, while videos get
+// the "video" tag, along with attributes "controls", "autoplay", and "mute".
+// Since it only supports images and videos, only the parameter "img" is
+// recognized as the forst parameter, anything else defaults to the video tag.
+// We also pass the path to the media as the second parameter.
+func markupMedia(typ, path string) string {
 	if typ == "img" {
-		return template.HTML(
-			"<img class='item-img item-media'" +
-				" src='/" + path + "'/>")
+		return "<img class='item-img item-media' src='/" + path + "'/>"
 	}
-	return template.HTML(
-		"<video class='item-video item-media' controls autoplay mute" +
-			" src='/" + path + "' />")
+	return "<video class='item-video item-media' controls autoplay mute" +
+		" src='/" + path + "' />"
 }

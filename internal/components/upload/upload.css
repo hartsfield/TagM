@@ -97,7 +97,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        transform: translateY(-71px);
+        /*transform: translateY(-71px);*/
         z-index: -1;
         position: relative;
         border-bottom-left-radius: 0.8em;

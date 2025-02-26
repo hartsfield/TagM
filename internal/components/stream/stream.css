@@ -32,12 +32,13 @@
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: flex-start;
-        margin-top: 1.99em;
+        margin: 2.3em 0 5em 0.5em;
+        padding-bottom: 10em;
         position: absolute;
         overflow: auto;
         height: 100%;
         border-radius: 1.5em;
-        border-top: 1px dashed black;    
+        /*border-top: 1px dashed black;    */
         width: -webkit-fill-available;
         transition: 1s all;
 }
@@ -280,7 +281,9 @@ textarea:enabled {
 }
 @media screen and (orientation:landscape) {
         .stream {
-                max-width: 77ch;
+                overflow-y:visible;
+                height: unset;
+                border-radius: unset;
         }
 }
 @media screen and (orientation:portrait) {

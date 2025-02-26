@@ -27,25 +27,30 @@
 {{/*  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED  */}} 
 {{/*  OF THE POSSIBILITY OF SUCH DAMAGE.                                   */}}
 <div class="navbar-outer" id="nav-outer">
-                <div class="nav-block-1" id="logo-nav">
-                        <div class="logo-nav" onclick="window.location = window.location.origin">{{ .AppName }}</div>
-                </div>
-                <div class="sorts-nav">
-                        <input class="hot-nav"   id="hot-nav"   type="email"    disabled onclick="window.location = window.location.origin" />
-                        <input class="chron-nav" id="chron-nav" type="password" disabled onclick="window.location = window.location.origin" />
-                </div>
+    <div class="nav-block-1" id="logo-nav">
+        <div class="logo-nav" onclick="window.location = window.location.origin">
+            {{ .AppName }}
+        </div>
+    </div>
+    <div class="sorts-nav">
+        <input class="all-nav nav-tag" id="lif-nav" type="password" disabled onclick="" />
+        <input class="pol-nav nav-tag"   id="hot-nav"   type="email"    disabled onclick="window.location = window.location.origin" />
+        <input class="fin-nav nav-tag" id="chron-nav" type="password" disabled onclick="window.location = window.location.origin" />
+        <input class="lif-nav nav-tag" id="lif-nav" type="password" disabled onclick="" />
+        <input class="sci-nav nav-tag" id="sci-nav" type="password" disabled onclick="" />
+        <input class="art-nav nav-tag" id="art-nav" type="password" disabled onclick="" />
+    </div>
 
-                <div class="nav-toggle-all" id="nav-toggle-all-hid"></div>
-                <div class="nav-toggle-all" id="nav-toggle-all"></div>
-                <div class="nav-block-2">
-                        {{ if not .Credentials.IsLoggedIn }}
-                        <div class="nav-toggle-all nta3" id="nav-toggle-all-hid2" onclick="toggleAuth()"></div>
-                        {{ else }}
-                        <!--<div class="nav-profile" onclick="window.location='/user/{{.Credentials.User.ID}}'">{{.Credentials.User.ID}}</div>-->
-                        <div class="nav-show-submit" onclick="toggleNew()"></div>
-                        {{ end }}
-                </div>
-                <style>{{ template "autonav.css" }}</style>
-                <script>{{ template "autonav.js"}}</script>
+    <div class="nav-toggle-all" id="nav-toggle-all-hid"></div>
+    <div class="nav-toggle-all" id="nav-toggle-all"></div>
+    <div class="nav-block-2">
+        {{ if not .Credentials.IsLoggedIn }}
+        <div class="nav-toggle-all nta3" id="nav-toggle-all-hid2" onclick="toggleAuth()"></div>
+        {{ else }}
+        <div class="nav-show-submit" onclick="toggleNew()"></div>
+        {{ end }}
+    </div>
+    <style>{{ template "autonav.css" }}</style>
+    <script>{{ template "autonav.js"}}</script>
 </div>
 {{template "upload.html" . }}

@@ -230,6 +230,7 @@ func checkAuth(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// get the "token" cookie
 		token, err := r.Cookie("token")
+		log.Println(token)
 		if err != nil {
 			serveUnauthed(next, r, w, err)
 			return

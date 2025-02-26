@@ -137,11 +137,12 @@ video {
 }
 @media screen and (orientation:landscape) {
         body, html {
-                max-width: 80ch;
+                max-width: 42ch;
                 overflow-x: visible;
-                position: relative;
-                background-color: white;
-        }
+                 position: relative; 
+                background-color: #f7fbd6;        
+                height: unset;
+}
         .spacer {
                 background: #fffeef;
         }

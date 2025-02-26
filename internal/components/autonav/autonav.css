@@ -25,7 +25,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 // ////////////////////////////////////////////////////////////////////////////
-*/
+ */
 .nav-block-1 {
         display: flex;
         flex-direction: row;
@@ -90,6 +90,37 @@
         border: 1px dashed #000000;
         animation: 10s linear infinite rotate;
         transition: 1s all;
+}
+.nav-tag {
+        height: 100%;
+        width: 1.5em;
+        margin-right: 0.3em;
+        border-radius: 0.25em;
+        transition: 1s all;
+}
+.all-nav {
+        border: 1px solid #ef7200;
+        background-color: #f4a15a;
+}
+.pol-nav{
+        background-color: yellow;
+        border: 1px solid #d5c525;
+}
+.fin-nav{
+        border: 1px solid #8fb725;
+        background-color: #cbec16;
+}
+.lif-nav{
+        border: 1px solid #4ea7a8;
+        background-color: #74d8c3;
+}
+.sci-nav{
+        border: 1px solid #a200ef;
+        background-color: #cc8cff;
+}
+.art-nav{
+        border: 1px solid #a2642c;
+        background-color: #f45a9c;
 }
 .upload-outer-toggle {
         transform: translateY(65px) !important;
@@ -262,7 +293,9 @@ input:enabled {
         }
         .navbar-outer {
                 justify-content: flex-start;
-                max-width: 77ch;
+                max-width: 42ch;
+                background-color: #f7fbd6;
+                box-shadow: none;
                 /*justify-self: anchor-center;*/
         }
 }
