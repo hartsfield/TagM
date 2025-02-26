@@ -41,7 +41,7 @@
         background: #dcfcf5;
         border-radius: 1.4em;
         padding: 4px;
-        margin: 0.6% 2em 0.6% 0.3em;
+        margin: 0.6% 1em 0.6% 0.3em;
         animation: 10s linear infinite rotate;
         animation-direction: reverse;
 }
@@ -62,7 +62,7 @@
         overflow: hidden;
         /*animation: 200ms linear navbar-load;*/
         transition: 100ms all;
-        max-width: 77ch;
+        max-width: 40.5ch;
 }
 .nav-bottom {
         width: 100%;
