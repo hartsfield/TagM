@@ -260,7 +260,7 @@ textarea:enabled {
 }
 .item-comments-recurse-wrapper > .item-outer {
         border: none;
-        border-radius: 1.5em;
+        border-bottom-right-radius: 1.5em;
         margin-top: 0;
         margin-left: 1.05em;
         min-height: 3.8em;
