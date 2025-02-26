@@ -62,7 +62,7 @@
         overflow: hidden;
         /*animation: 200ms linear navbar-load;*/
         transition: 100ms all;
-        max-width: 40.5ch;
+        max-width: 77ch;
 }
 .nav-bottom {
         width: 100%;
@@ -296,7 +296,12 @@ input:enabled {
                 background-color: #f7fbd6;
                 background-color: transparent;
                 box-shadow: none;
-                /*justify-self: anchor-center;*/
+                border-radius: 0.5em;
+                backdrop-filter: hue-rotate(48deg) blur(2.3px) saturate(13.5) sepia(0.5);
+                opacity: 0.7;
+                box-shadow: 0px 0px 5px -2px black;
+                top: -4px;
+                padding: 0.4em 0 0.3em;        
         }
 }
 @media screen and (orientation:portrait) {
