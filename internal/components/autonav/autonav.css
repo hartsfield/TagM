@@ -318,7 +318,7 @@ input:enabled {
                 border-radius: 0.5em;
                 backdrop-filter: hue-rotate(48deg) blur(2.3px) saturate(13.5) sepia(0.5);
                 opacity: 0.7;
-                box-shadow: 0px 0px 5px -2px black;
+                /*box-shadow: 0px 0px 5px -2px black;*/
                 top: -4px;
                 padding: 0.4em 0 0.3em;        
                 /*max-width: 40.5ch;*/
