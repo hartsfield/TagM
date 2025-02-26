@@ -32,7 +32,7 @@
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: flex-start;
-        margin: 2.3em 0 5em 0em;
+        margin: 2.5em 0 5em 0em;
         padding-bottom: 10em;
         position: absolute;
         overflow: auto;
@@ -59,7 +59,7 @@
 .item-outer {
         display: flex;
         flex-direction: column;
-        background-color: white;
+        /*background-color: white;*/
         /*border-radius: 1em;*/
         margin-top: 1em;
         position: relative;
@@ -69,7 +69,7 @@
         margin-top: 0;
         display: flex;
         flex-direction: column;
-        background-color: white;
+        /*background-color: white;*/
         /*border-radius: 1em;*/
         position: relative;
         border: 1px dashed #9e9e9e;
@@ -98,7 +98,7 @@
         line-height: 0;
 }
 .item-meta-2 {
-        background: #ffffff;
+        /*background: #ffffff;*/
         border-top: 1px dashed #d4dd4f;
         padding: 9px 11px;
         padding-bottom: 0;
@@ -224,7 +224,7 @@ textarea:enabled {
 }
 .item-comments {
         width: -webkit-fill-available;
-        background-color: white;
+        /*background-color: white;*/
         border-top: 1px dashed #d0d0d0;
         display: flex;
         flex-direction: column;

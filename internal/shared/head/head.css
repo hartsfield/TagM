@@ -54,17 +54,17 @@
         --color-bg-good:  #ffffff;
 }
 body, html {
-        margin: 0;
+        /*margin: 0;*/
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-        align-items: center;
+        /*align-items: center;*/
         font-family: "Outfit", serif;
-        background: #e9ff77;
-        z-index: -10;
+        /*background: #e9ff77;*/
+        /*z-index: -10;*/
         scroll-behavior: smooth;
-        width: 100%;
-        height: 100%;
+        /*width: 100%;*/
+        /*height: 100%;*/
         /*background: linear-gradient(245deg, #ff6c00, #f6c367, #ffff72, #acc652, #30928b, #be60be);*/
         /*background: linear-gradient(147deg, #f4e6de, #ffdc9b, #ffffb1, #f4ffa0, #d0feff, #ffb1ff);*/
 }
@@ -134,13 +134,16 @@ video {
         background:   var(--color-bg-good) ;
 }
 @media screen and (orientation:portrait) {
+        body, html {
+                margin: 0;
+        }
 }
 @media screen and (orientation:landscape) {
         body, html {
                 max-width: 42ch;
                 overflow-x: visible;
                  position: relative; 
-                background-color: #f7fbd6;        
+                /*background-color: #f7fbd6;        */
                 height: unset;
 }
         .spacer {
