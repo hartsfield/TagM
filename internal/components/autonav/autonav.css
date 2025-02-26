@@ -51,7 +51,7 @@
 .navbar-outer {
         width: 100%;
         /*background: #e9ff77;*/
-        box-shadow: -1px -20px 2020px 84px #f9f09554;
+        /*box-shadow: -1px -20px 2020px 84px #f9f09554;*/
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
