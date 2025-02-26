@@ -295,6 +295,7 @@ input:enabled {
                 justify-content: flex-start;
                 max-width: 42ch;
                 background-color: #f7fbd6;
+                background-color: transparent;
                 box-shadow: none;
                 /*justify-self: anchor-center;*/
         }
