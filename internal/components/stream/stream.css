@@ -32,8 +32,7 @@
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: flex-start;
-        margin: 2.5em 0 5em 0em;
-        padding-bottom: 10em;
+        padding: 3em 0 10em;
         position: absolute;
         overflow: auto;
         height: 100%;
@@ -42,8 +41,11 @@
         width: -webkit-fill-available;
         transition: 1s all;
 }
-.stream > div {
+.stream > div:not(.navbar-outer) {
         border-radius: 1.5em;
+}
+.stream:last-child {
+        border-radius: 0.5em;
 }
 .item-share {
         background: url("public/media/share1.svg");

@@ -29,12 +29,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
         {{template "head.html" . }} 
-        <body>
-                <div class="spacer"></div>
+        <body class="stream" id="stream">
+                {{template "stream.html" .Stream }}
                 {{template "autonav.html" . }}
-                <div class="stream" id="stream">
-                        {{template "stream.html" .Stream }}
-                </div>
                 <!--{{template "footer.html" . }}-->
         </body>
 </html>
