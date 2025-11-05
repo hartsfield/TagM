@@ -96,6 +96,20 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Instead of re-using string values that could be spelled incorrectly, we set
+// these redis identifiers as variables, so that any incorrect spelling should
+// cause the code to error.
+var (
+	TAGSBYSCORE    string = "TAGSBYSCORE"
+	POSTSBYSCORE   string = "POSTSBYSCORE"
+	LIKESINORDER   string = ":LIKESINORDER"
+	REPLIESINORDER string = ":REPLIESINORDER"
+	POSTSINORDER   string = ":POSTSINORDER"
+	FRIENDSINORDER string = ":FRIENDSINORDER"
+	HASH           string = ":HASH"
+	USERS          string = "USERS"
+)
+
 // cache() is used in the main() function to cache the database occasionally.
 // This is a crude implementation, and the final cacheing mechanism will be
 // much more optimized and robust. Currently we just get the post IDs, which
@@ -157,7 +171,7 @@ func getPostsByID(ids []string) []*post {
 	// so it only goes a few comments deep.
 	for _, p := range items {
 		replies, err := rdb.ZRange(
-			rdx, p.ID+":REPLIESINORDER", 0, -1,
+			rdx, p.ID+REPLIESINORDER, 0, -1,
 		).Result()
 		if err != nil {
 			log.Println(err)
@@ -175,14 +189,14 @@ func getPostsByID(ids []string) []*post {
 // a user logs in, his login name (email) can be used to look up the hash.
 // Passwords are never stored in plain text.
 func setPasswordHash(c *credentials, hash string) (string, error) {
-	return rdb.Set(rdx, c.Name+":HASH", hash, 0).Result()
+	return rdb.Set(rdx, c.Name+HASH, hash, 0).Result()
 }
 
 // getPasswordHash() is used to get the hash associated with a users login
 // name, to verify the password, and to look up their ID, so that we may look
 // up the user data using the hash as the key.
 func getPasswordHash(c *credentials) (string, error) {
-	return rdb.Get(rdx, c.Name+":HASH").Result()
+	return rdb.Get(rdx, c.Name+HASH).Result()
 }
 
 // setHashToID() is used to look up a user ID based on the hash returned by
@@ -234,19 +248,19 @@ func scanProfile(c *credentials) error {
 // zaddUsers() is used to add a user to a sorted set called "USERS", allowing
 // us to sort users by rank, which hasn't been fully implemented yet.
 func zaddUsers(c *credentials) (int64, error) {
-	return rdb.ZAdd(rdx, "USERS", makeZmem(c.User.ID)).Result()
+	return rdb.ZAdd(rdx, USERS, makeZmem(c.User.ID)).Result()
 }
 
 // zaddPostsChron() is used to add a new post to the zset "POSTSINORDER", which
 // maintains a chronologically sorted set of posts.
 func zaddPostsChron(c *post) (int64, error) {
-	return rdb.ZAdd(rdx, "POSTSINORDER", makeZmem(c.ID)).Result()
+	return rdb.ZAdd(rdx, POSTSINORDER[1:], makeZmem(c.ID)).Result()
 }
 
 // zaddPostsScore() is used to add a new post to the zset "POSTSBYSCORE", which
 // maintains a set of posts sorted by rank (score).
 func zaddPostsScore(c *post) (int64, error) {
-	return rdb.ZAdd(rdx, "POSTSBYSCORE", makeZmem(c.ID)).Result()
+	return rdb.ZAdd(rdx, POSTSBYSCORE, makeZmem(c.ID)).Result()
 }
 
 // zrangePostsByScore() returns a slice of post IDs, ordered by score, as
@@ -256,7 +270,7 @@ func zaddPostsScore(c *post) (int64, error) {
 func zrangePostsByScore() ([]string, error) {
 	// TODO: Add pagification.
 	opts := &redis.ZRangeBy{Min: "-inf", Max: "+inf", Offset: 0, Count: -1}
-	return rdb.ZRevRangeByScore(rdx, "POSTSBYSCORE", opts).Result()
+	return rdb.ZRevRangeByScore(rdx, POSTSBYSCORE, opts).Result()
 }
 
 // getPost() is used to retrieve a single post from redis given the posts ID.
@@ -280,7 +294,7 @@ func setLike(c *credentials, id string) (int64, error) {
 	// Try to remove the users like from the zset of the key pattern:
 	// user.ID:LIKESINORDER, which should contain the ID's of the users
 	// liked posts.
-	num, err := rdb.ZRem(rdx, c.User.ID+":LIKESINORDER", -1, id).Result()
+	num, err := rdb.ZRem(rdx, c.User.ID+LIKESINORDER, -1, id).Result()
 	if err != nil {
 		log.Println(err)
 		return -1, err
@@ -289,7 +303,7 @@ func setLike(c *credentials, id string) (int64, error) {
 	if num == 0 { // If no ID is found:
 
 		// Add the ID to the users liked posts.
-		_, err := rdb.ZAdd(rdx, c.User.ID+":LIKESINORDER",
+		_, err := rdb.ZAdd(rdx, c.User.ID+LIKESINORDER,
 			makeZmem(id)).Result()
 		if err != nil {
 			log.Println(err)
@@ -297,7 +311,7 @@ func setLike(c *credentials, id string) (int64, error) {
 		}
 
 		// Increment the posts score in the zset of key "POSTSBYSCORE".
-		_, err = rdb.ZIncrBy(rdx, "POSTSBYSCORE", 1, id).Result()
+		_, err = rdb.ZIncrBy(rdx, POSTSBYSCORE, 1, id).Result()
 		if err != nil {
 			log.Println(err)
 			return -1, err
@@ -316,7 +330,7 @@ func setLike(c *credentials, id string) (int64, error) {
 		// Decrement the posts score in the zset of key "POSTSBYSCORE".
 		// This is done using ZIncrBy(), with a negative value passed
 		// as the increment parameter.
-		_, err = rdb.ZIncrBy(rdx, "POSTSBYSCORE", -1, id).Result()
+		_, err = rdb.ZIncrBy(rdx, POSTSBYSCORE, -1, id).Result()
 		if err != nil {
 			log.Println(err)
 			return -1, err
@@ -342,14 +356,14 @@ func setLike(c *credentials, id string) (int64, error) {
 // it adds the friend, acting as a toggle-like mechanism.
 // The friends IDs are stored in a set of the pattern: user.ID:FRIENDSINORDER
 func setFriend(c *credentials, id string) (int64, error) {
-	num, err := rdb.ZRem(rdx, c.User.ID+":FRIENDSINORDER", -1, id).Result()
+	num, err := rdb.ZRem(rdx, c.User.ID+FRIENDSINORDER, -1, id).Result()
 	if err != nil {
 		log.Println(err)
 		return -1, err
 	}
 
 	if num == 0 {
-		_, err := rdb.ZAdd(rdx, c.User.ID+":FRIENDSINORDER",
+		_, err := rdb.ZAdd(rdx, c.User.ID+FRIENDSINORDER,
 			makeZmem(id)).Result()
 		if err != nil {
 			log.Println(err)
@@ -362,7 +376,7 @@ func setFriend(c *credentials, id string) (int64, error) {
 // getLikes() is used to retrieve a users liked posts, stored in a zset of key
 // pattern: user.ID:LIKESINORDER
 func getLikes(c *credentials) ([]*post, error) {
-	ids, err := rdb.ZRevRange(rdx, c.User.ID+":LIKESINORDER", 0, 10).Result()
+	ids, err := rdb.ZRevRange(rdx, c.User.ID+LIKESINORDER, 0, 10).Result()
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -381,7 +395,7 @@ func getLikes(c *credentials) ([]*post, error) {
 func zaddUsersPosts(c *credentials, p *post) (int64, error) {
 	// if no parent, it's not a reply, its a root level post.
 	if p.Parent == "" {
-		return rdb.ZAdd(rdx, c.User.ID+":POSTSINORDER", makeZmem(p.ID)).Result()
+		return rdb.ZAdd(rdx, c.User.ID+POSTSINORDER, makeZmem(p.ID)).Result()
 	}
 
 	// If a parent ID is provided via post.Parent, we look up the parent
@@ -394,7 +408,7 @@ func zaddUsersPosts(c *credentials, p *post) (int64, error) {
 
 	// We add the new posts ID to a sorted set containing the users post
 	// IDs in chronological order.
-	i, err := rdb.ZAdd(rdx, c.User.ID+":POSTSINORDER", makeZmem(p.ID)).Result()
+	i, err := rdb.ZAdd(rdx, c.User.ID+POSTSINORDER, makeZmem(p.ID)).Result()
 	if err != nil {
 		log.Println(err)
 		return i, err
@@ -403,7 +417,7 @@ func zaddUsersPosts(c *credentials, p *post) (int64, error) {
 	// We add the new posts ID to a sorted set containing the IDs of the
 	// replies to the parent comment, so it can be looked up when the
 	// parents data is queried.
-	i, err = rdb.ZAdd(rdx, p.Parent+":REPLIESINORDER", makeZmem(p.ID)).Result()
+	i, err = rdb.ZAdd(rdx, p.Parent+REPLIESINORDER, makeZmem(p.ID)).Result()
 	if err != nil {
 		log.Println(err)
 		return i, err
@@ -430,11 +444,11 @@ func zaddUsersPosts(c *credentials, p *post) (int64, error) {
 // zaddUsersLikesChron() is used to add a users likes to a sorted set
 // containing their likes inn chronological order.
 func zaddUsersLikesChron(c *credentials) (int64, error) {
-	return rdb.ZAdd(rdx, c.User.ID+":LIKESINORDER", makeZmem(c.User.ID)).Result()
+	return rdb.ZAdd(rdx, c.User.ID+LIKESINORDER, makeZmem(c.User.ID)).Result()
 }
 
 // zaddTagsScore() is used to add a tag to the sorted set "TAGSBYSCORE", and
 // ordered by rank.
 func zaddTagsScore(c *credentials) (int64, error) {
-	return rdb.ZAdd(rdx, "TAGSBYSCORE", makeZmem(c.User.ID)).Result()
+	return rdb.ZAdd(rdx, TAGSBYSCORE, makeZmem(c.User.ID)).Result()
 }
